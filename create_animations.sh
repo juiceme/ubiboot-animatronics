@@ -46,6 +46,7 @@ if [ ! -z "$1" ]; then
     echo "Parameters:"
     echo "  --help    This screen"
     echo "  --debug   Generate additional short .mpeg sequences from animations"
+    echo "  --clean   Delete all generated files"
     echo
     exit 0;
   fi
@@ -58,6 +59,12 @@ if [ ! -z "$1" ]; then
       exit 1
     fi
     GENERATE_VIDEOS=1
+  fi
+  if [ "$1" == "--clean" ]; then
+    rm -rf $TEMPIMAGES > /dev/null 2>&1
+    rm -rf $FINIMAGES > /dev/null 2>&1
+    rm -rf $VIDEOS > /dev/null 2>&1
+    exit 0;
   fi
 fi
 
@@ -120,6 +127,8 @@ rm -f $TEMPIMAGES/* > /dev/null 2>&1
 rm -f $FINIMAGES/* > /dev/null 2>&1
 rm -f $ANIMIMAGES/* > /dev/null 2>&1
 rm -f $VIDEOS/* > /dev/null 2>&1
+cp ./select_and_boot_os.sh $FINIMAGES
+cp ./select_default_os.sh $FINIMAGES
 cp ./select_os_animated.sh $FINIMAGES
 cp ./animated_menu_top.map $FINIMAGES
 cp ./test_animate.sh $FINIMAGES
