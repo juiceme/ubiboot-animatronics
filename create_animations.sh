@@ -793,8 +793,8 @@ if [ "$GENERATE_VIDEOS" == "1" ]; then
       IND=$(printindex $CJ)
       cp $ANIMIMAGES/pb_$IND.png $TEMPIMAGES/pp_$INDF.png
     fi
-    if [ $CI -eq 28]; then
-      CJ=0
+    if [ $CI -eq 28 ]; then
+      let "CJ=0"
     fi
 
     if [ $CI -ge 29 -a $CI -le 32 ]; then
