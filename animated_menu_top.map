@@ -1,0 +1,20 @@
+# This is a map file for evtap 0.9.0 ->. Map file describes object locations on the
+# screen by corener coordinates and gives the output value and character.
+#
+# The format for file is; <x1 y1 x2 y2 value character string>
+#     x1, y1, x2, y2 : input coordinates
+#     value          : number value to be returned as error code
+#     character      : character (ascii) value to be printed out
+#     string         : string to be printed out
+#
+
+# in this file, the return values are 1, 2, 3, 4 for the different selections,
+# and the respective out-printed chars are "A", "H", "N", "I".
+# the strings are "Terminal", "Android", "Harmattan", "Nemo"
+# it is up to the calling script to decide which to use, values, chars or srtings.
+#
+
+80  280 240 420  1  65  Nitdroid    # A for Android icon, Nitdroid
+260 250 410 450  2  72  Harmattan   # H for the Harmattan meegoans
+450 290 590 410  3  78  Nemo        # N for Nemo logo
+650 300 750 400  4  73  Info        # I for the Info button
