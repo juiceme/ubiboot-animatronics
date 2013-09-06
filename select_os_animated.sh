@@ -199,6 +199,9 @@ bounce_icon()
   if [ "$1" == "Nemo" ]; then
     IFILE="pn"
   fi
+  if [ "$1" == "Backupmenu" ]; then
+    IFILE="pb"
+  fi
   if [ "$1" == "Info" ]; then
     IFILE="pi"
   fi
@@ -443,6 +446,9 @@ get_menuitem()
   if [ "$mode" == "nemo" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_NEMO_1_FILE" "$G_NEMO_2_FILE" "$G_NEMO_3_FILE" "$G_NEMO_4_FILE" "$G_NEMO_5_FILE" "$G_NEMO_6_FILE")
   fi
+  if [ "$mode" == "backupmenu" ]; then
+    maplines=$(generate_temporary_mapfile $menulines)
+  fi
   if [ "$mode" == "info" ]; then
     maplines=$(generate_temporary_mapfile $menulines)
   fi
@@ -596,6 +602,10 @@ second_level_menu()
       return 0
     fi
   fi
+  if [ "$callmode" == "backupmenu" ]; then
+    IFILE="mb"
+    LASTFRAME="$ANIM_MB_COUNT"
+  fi
   if [ "$callmode" == "info" ]; then
     IFILE="mi"
     LASTFRAME="$ANIM_MI_COUNT"
@@ -606,15 +616,32 @@ second_level_menu()
     IND=$(printindex $FRAMENUM)
     $SHOWPNG "$IMAGEBASE/${IFILE}_$IND.png" > /dev/null
   done
-  if [ "$callmode" == "info" ]; then
-    # no need to draw anything for info, just get the "back" button press
-    selection=$(get_menuitem $callmode 0)
-    ret=1
-  else
+  if [ "$callmode" == "nitdroid" ]; then
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
+  if [ "$callmode" == "harmattan" ]; then
+    items=$(draw_kernel_list $callmode "0x001200" 0)
+    selection=$(get_menuitem $callmode $items)
+    ret=$?
+  fi
+  if [ "$callmode" == "nemo" ]; then
+    items=$(draw_kernel_list $callmode "0x001200" 0)
+    selection=$(get_menuitem $callmode $items)
+    ret=$?
+  fi
+  if [ "$callmode" == "info" ]; then
+    # no need to draw anything for info, just get the "back" button press
+    selection=$(get_menuitem $callmode 0)
+    ret=1
+  fi
+  if [ "$callmode" == "backupmenu" ]; then
+    # Here goes the stuff of backup menu.
+    # This just gets the "back" button press currently:
+    selection=$(get_menuitem $callmode 0)
+    ret=1
+  fi 
   while [ $FRAMENUM -gt 1 ] ; do
     let "FRAMENUM-=1"
     IND=$(printindex $FRAMENUM)
@@ -654,10 +681,17 @@ get_selection()
     ret=$?
   fi
   if [ "$ret" == "4" ]; then
-    bounce_icon "Info"
+    bounce_icon "Backupmenu"
     SELECTED_OS=0
     SELECTED_KERNEL=0
     second_level_menu "info"
+    ret=1
+  fi
+  if [ "$ret" == "5" ]; then
+    bounce_icon "Info"
+    SELECTED_OS=0
+    SELECTED_KERNEL=0
+    second_level_menu "backupmenu"
     ret=1
   fi
   if [ "$ret" == "255" ]; then

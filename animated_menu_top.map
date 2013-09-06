@@ -8,13 +8,14 @@
 #     string         : string to be printed out
 #
 
-# in this file, the return values are 1, 2, 3, 4 for the different selections,
-# and the respective out-printed chars are "A", "H", "N", "I".
-# the strings are "Terminal", "Android", "Harmattan", "Nemo"
+# in this file, the return values are 1, 2, 3, 4, 5 for the different selections,
+# and the respective out-printed chars are "A", "H", "N", "B", "I".
+# the strings are "Nitdroid", "Harmattan", "Nemo", "Backup", "Info"
 # it is up to the calling script to decide which to use, values, chars or srtings.
 #
 
 80  280 240 420  1  65  Nitdroid    # A for Android icon, Nitdroid
 260 250 410 450  2  72  Harmattan   # H for the Harmattan meegoans
 450 290 590 410  3  78  Nemo        # N for Nemo logo
-650 300 750 400  4  73  Info        # I for the Info button
+650 80  750 180  4  66  Backup      # B for the Backupmenu button
+650 300 750 400  5  73  Info        # I for the Info button
