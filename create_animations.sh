@@ -26,12 +26,18 @@
 
 IBASE="./imagebase"
 BUTTONIMAGE="$IBASE/backbutton.png"
-DROIDIMAGE="$IBASE/nitdroid_200x200.png"
-INFOIMAGE="$IBASE/info_200x200.png"
-HARMIMAGE="$IBASE/meego_200x200.png"
-NEMOIMAGE="$IBASE/nemo_200x200.png"
-BUMENUIMAGE="$IBASE/backupmenu_200x200.png"
 OWNERPANEL="$IBASE/ownerpanel.png"
+
+# there are 8 images, in 2 columns of 4
+ICONIMAGE_1="$IBASE/nitdroid_200x200.png"
+ICONIMAGE_2="$IBASE/meego_200x200.png"
+ICONIMAGE_3="$IBASE/nemo_200x200.png"
+ICONIMAGE_4="$IBASE/backupmenu_200x200.png"
+ICONIMAGE_5="$IBASE/firefox_200x200.png"
+ICONIMAGE_6="$IBASE/ubuntu_200x200.png"
+ICONIMAGE_7="$IBASE/sailfish_200x200.png"
+ICONIMAGE_8="$IBASE/info_200x200.png"
+
 TEMPIMAGES="./temp"
 FINIMAGES="./menu"
 ANIMIMAGES="./menu/animation"
@@ -57,7 +63,7 @@ if [ ! -z "$1" ]; then
       echo
       echo "You need the Libav "avconv" utility to generate debug videos"
       echo
-      exit 1
+      exit 1;
     fi
     GENERATE_VIDEOS=1
   fi
@@ -184,35 +190,56 @@ while [ $XS -gt 3 ]; do
   let "XS-=6"
   let "YS=XS"
   echo -n "."
-  $CONVERT -resize $YSx$XS $DROIDIMAGE $TEMPIMAGES/dim_$CI.png
-  $CONVERT -resize $YSx$XS $HARMIMAGE $TEMPIMAGES/him_$CI.png
-  $CONVERT -resize $YSx$XS $NEMOIMAGE $TEMPIMAGES/nim_$CI.png
-  $CONVERT -resize $YSx$XS $INFOIMAGE $TEMPIMAGES/iim_$CI.png
-  $CONVERT -resize $YSx$XS $BUMENUIMAGE $TEMPIMAGES/bim_$CI.png
+
+#  $CONVERT -resize $YSx$XS $DROIDIMAGE $TEMPIMAGES/dim_$CI.png
+#  $CONVERT -resize $YSx$XS $HARMIMAGE $TEMPIMAGES/him_$CI.png
+#  $CONVERT -resize $YSx$XS $NEMOIMAGE $TEMPIMAGES/nim_$CI.png
+#  $CONVERT -resize $YSx$XS $INFOIMAGE $TEMPIMAGES/iim_$CI.png
+#  $CONVERT -resize $YSx$XS $BUMENUIMAGE $TEMPIMAGES/bim_$CI.png
+
+  $CONVERT -resize $YSx$XS $ICONIMAGE_1 $TEMPIMAGES/iim1_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_2 $TEMPIMAGES/iim2_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_3 $TEMPIMAGES/iim3_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_4 $TEMPIMAGES/iim4_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_5 $TEMPIMAGES/iim5_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_6 $TEMPIMAGES/iim6_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_7 $TEMPIMAGES/iim7_$CI.png
+  $CONVERT -resize $YSx$XS $ICONIMAGE_8 $TEMPIMAGES/iim8_$CI.png
+
 done
 
 let "ANIM_FX_COUNT=CI+1"
-$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/dim_$ANIM_FX_COUNT.png
-$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/him_$ANIM_FX_COUNT.png
-$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/nim_$ANIM_FX_COUNT.png
-$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim_$ANIM_FX_COUNT.png
-$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/bim_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim1_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim2_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim3_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim4_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim5_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim6_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim7_$ANIM_FX_COUNT.png
+$CONVERT -size 854x480 xc:black -flatten $TEMPIMAGES/iim8_$ANIM_FX_COUNT.png
 
-YPLACE1=450 # all icons are directly on top of each other except for info
-YPLACE2=230 # info icon in in rightmost column
+
+YPLACE1=450 # leftmost column of icons
+YPLACE2=230 # rightmost column of icons
 XSTART=260 # the topmost icon
 XSTEP=180  # x-spacing between icons
 YSTEP=180  # y-spacing between icons
-X1D=$XSTART
-Y1D=$YPLACE1
-X1M=$(calculate $X1D+$XSTEP)
-Y1M=$YPLACE1
-X1N=$(calculate $X1M+$XSTEP)
-Y1N=$YPLACE1
-X1B=$(calculate $X1N+$XSTEP)
-Y1B=$YPLACE1
-X1I=$(calculate $X1B)  # same x-value a previous icon
-Y1I=$YPLACE2
+XDYN1=$XSTART
+YDYN1=$YPLACE1
+XDYN2=$(calculate $XDYN1+$XSTEP)
+YDYN2=$YPLACE1
+XDYN3=$(calculate $XDYN2+$XSTEP)
+YDYN3=$YPLACE1
+XDYN4=$(calculate $XDYN3+$XSTEP)
+YDYN4=$YPLACE1
+XDYN5=$XSTART
+YDYN5=$YPLACE2
+XDYN6=$(calculate $XDYN1+$XSTEP)
+YDYN6=$YPLACE2
+XDYN7=$(calculate $XDYN2+$XSTEP)
+YDYN7=$YPLACE2
+XDYN8=$(calculate $XDYN3+$XSTEP)
+YDYN8=$YPLACE2
 DX=200
 DY=200
 CI=0
@@ -222,25 +249,34 @@ while [ $CI -lt $ANIM_FX_COUNT ]; do
   let "CI+=1"
   let "DX-=3"
   let "DY=DX"
-  CXD=$(calculate $X1D-$DX)
-  CYD=$(calculate $Y1D-$DY)
-  CXM=$(calculate $X1M-$DX)
-  CYM=$(calculate $Y1M-$DY)
-  CXN=$(calculate $X1N-$DX)
-  CYN=$(calculate $Y1N-$DY)
-  CXB=$(calculate $X1B-$DX)
-  CYB=$(calculate $Y1B-$DY)
-  CXI=$(calculate $X1I-$DX)
-  CYI=$(calculate $Y1I-$DY)
+  CXD1=$(calculate $XDYN1-$DX)
+  CYD1=$(calculate $YDYN1-$DY)
+  CXD2=$(calculate $XDYN2-$DX)
+  CYD2=$(calculate $YDYN2-$DY)
+  CXD3=$(calculate $XDYN3-$DX)
+  CYD3=$(calculate $YDYN3-$DY)
+  CXD4=$(calculate $XDYN4-$DX)
+  CYD4=$(calculate $YDYN4-$DY)
+  CXD5=$(calculate $XDYN5-$DX)
+  CYD5=$(calculate $YDYN5-$DY)
+  CXD6=$(calculate $XDYN6-$DX)
+  CYD6=$(calculate $YDYN6-$DY)
+  CXD7=$(calculate $XDYN7-$DX)
+  CYD7=$(calculate $YDYN7-$DY)
+  CXD8=$(calculate $XDYN8-$DX)
+  CYD8=$(calculate $YDYN8-$DY)
   let "NI-=1"
   INDF=$(printindex $NI)
   echo -n "[$CI] "
   $CONVERT -size 854x480 xc:black \
-           -page +$CXD+$CYD $TEMPIMAGES/dim_$CI.png \
-           -page +$CXM+$CYM $TEMPIMAGES/him_$CI.png \
-           -page +$CXN+$CYN $TEMPIMAGES/nim_$CI.png \
-           -page +$CXB+$CYB $TEMPIMAGES/bim_$CI.png \
-           -page +$CXI+$CYI $TEMPIMAGES/iim_$CI.png \
+           -page +$CXD1+$CYD1 $TEMPIMAGES/iim1_$CI.png \
+           -page +$CXD2+$CYD2 $TEMPIMAGES/iim2_$CI.png \
+           -page +$CXD3+$CYD3 $TEMPIMAGES/iim3_$CI.png \
+           -page +$CXD4+$CYD4 $TEMPIMAGES/iim4_$CI.png \
+           -page +$CXD5+$CYD5 $TEMPIMAGES/iim5_$CI.png \
+           -page +$CXD6+$CYD6 $TEMPIMAGES/iim6_$CI.png \
+           -page +$CXD7+$CYD7 $TEMPIMAGES/iim7_$CI.png \
+           -page +$CXD8+$CYD8 $TEMPIMAGES/iim8_$CI.png \
            -flatten $TEMPIMAGES/fom_$INDF.png
 done
 
@@ -264,93 +300,152 @@ done
 ## create the button press sequences
 echo
 echo "Creating button presses..."
-YPLACE1=450 # all icons are directly on top of each other except for info
-YPLACE2=230 # info icon in in rightmost column
-XSTART=260 # the topmost icon
-XSTEP=180  # x-spacing between icons
-YSTEP=180  # y-spacing between icons
-X1D=$XSTART
-Y1D=$YPLACE1
-X1M=$(calculate $X1D+$XSTEP)
-Y1M=$YPLACE1
-X1N=$(calculate $X1M+$XSTEP)
-Y1N=$YPLACE1
-X1B=$(calculate $X1N+$XSTEP)
-Y1B=$YPLACE1
-X1I=$(calculate $X1B)  # same x-value a previous
-Y1I=$YPLACE2
+XDYN1=$XSTART
+YDYN1=$YPLACE1
+XDYN2=$(calculate $XDYN1+$XSTEP)
+YDYN2=$YPLACE1
+XDYN3=$(calculate $XDYN2+$XSTEP)
+YDYN3=$YPLACE1
+XDYN4=$(calculate $XDYN3+$XSTEP)
+YDYN4=$YPLACE1
+XDYN5=$XSTART
+YDYN5=$YPLACE2
+XDYN6=$(calculate $XDYN1+$XSTEP)
+YDYN6=$YPLACE2
+XDYN7=$(calculate $XDYN2+$XSTEP)
+YDYN7=$YPLACE2
+XDYN8=$(calculate $XDYN3+$XSTEP)
+YDYN8=$YPLACE2
 DX=200
 DY=200
-FXD=$(calculate $X1D-$DX+3)
-FYD=$(calculate $Y1D-$DY+3)
-FXM=$(calculate $X1M-$DX+3)
-FYM=$(calculate $Y1M-$DY+3)
-FXN=$(calculate $X1N-$DX+3)
-FYN=$(calculate $Y1N-$DY+3)
-FXB=$(calculate $X1B-$DX+3)
-FYB=$(calculate $Y1B-$DY+3)
-FXI=$(calculate $X1I-$DX+3)
-FYI=$(calculate $Y1I-$DY+3)
+
+FSTATICX1=$(calculate $XDYN1-$DX+3)
+FSTATICY1=$(calculate $YDYN1-$DY+3)
+FSTATICX2=$(calculate $XDYN2-$DX+3)
+FSTATICY2=$(calculate $YDYN2-$DY+3)
+FSTATICX3=$(calculate $XDYN3-$DX+3)
+FSTATICY3=$(calculate $YDYN3-$DY+3)
+FSTATICX4=$(calculate $XDYN4-$DX+3)
+FSTATICY4=$(calculate $YDYN4-$DY+3)
+FSTATICX5=$(calculate $XDYN5-$DX+3)
+FSTATICY5=$(calculate $YDYN5-$DY+3)
+FSTATICX6=$(calculate $XDYN6-$DX+3)
+FSTATICY6=$(calculate $YDYN6-$DY+3)
+FSTATICX7=$(calculate $XDYN7-$DX+3)
+FSTATICY7=$(calculate $YDYN7-$DY+3)
+FSTATICX8=$(calculate $XDYN8-$DX+3)
+FSTATICY8=$(calculate $YDYN8-$DY+3)
 
 CI=0
 while [ $CI -lt 4 ]; do
   let "CI+=1"
   let "DX-=3"
   let "DY=DX"
-  CXD=$(calculate $X1D-$DX)
-  CYD=$(calculate $Y1D-$DY)
-  CXM=$(calculate $X1M-$DX)
-  CYM=$(calculate $Y1M-$DY)
-  CXN=$(calculate $X1N-$DX)
-  CYN=$(calculate $Y1N-$DY)
-  CXB=$(calculate $X1B-$DX)
-  CYB=$(calculate $Y1B-$DY)
-  CXI=$(calculate $X1I-$DX)
-  CYI=$(calculate $Y1I-$DY)
+  CXD1=$(calculate $XDYN1-$DX)
+  CYD1=$(calculate $YDYN1-$DY)
+  CXD2=$(calculate $XDYN2-$DX)
+  CYD2=$(calculate $YDYN2-$DY)
+  CXD3=$(calculate $XDYN3-$DX)
+  CYD3=$(calculate $YDYN3-$DY)
+  CXD4=$(calculate $XDYN4-$DX)
+  CYD4=$(calculate $YDYN4-$DY)
+  CXD5=$(calculate $XDYN5-$DX)
+  CYD5=$(calculate $YDYN5-$DY)
+  CXD6=$(calculate $XDYN6-$DX)
+  CYD6=$(calculate $YDYN6-$DY)
+  CXD7=$(calculate $XDYN7-$DX)
+  CYD7=$(calculate $YDYN7-$DY)
+  CXD8=$(calculate $XDYN8-$DX)
+  CYD8=$(calculate $YDYN8-$DY)
   INDF=$(printindex $CI)
   echo -n "[$CI] "
   $CONVERT -size 854x480 xc:black \
-           -page +$CXD+$CYD $TEMPIMAGES/dim_$CI.png \
-           -page +$FXM+$FYM $TEMPIMAGES/him_1.png \
-           -page +$FXN+$FYN $TEMPIMAGES/nim_1.png \
-           -page +$FXB+$FYB $TEMPIMAGES/bim_1.png \
-           -page +$FXI+$FYI $TEMPIMAGES/iim_1.png \
-           -flatten $ANIMIMAGES/pd_$INDF.png
+           -page +$CXD1+$CYD1 $TEMPIMAGES/iim1_$CI.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi1_$INDF.png
   $CONVERT -size 854x480 xc:black \
-           -page +$FXD+$FYD $TEMPIMAGES/dim_1.png \
-           -page +$CXM+$CYM $TEMPIMAGES/him_$CI.png \
-           -page +$FXN+$FYN $TEMPIMAGES/nim_1.png \
-           -page +$FXB+$FYB $TEMPIMAGES/bim_1.png \
-           -page +$FXI+$FYI $TEMPIMAGES/iim_1.png \
-           -flatten $ANIMIMAGES/ph_$INDF.png
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$CXD2+$CYD2 $TEMPIMAGES/iim2_$CI.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi2_$INDF.png
   $CONVERT -size 854x480 xc:black \
-           -page +$FXD+$FYD $TEMPIMAGES/dim_1.png \
-           -page +$FXM+$FYM $TEMPIMAGES/him_1.png \
-           -page +$CXN+$CYN $TEMPIMAGES/nim_$CI.png \
-           -page +$FXB+$FYB $TEMPIMAGES/bim_1.png \
-           -page +$FXI+$FYI $TEMPIMAGES/iim_1.png \
-           -flatten $ANIMIMAGES/pn_$INDF.png
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$CXD3+$CYD3 $TEMPIMAGES/iim3_$CI.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi3_$INDF.png
   $CONVERT -size 854x480 xc:black \
-           -page +$FXD+$FYD $TEMPIMAGES/dim_1.png \
-           -page +$FXM+$FYM $TEMPIMAGES/him_1.png \
-           -page +$FXN+$FYN $TEMPIMAGES/nim_1.png \
-           -page +$CXB+$CYB $TEMPIMAGES/bim_1.png \
-           -page +$FXI+$FYI $TEMPIMAGES/iim_$CI.png \
-           -flatten $ANIMIMAGES/pb_$INDF.png
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$CXD4+$CYD4 $TEMPIMAGES/iim4_$CI.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi4_$INDF.png
   $CONVERT -size 854x480 xc:black \
-           -page +$FXD+$FYD $TEMPIMAGES/dim_1.png \
-           -page +$FXM+$FYM $TEMPIMAGES/him_1.png \
-           -page +$FXN+$FYN $TEMPIMAGES/nim_1.png \
-           -page +$FXB+$FYB $TEMPIMAGES/bim_1.png \
-           -page +$CXI+$CYI $TEMPIMAGES/iim_$CI.png \
-           -flatten $ANIMIMAGES/pi_$INDF.png
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$CXD5+$CYD5 $TEMPIMAGES/iim5_$CI.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi5_$INDF.png
+  $CONVERT -size 854x480 xc:black \
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$CXD6+$CYD6 $TEMPIMAGES/iim6_$CI.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi6_$INDF.png
+  $CONVERT -size 854x480 xc:black \
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$CXD7+$CYD7 $TEMPIMAGES/iim7_$CI.png \
+           -page +$FSTATICX8+$FSTATICY8 $TEMPIMAGES/iim8_1.png \
+           -flatten $ANIMIMAGES/pi7_$INDF.png
+  $CONVERT -size 854x480 xc:black \
+           -page +$FSTATICX1+$FSTATICY1 $TEMPIMAGES/iim1_1.png \
+           -page +$FSTATICX2+$FSTATICY2 $TEMPIMAGES/iim2_1.png \
+           -page +$FSTATICX3+$FSTATICY3 $TEMPIMAGES/iim3_1.png \
+           -page +$FSTATICX4+$FSTATICY4 $TEMPIMAGES/iim4_1.png \
+           -page +$FSTATICX5+$FSTATICY5 $TEMPIMAGES/iim5_1.png \
+           -page +$FSTATICX6+$FSTATICY6 $TEMPIMAGES/iim6_1.png \
+           -page +$FSTATICX7+$FSTATICY7 $TEMPIMAGES/iim7_1.png \
+           -page +$CXD8+$CYD8 $TEMPIMAGES/iim8_$CI.png \
+           -flatten $ANIMIMAGES/pi8_$INDF.png
 done
 let "ANIM_BP_COUNT=CI"
 
 
-## move droid to top
+## move 1st icon to top
 echo
-echo "Creating droid movement..."
+echo "Creating icon #1 movement..."
 H_INTERVAL=1
 V_INTERVAL=1
 H_ACCEL=1
@@ -362,11 +457,14 @@ let "YINT=Y2"
 FRAMENUM=0
 FRAMENUMB=0
 BTSTART=8
-let "X1=X1D-200"
-let "X2=X1M-200"
-let "X3=X1N-200"
-let "X4=X1B-200"
-let "X5=X1I-200"
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
 while [ $YINT -lt 500 ]; do
   H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
   Y2=$(calculate $Y2+$H_INTERVAL)
@@ -382,21 +480,27 @@ while [ $YINT -lt 500 ]; do
   if [ $Y3 -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y1 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5+$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/md_$INDF.png
+             -page +$X1+$Y1 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui1_$INDF.png
   else
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y1 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/md_$INDF.png
+             -page +$X1+$Y1 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y3 $ICONIMAGE_5 \
+             -page +$X6$Y3 $ICONIMAGE_6 \
+             -page +$X7$Y3 $ICONIMAGE_7 \
+             -page +$X8$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui1_$INDF.png
   fi
 done
 
@@ -413,16 +517,16 @@ while [ $XINT -gt 5 ]; do
   if [ $XINT -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y1 $DROIDIMAGE \
-             -layers flatten $ANIMIMAGES/md_$INDF.png
+             -page +$X1+$Y1 $ICONIMAGE_1 \
+             -layers flatten $ANIMIMAGES/mui1_$INDF.png
   fi
 done
-ANIM_MD_COUNT=$FRAMENUM
+ANIM_M1_COUNT=$FRAMENUM
 
 
-## move meegoans to top
+## move 2nd icon to top
 echo
-echo "Creating harmattan movement..."
+echo "Creating icon #2 movement..."
 H_INTERVAL=1
 V_INTERVAL=2
 H_ACCEL=1
@@ -434,11 +538,14 @@ let "YINT=Y2"
 FRAMENUM=0
 FRAMENUMB=0
 BTSTART=14
-let "X1=X1D-200"
-let "X2=X1M-200"
-let "X3=X1N-200"
-let "X4=X1B-200"
-let "X5=X1I-200"
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
 while [ $YINT -lt 500 ]; do
   H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
   Y2=$(calculate $Y2+$H_INTERVAL)
@@ -454,21 +561,27 @@ while [ $YINT -lt 500 ]; do
   if [ $Y3 -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y1 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5+$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mh_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y1 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui2_$INDF.png
   else
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y1 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mh_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y1 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y3 $ICONIMAGE_5 \
+             -page +$X6$Y3 $ICONIMAGE_6 \
+             -page +$X7$Y3 $ICONIMAGE_7 \
+             -page +$X8$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui2_$INDF.png
   fi
 done
 
@@ -487,16 +600,16 @@ while [ $XINT -gt 5 ]; do
   if [ $XINT -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X2+$Y1 $HARMIMAGE \
-             -layers flatten $ANIMIMAGES/mh_$INDF.png
+             -page +$X2+$Y1 $ICONIMAGE_2 \
+             -layers flatten $ANIMIMAGES/mui2_$INDF.png
   fi
 done
-ANIM_MH_COUNT=$FRAMENUM
+ANIM_M2_COUNT=$FRAMENUM
 
 
-## move nemologo to top
+## move 3rd icon to top
 echo
-echo "Creating nemo movement..."
+echo "Creating icon #3 movement..."
 H_INTERVAL=1
 V_INTERVAL=2
 H_ACCEL=1
@@ -508,11 +621,14 @@ let "YINT=Y2"
 FRAMENUM=0
 FRAMENUMB=0
 BTSTART=16
-let "X1=X1D-200"
-let "X2=X1M-200"
-let "X3=X1N-200"
-let "X4=X1B-200"
-let "X5=X1I-200"
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
 while [ $YINT -lt 500 ]; do
   H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
   Y2=$(calculate $Y2+$H_INTERVAL)
@@ -528,21 +644,27 @@ while [ $YINT -lt 500 ]; do
   if [ $Y3 -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y1 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5+$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mn_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y1 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui3_$INDF.png
   else
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y1 $NEMOIMAGE \
-             -page +$X4+$Y2 $BUMENUIMAGE \
-             -page +$X5$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mn_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y1 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y3 $ICONIMAGE_5 \
+             -page +$X6$Y3 $ICONIMAGE_6 \
+             -page +$X7$Y3 $ICONIMAGE_7 \
+             -page +$X8$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui3_$INDF.png
   fi
 done
 
@@ -561,16 +683,16 @@ while [ $XINT -gt 5 ]; do
   if [ $XINT -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X3+$Y1 $NEMOIMAGE \
-             -layers flatten $ANIMIMAGES/mn_$INDF.png
+             -page +$X3+$Y1 $ICONIMAGE_3 \
+             -layers flatten $ANIMIMAGES/mui3_$INDF.png
   fi
 done
-ANIM_MN_COUNT=$FRAMENUM
+ANIM_M3_COUNT=$FRAMENUM
 
 
-## move backupmenu to top
+## move 4rd icon to top
 echo
-echo "Creating backupmenu movement..."
+echo "Creating icon #4 movement..."
 H_INTERVAL=1
 V_INTERVAL=2
 H_ACCEL=1
@@ -582,11 +704,14 @@ let "YINT=Y2"
 FRAMENUM=0
 FRAMENUMB=0
 BTSTART=21
-let "X1=X1D-200"
-let "X2=X1M-200"
-let "X3=X1N-200"
-let "X4=X1B-200"
-let "X5=X1I-200"
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
 while [ $YINT -lt 500 ]; do
   H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
   Y2=$(calculate $Y2+$H_INTERVAL)
@@ -602,21 +727,27 @@ while [ $YINT -lt 500 ]; do
   if [ $Y3 -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y1 $BUMENUIMAGE \
-             -page +$X5+$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mb_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y1 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui4_$INDF.png
   else
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X1+$Y2 $DROIDIMAGE \
-             -page +$X2+$Y2 $HARMIMAGE \
-             -page +$X3+$Y2 $NEMOIMAGE \
-             -page +$X4+$Y1 $BUMENUIMAGE \
-             -page +$X5$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mb_$INDF.png
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y1 $ICONIMAGE_4 \
+             -page +$X5$Y3 $ICONIMAGE_5 \
+             -page +$X6$Y3 $ICONIMAGE_6 \
+             -page +$X7$Y3 $ICONIMAGE_7 \
+             -page +$X8$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui4_$INDF.png
   fi
 done
 
@@ -636,42 +767,47 @@ while [ $XINT -gt 5 ]; do
   if [ $XINT -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X4+$Y1 $BUMENUIMAGE \
-             -layers flatten $ANIMIMAGES/mb_$INDF.png
+             -page +$X4+$Y1 $ICONIMAGE_4 \
+             -layers flatten $ANIMIMAGES/mui4_$INDF.png
   fi
 done
-ANIM_MB_COUNT=$FRAMENUM
+ANIM_M4_COUNT=$FRAMENUM
 
-## The fbm panel is embedded to the backupmenu screen
+## The fbm panel is embedded to the backupmenu screen, so fix that now
 
 $CONVERT -size 854x480 xc:black \
-         -page +0+0 $ANIMIMAGES/mb_$INDP.png \
+         -page +0+0 $ANIMIMAGES/mui4_$INDP.png \
          -page +220+40 $IBASE/fbm.png \
-         -layers flatten $ANIMIMAGES/mb_$INDF.png
+         -layers flatten $ANIMIMAGES/mui4_$INDF.png
 
 
-## move infobutton to top
+## move 5th icon to top
 echo
-echo "Creating info movement..."
+echo "Creating icon #5 movement..."
 H_INTERVAL=1
-V_INTERVAL=2
+V_INTERVAL=1
 H_ACCEL=1
-V_ACCEL=1.8
+V_ACCEL=0.5
 let "Y1=YPLACE1-200"
 let "Y2=YPLACE1-200"
 let "Y3=YPLACE2-200"
+let "Y4=YPLACE2-200"
 let "YINT=Y2"
 FRAMENUM=0
 FRAMENUMB=0
-BTSTART=21
-let "X1=X1D-200"
-let "X2=X1M-200"
-let "X3=X1N-200"
-let "X4=X1B-200"
-let "X5=X1I-200"
+BTSTART=8
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
 while [ $YINT -lt 500 ]; do
   H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
   Y2=$(calculate $Y2+$H_INTERVAL)
+  Y4=$(calculate $Y4-$H_INTERVAL)
   YINT=$(round $Y2)
   let "FRAMENUM+=1"
   INDF=$(printindex $FRAMENUM)
@@ -680,14 +816,31 @@ while [ $YINT -lt 500 ]; do
   fi
   INDB=$(printindex $FRAMENUMB)
   echo -n "[$INDF, $FRAMENUMB] "
-  $CONVERT -size 854x480 xc:black \
-           -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-           -page +$X1+$Y2 $DROIDIMAGE \
-           -page +$X2+$Y2 $HARMIMAGE \
-           -page +$X3+$Y2 $NEMOIMAGE \
-           -page +$X4+$Y2 $BUMENUIMAGE \
-           -page +$X5+$Y3 $INFOIMAGE \
-           -layers flatten $ANIMIMAGES/mi_$INDF.png
+  if [ $Y4 -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6+$Y4 $ICONIMAGE_6 \
+             -page +$X7+$Y4 $ICONIMAGE_7 \
+             -page +$X8+$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui5_$INDF.png
+  else
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -page +$X6$Y4 $ICONIMAGE_6 \
+             -page +$X7$Y4 $ICONIMAGE_7 \
+             -page +$X8$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui5_$INDF.png
+  fi
 done
 
 XINT=$X5
@@ -696,40 +849,292 @@ while [ $XINT -gt 5 ]; do
   X5=$(calculate $X5-$V_INTERVAL)
   XINT=$(round $X5)
   let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  let "FRAMENUMB+=1"
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB, (X5=$X5)] "
+  if [ $XINT -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X5+$Y3 $ICONIMAGE_5 \
+             -layers flatten $ANIMIMAGES/mui5_$INDF.png
+  fi
+done
+ANIM_M5_COUNT=$FRAMENUM
+
+
+## move 6th icon to top
+echo
+echo "Creating icon #6 movement..."
+H_INTERVAL=1
+V_INTERVAL=2
+H_ACCEL=1
+V_ACCEL=1
+let "Y1=YPLACE1-200"
+let "Y2=YPLACE1-200"
+let "Y3=YPLACE2-200"
+let "Y4=YPLACE2-200"
+let "YINT=Y2"
+FRAMENUM=0
+FRAMENUMB=0
+BTSTART=14
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
+while [ $YINT -lt 500 ]; do
+  H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
+  Y2=$(calculate $Y2+$H_INTERVAL)
+  Y4=$(calculate $Y4-$H_INTERVAL)
+  YINT=$(round $Y2)
+  let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  if [ $FRAMENUM -gt $BTSTART ]; then
+    let "FRAMENUMB+=1"
+  fi
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB] "
+  if [ $Y4 -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y4 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7+$Y4 $ICONIMAGE_7 \
+             -page +$X8+$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui6_$INDF.png
+  else
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y4 $ICONIMAGE_5 \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -page +$X7$Y4 $ICONIMAGE_7 \
+             -page +$X8$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui6_$INDF.png
+  fi
+done
+
+XINT=$X6
+while [ $XINT -gt 5 ]; do
+  V_INTERVAL=$(calculate $V_INTERVAL+$V_ACCEL)
+  X6=$(calculate $X6-$V_INTERVAL)
+  XINT=$(round $X6)
+  let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  if [ $FRAMENUM -gt $BTSTART ]; then
+    let "FRAMENUMB+=1"
+  fi
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB, (X6=$X6)] "
+  if [ $XINT -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X6+$Y3 $ICONIMAGE_6 \
+             -layers flatten $ANIMIMAGES/mui6_$INDF.png
+  fi
+done
+ANIM_M6_COUNT=$FRAMENUM
+
+
+## move 7th icon to top
+echo
+echo "Creating icon #7 movement..."
+H_INTERVAL=1
+V_INTERVAL=2
+H_ACCEL=1
+V_ACCEL=1.5
+let "Y1=YPLACE1-200"
+let "Y2=YPLACE1-200"
+let "Y3=YPLACE2-200"
+let "Y4=YPLACE2-200"
+let "YINT=Y2"
+FRAMENUM=0
+FRAMENUMB=0
+BTSTART=16
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
+while [ $YINT -lt 500 ]; do
+  H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
+  Y2=$(calculate $Y2+$H_INTERVAL)
+  Y4=$(calculate $Y4-$H_INTERVAL)
+  YINT=$(round $Y2)
+  let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  if [ $FRAMENUM -gt $BTSTART ]; then
+    let "FRAMENUMB+=1"
+  fi
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB] "
+  if [ $Y4 -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y4 $ICONIMAGE_5 \
+             -page +$X6+$Y4 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8+$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui7_$INDF.png
+  else
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y4 $ICONIMAGE_5 \
+             -page +$X6$Y4 $ICONIMAGE_6 \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -page +$X8$Y4 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui7_$INDF.png
+  fi
+done
+
+XINT=$X7
+while [ $XINT -gt 5 ]; do
+  V_INTERVAL=$(calculate $V_INTERVAL+$V_ACCEL)
+  X7=$(calculate $X7-$V_INTERVAL)
+  XINT=$(round $X7)
+  let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  if [ $FRAMENUM -gt $BTSTART ]; then
+    let "FRAMENUMB+=1"
+  fi
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB, (X7=$X7)] "
+  if [ $XINT -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X7+$Y3 $ICONIMAGE_7 \
+             -layers flatten $ANIMIMAGES/mui7_$INDF.png
+  fi
+done
+ANIM_M7_COUNT=$FRAMENUM
+
+
+## move 8th icon to top
+echo
+echo "Creating icon #8 movement..."
+H_INTERVAL=1
+V_INTERVAL=2
+H_ACCEL=1
+V_ACCEL=1.8
+let "Y1=YPLACE1-200"
+let "Y2=YPLACE1-200"
+let "Y3=YPLACE2-200"
+let "Y4=YPLACE2-200"
+let "YINT=Y2"
+FRAMENUM=0
+FRAMENUMB=0
+BTSTART=21
+let "X1=XDYN1-200"
+let "X2=XDYN2-200"
+let "X3=XDYN3-200"
+let "X4=XDYN4-200"
+let "X5=XDYN5-200"
+let "X6=XDYN6-200"
+let "X7=XDYN7-200"
+let "X8=XDYN8-200"
+while [ $YINT -lt 500 ]; do
+  H_INTERVAL=$(calculate $H_INTERVAL+$H_ACCEL)
+  Y2=$(calculate $Y2+$H_INTERVAL)
+  Y4=$(calculate $Y4-$H_INTERVAL)
+  YINT=$(round $Y2)
+  let "FRAMENUM+=1"
+  INDF=$(printindex $FRAMENUM)
+  if [ $FRAMENUM -gt $BTSTART ]; then
+    let "FRAMENUMB+=1"
+  fi
+  INDB=$(printindex $FRAMENUMB)
+  echo -n "[$INDF, $FRAMENUMB] "
+  if [ $Y4 -gt 0 ]; then
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5+$Y4 $ICONIMAGE_5 \
+             -page +$X6+$Y4 $ICONIMAGE_6 \
+             -page +$X7+$Y4 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui8_$INDF.png
+  else
+    $CONVERT -size 854x480 xc:black \
+             -page +0+0 $TEMPIMAGES/bom_$INDB.png \
+             -page +$X1+$Y2 $ICONIMAGE_1 \
+             -page +$X2+$Y2 $ICONIMAGE_2 \
+             -page +$X3+$Y2 $ICONIMAGE_3 \
+             -page +$X4+$Y2 $ICONIMAGE_4 \
+             -page +$X5$Y4 $ICONIMAGE_5 \
+             -page +$X6$Y4 $ICONIMAGE_6 \
+             -page +$X7$Y4 $ICONIMAGE_7 \
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui8_$INDF.png
+  fi
+done
+
+XINT=$X8
+while [ $XINT -gt 5 ]; do
+  V_INTERVAL=$(calculate $V_INTERVAL+$V_ACCEL)
+  X8=$(calculate $X8-$V_INTERVAL)
+  XINT=$(round $X8)
+  let "FRAMENUM+=1"
   INDP=$INDF
   INDF=$(printindex $FRAMENUM)
   if [ $FRAMENUM -gt $BTSTART ]; then
     let "FRAMENUMB+=1"
   fi
   INDB=$(printindex $FRAMENUMB)
-  echo -n "[$INDF, $FRAMENUMB, (X5=$X5)] "
+  echo -n "[$INDF, $FRAMENUMB, (X8=$X8)] "
   if [ $XINT -gt 0 ]; then
     $CONVERT -size 854x480 xc:black \
              -page +0+0 $TEMPIMAGES/bom_$INDB.png \
-             -page +$X5+$Y3 $INFOIMAGE \
-             -layers flatten $ANIMIMAGES/mi_$INDF.png
+             -page +$X8+$Y3 $ICONIMAGE_8 \
+             -layers flatten $ANIMIMAGES/mui8_$INDF.png
   fi
 done
-ANIM_MI_COUNT=$FRAMENUM
-
+ANIM_M8_COUNT=$FRAMENUM
 
 ## The owner panel is embedded to the info screen
 
 $CONVERT -size 854x480 xc:black \
-         -page +0+0 $ANIMIMAGES/mi_$INDP.png \
+         -page +0+0 $ANIMIMAGES/mui8_$INDP.png \
          -page +220+40 $OWNERPANEL \
-         -layers flatten $ANIMIMAGES/mi_$INDF.png
+         -layers flatten $ANIMIMAGES/mui8_$INDF.png
 
 
 ## for debug, see the mpeg sequences in vlc/mplayer
 if [ "$GENERATE_VIDEOS" == "1" ]; then
   echo
   echo "Creating test movies..."
-  avconv -i $ANIMIMAGES/md_%02d.png $VIDEOS/dmovie.mpeg
-  avconv -i $ANIMIMAGES/mh_%02d.png $VIDEOS/hmovie.mpeg
-  avconv -i $ANIMIMAGES/mn_%02d.png $VIDEOS/nmovie.mpeg
-  avconv -i $ANIMIMAGES/mb_%02d.png $VIDEOS/bmovie.mpeg
-  avconv -i $ANIMIMAGES/mi_%02d.png $VIDEOS/imovie.mpeg
+  avconv -i $ANIMIMAGES/mui1_%02d.png $VIDEOS/movie1.mpeg
+  avconv -i $ANIMIMAGES/mui2_%02d.png $VIDEOS/movie2.mpeg
+  avconv -i $ANIMIMAGES/mui3_%02d.png $VIDEOS/movie3.mpeg
+  avconv -i $ANIMIMAGES/mui4_%02d.png $VIDEOS/movie4.mpeg
+  avconv -i $ANIMIMAGES/mui5_%02d.png $VIDEOS/movie5.mpeg
+  avconv -i $ANIMIMAGES/mui6_%02d.png $VIDEOS/movie6.mpeg
+  avconv -i $ANIMIMAGES/mui7_%02d.png $VIDEOS/movie7.mpeg
+  avconv -i $ANIMIMAGES/mui8_%02d.png $VIDEOS/movie8.mpeg
   avconv -i $ANIMIMAGES/fx_%02d.png $VIDEOS/fmovie.mpeg
 
   ## all button press sequences together
@@ -810,6 +1215,8 @@ if [ "$GENERATE_VIDEOS" == "1" ]; then
   done
 
   avconv -i $TEMPIMAGES/pp_%02d.png $VIDEOS/pmovie.mpeg
+
+  cat $VIDEOS/fmovie.mpeg $VIDEOS/pmovie.mpeg $VIDEOS/movie1.mpeg $VIDEOS/movie2.mpeg $VIDEOS/movie3.mpeg $VIDEOS/movie4.mpeg $VIDEOS/movie5.mpeg $VIDEOS/movie6.mpeg $VIDEOS/movie7.mpeg $VIDEOS/movie8.mpeg > $VIDEOS/all.mpeg
 fi
 
 
@@ -818,11 +1225,14 @@ echo "#Animation sequence constants" > $CTRLFILE
 echo "ANIM_BB_COUNT=$ANIM_BB_COUNT" >> $CTRLFILE
 echo "ANIM_FX_COUNT=$ANIM_FX_COUNT" >> $CTRLFILE
 echo "ANIM_BP_COUNT=$ANIM_BP_COUNT" >> $CTRLFILE
-echo "ANIM_MD_COUNT=$ANIM_MD_COUNT" >> $CTRLFILE
-echo "ANIM_MH_COUNT=$ANIM_MH_COUNT" >> $CTRLFILE
-echo "ANIM_MN_COUNT=$ANIM_MN_COUNT" >> $CTRLFILE
-echo "ANIM_MB_COUNT=$ANIM_MB_COUNT" >> $CTRLFILE
-echo "ANIM_MI_COUNT=$ANIM_MI_COUNT" >> $CTRLFILE
+echo "ANIM_M1_COUNT=$ANIM_M1_COUNT" >> $CTRLFILE
+echo "ANIM_M2_COUNT=$ANIM_M2_COUNT" >> $CTRLFILE
+echo "ANIM_M3_COUNT=$ANIM_M3_COUNT" >> $CTRLFILE
+echo "ANIM_M4_COUNT=$ANIM_M4_COUNT" >> $CTRLFILE
+echo "ANIM_M5_COUNT=$ANIM_M5_COUNT" >> $CTRLFILE
+echo "ANIM_M6_COUNT=$ANIM_M6_COUNT" >> $CTRLFILE
+echo "ANIM_M7_COUNT=$ANIM_M7_COUNT" >> $CTRLFILE
+echo "ANIM_M8_COUNT=$ANIM_M8_COUNT" >> $CTRLFILE
 
 
 ## tar up the animation package
