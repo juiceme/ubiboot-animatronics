@@ -8,14 +8,17 @@
 #     string         : string to be printed out
 #
 
-# in this file, the return values are 1, 2, 3, 4, 5 for the different selections,
-# and the respective out-printed chars are "A", "H", "N", "B", "I".
+# in this file, the return values are 1, 2, 3, 4, 5, 6, 7, 8 for the different selections,
+# and the respective out-printed chars are "A", "H", "N", "B", "F", "U", "S", "I".
 # the strings are "Nitdroid", "Harmattan", "Nemo", "Backup", "Info"
 # it is up to the calling script to decide which to use, values, chars or srtings.
 #
 
-80  280 240 420  1  65  Nitdroid    # A for Android icon, Nitdroid
-260 250 410 450  2  72  Harmattan   # H for the Harmattan meegoans
-450 290 590 410  3  78  Nemo        # N for Nemo logo
-650 80  750 180  4  66  Backup      # B for the Backupmenu button
-650 300 750 400  5  73  Info        # I for the Info button
+88  288 230 410  1  65  Nitdroid    # A for Android icon, Nitdroid
+280 280 395 420  2  72  Harmattan   # H for the Harmattan meegoans
+448 290 590 410  3  78  Nemo        # N for Nemo logo
+625 300 775 405  4  66  Backup      # B for the Backupmenu button
+88  55  230 200  5  70  Firefox     # F for the FirefoxOS globe
+265 55  415 200  6  85  Ubuntu      # U for the Ubuntu logo
+445 70  590 190  7  83  Sailfish    # S for the Jolla SailfishOS
+655 80  745 175  8  73  Info        # I for the Info button

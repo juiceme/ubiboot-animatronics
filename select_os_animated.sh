@@ -191,19 +191,28 @@ load_default_os()
 bounce_icon()
 {
   if [ "$1" == "Nitdroid" ]; then
-    IFILE="pd"
+    IFILE="pi1"
   fi
   if [ "$1" == "Harmattan" ]; then
-    IFILE="ph"
+    IFILE="pi2"
   fi
   if [ "$1" == "Nemo" ]; then
-    IFILE="pn"
+    IFILE="pi3"
   fi
-  if [ "$1" == "Backupmenu" ]; then
-    IFILE="pb"
+  if [ "$1" == "Backup" ]; then
+    IFILE="pi4"
+  fi
+  if [ "$1" == "Firefox" ]; then
+    IFILE="pi5"
+  fi
+  if [ "$1" == "Ubuntu" ]; then
+    IFILE="pi6"
+  fi
+  if [ "$1" == "Sailfish" ]; then
+    IFILE="pi7"
   fi
   if [ "$1" == "Info" ]; then
-    IFILE="pi"
+    IFILE="pi8"
   fi
 
   FRAMENUM=0
@@ -449,6 +458,15 @@ get_menuitem()
   if [ "$mode" == "backupmenu" ]; then
     maplines=$(generate_temporary_mapfile $menulines)
   fi
+  if [ "$mode" == "firefox" ]; then
+    maplines=$(generate_temporary_mapfile $menulines)
+  fi
+  if [ "$mode" == "ubuntu" ]; then
+    maplines=$(generate_temporary_mapfile $menulines)
+  fi
+  if [ "$mode" == "sailfish" ]; then
+    maplines=$(generate_temporary_mapfile $menulines)
+  fi
   if [ "$mode" == "info" ]; then
     maplines=$(generate_temporary_mapfile $menulines)
   fi
@@ -576,8 +594,8 @@ second_level_menu()
   ret=1
 
   if [ "$callmode" == "nitdroid" ]; then
-    IFILE="md"
-    LASTFRAME="$ANIM_MD_COUNT"
+    IFILE="mui1"
+    LASTFRAME="$ANIM_M1_COUNT"
     if [ "$G_NITDROID_AUTOBOOT" -ne 0 ]; then
       selection=$(get_kernel_line $callmode $G_NITDROID_AUTOBOOT)
       echo -e "$selection"
@@ -585,8 +603,8 @@ second_level_menu()
     fi
   fi
   if [ "$callmode" == "harmattan" ]; then
-    IFILE="mh"
-    LASTFRAME="$ANIM_MH_COUNT"
+    IFILE="mui2"
+    LASTFRAME="$ANIM_M2_COUNT"
     if [ "$G_HARMATTAN_AUTOBOOT" -ne 0 ]; then
       selection=$(get_kernel_line $callmode $G_HARMATTAN_AUTOBOOT)
       echo -e "$selection"
@@ -594,8 +612,8 @@ second_level_menu()
     fi
   fi
   if [ "$callmode" == "nemo" ]; then
-    IFILE="mn"
-    LASTFRAME="$ANIM_MN_COUNT"
+    IFILE="mui3"
+    LASTFRAME="$ANIM_M3_COUNT"
     if [ "$G_NEMO_AUTOBOOT" -ne 0 ]; then
       selection=$(get_kernel_line $callmode $G_NEMO_AUTOBOOT)
       echo -e "$selection"
@@ -603,12 +621,24 @@ second_level_menu()
     fi
   fi
   if [ "$callmode" == "backupmenu" ]; then
-    IFILE="mb"
-    LASTFRAME="$ANIM_MB_COUNT"
+    IFILE="mui4"
+    LASTFRAME="$ANIM_M4_COUNT"
+  fi
+  if [ "$callmode" == "firefox" ]; then
+    IFILE="mui5"
+    LASTFRAME="$ANIM_M5_COUNT"
+  fi
+  if [ "$callmode" == "ubuntu" ]; then
+    IFILE="mui6"
+    LASTFRAME="$ANIM_M6_COUNT"
+  fi
+  if [ "$callmode" == "sailfish" ]; then
+    IFILE="mui7"
+    LASTFRAME="$ANIM_M7_COUNT"
   fi
   if [ "$callmode" == "info" ]; then
-    IFILE="mi"
-    LASTFRAME="$ANIM_MI_COUNT"
+    IFILE="mui8"
+    LASTFRAME="$ANIM_M8_COUNT"
   fi
 
   while [ $FRAMENUM -lt $LASTFRAME ] ; do
@@ -630,6 +660,21 @@ second_level_menu()
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
+  fi
+  if [ "$callmode" == "firefox" ]; then
+    # no need to draw anything for info, just get the "back" button press
+    selection=$(get_menuitem $callmode 0)
+    ret=1
+  fi
+  if [ "$callmode" == "ubuntu" ]; then
+    # no need to draw anything for info, just get the "back" button press
+    selection=$(get_menuitem $callmode 0)
+    ret=1
+  fi
+  if [ "$callmode" == "sailfish" ]; then
+    # no need to draw anything for info, just get the "back" button press
+    selection=$(get_menuitem $callmode 0)
+    ret=1
   fi
   if [ "$callmode" == "info" ]; then
     # no need to draw anything for info, just get the "back" button press
@@ -684,14 +729,35 @@ get_selection()
     bounce_icon "Backupmenu"
     SELECTED_OS=0
     SELECTED_KERNEL=0
-    second_level_menu "info"
+    second_level_menu "backupmenu"
     ret=1
   fi
   if [ "$ret" == "5" ]; then
+    bounce_icon "Firefox"
+    SELECTED_OS=0
+    SELECTED_KERNEL=0
+    second_level_menu "firefox"
+    ret=1
+  fi
+  if [ "$ret" == "6" ]; then
+    bounce_icon "Ubuntu"
+    SELECTED_OS=0
+    SELECTED_KERNEL=0
+    second_level_menu "ubuntu"
+    ret=1
+  fi
+  if [ "$ret" == "7" ]; then
+    bounce_icon "Sailfish"
+    SELECTED_OS=0
+    SELECTED_KERNEL=0
+    second_level_menu "sailfish"
+    ret=1
+  fi
+  if [ "$ret" == "8" ]; then
     bounce_icon "Info"
     SELECTED_OS=0
     SELECTED_KERNEL=0
-    second_level_menu "backupmenu"
+    second_level_menu "info"
     ret=1
   fi
   if [ "$ret" == "255" ]; then
