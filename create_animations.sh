@@ -48,7 +48,7 @@ CTRLFILE="$FINIMAGES/ctrl_animation.rc"
 if [ ! -z "$1" ]; then
   if [ "$1" == "--help" ]; then
     echo
-    echo "create_animations.sh ver. 0.1"
+    echo "create_animations.sh ver. 0.2"
     echo
     echo "Parameters:"
     echo "  --help    This screen"
@@ -73,6 +73,14 @@ if [ ! -z "$1" ]; then
     rm -rf $VIDEOS > /dev/null 2>&1
     exit 0;
   fi
+fi
+
+TAR=$(which tar)
+if [ $? -ne 0 ]; then
+  echo
+  echo "You need the tar archiving utility to run this script"
+  echo
+  exit 1;  
 fi
 
 CONVERT=$(which convert)
@@ -1239,7 +1247,7 @@ echo "ANIM_M8_COUNT=$ANIM_M8_COUNT" >> $CTRLFILE
 echo
 echo "creating install package..."
 cd $FINIMAGES
-tar -cvf animatronics.tar . > /dev/null 2>&1
+$TAR -cvf animatronics.tar . > /dev/null 2>&1
 cd ..
 mv $FINIMAGES/animatronics.tar .
 
