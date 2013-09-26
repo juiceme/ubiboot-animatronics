@@ -24,6 +24,7 @@
 ## 
 
 
+CPIO_VERSION="1"
 TEMPDIR="./temp"
 BOOTDIR="$TEMPDIR/boot"
 MENUDIR="$BOOTDIR/menu"
@@ -34,6 +35,7 @@ decompress_and_pack_cpio()
 {
   rm -rf $TEMPDIR
   mkdir -p $MENUDIR
+  echo $CPIO_VERSION > "$BOOTDIR/cpio-version"
   ln -s /mnt/2 $BOOTDIR/Harmattan
   ln -s /mnt/2 $BOOTDIR/Nitdroid
   ln -s /mnt/4 $BOOTDIR/Nemo
