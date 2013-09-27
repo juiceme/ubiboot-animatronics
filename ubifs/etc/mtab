@@ -1,0 +1,9 @@
+rootfs / rootfs rw 0 0
+ubi0:var / ubifs rw,relatime 0 0
+devtmpfs /dev devtmpfs rw,size=503980k,nr_inodes=125995,mode=755 0 0
+proc /proc proc rw,relatime 0 0
+sysfs /sys sysfs rw,relatime 0 0
+none /tmp tmpfs rw,relatime,size=10240k 0 0
+/proc/sys/debug /proc/sys/debug debugfs rw,relatime 0 0
+none /var/run tmpfs rw,nosuid,noatime,size=256k,mode=755 0 0
+devpts /dev/pts devpts rw,relatime,mode=600 0 0

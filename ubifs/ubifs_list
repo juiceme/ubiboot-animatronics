@@ -1,0 +1,563 @@
+
+## top level hierarchy
+
+file /init usr/ubifs/init 775 0 0
+dir  /bin  775 0 0
+dir  /boot 775 0 0
+dir  /dev  775 0 0
+dir  /doc  775 0 0
+dir  /etc  775 0 0
+dir  /lib  775 0 0
+dir  /mnt  775 0 0
+dir  /proc 775 0 0
+dir  /root 775 0 0
+dir  /sbin 775 0 0
+dir  /sys  775 0 0
+dir  /tmp  775 0 0
+dir  /usr  775 0 0
+dir  /var  775 0 0
+
+
+## /bin/ is full of links
+
+slink /bin/[ /sbin/busybox 777 0 0
+slink /bin/[[ /sbin/busybox 777 0 0
+slink /bin/acpid /sbin/busybox 777 0 0
+slink /bin/add-shell /sbin/busybox 777 0 0
+slink /bin/addgroup /sbin/busybox 777 0 0
+slink /bin/adduser /sbin/busybox 777 0 0
+slink /bin/adjtimex /sbin/busybox 777 0 0
+slink /bin/arp /sbin/busybox 777 0 0
+slink /bin/arping /sbin/busybox 777 0 0
+slink /bin/ash /sbin/busybox 777 0 0
+slink /bin/awk /sbin/busybox 777 0 0
+slink /bin/base64 /sbin/busybox 777 0 0
+slink /bin/basename /sbin/busybox 777 0 0
+slink /bin/beep /sbin/busybox 777 0 0
+slink /bin/blkid /sbin/busybox 777 0 0
+slink /bin/blockdev /sbin/busybox 777 0 0
+slink /bin/bootchartd /sbin/busybox 777 0 0
+slink /bin/brctl /sbin/busybox 777 0 0
+slink /bin/bunzip2 /sbin/busybox 777 0 0
+slink /bin/bzcat /sbin/busybox 777 0 0
+slink /bin/bzip2 /sbin/busybox 777 0 0
+slink /bin/cal /sbin/busybox 777 0 0
+slink /bin/cat /sbin/busybox 777 0 0
+slink /bin/catv /sbin/busybox 777 0 0
+slink /bin/chat /sbin/busybox 777 0 0
+slink /bin/chattr /sbin/busybox 777 0 0
+slink /bin/chgrp /sbin/busybox 777 0 0
+slink /bin/chmod /sbin/busybox 777 0 0
+slink /bin/chown /sbin/busybox 777 0 0
+slink /bin/chpasswd /sbin/busybox 777 0 0
+slink /bin/chpst /sbin/busybox 777 0 0
+slink /bin/chroot /sbin/busybox 777 0 0
+slink /bin/chrt /sbin/busybox 777 0 0
+slink /bin/chvt /sbin/busybox 777 0 0
+slink /bin/cksum /sbin/busybox 777 0 0
+slink /bin/clear /sbin/busybox 777 0 0
+slink /bin/cmp /sbin/busybox 777 0 0
+slink /bin/comm /sbin/busybox 777 0 0
+slink /bin/cp /sbin/busybox 777 0 0
+slink /bin/cpio /sbin/busybox 777 0 0
+slink /bin/crond /sbin/busybox 777 0 0
+slink /bin/crontab /sbin/busybox 777 0 0
+slink /bin/cryptpw /sbin/busybox 777 0 0
+slink /bin/cttyhack /sbin/busybox 777 0 0
+slink /bin/cut /sbin/busybox 777 0 0
+slink /bin/date /sbin/busybox 777 0 0
+slink /bin/dc /sbin/busybox 777 0 0
+slink /bin/dd /sbin/busybox 777 0 0
+slink /bin/deallocvt /sbin/busybox 777 0 0
+slink /bin/delgroup /sbin/busybox 777 0 0
+slink /bin/deluser /sbin/busybox 777 0 0
+slink /bin/depmod /sbin/busybox 777 0 0
+slink /bin/devmem /sbin/busybox 777 0 0
+slink /bin/df /sbin/busybox 777 0 0
+slink /bin/dhcprelay /sbin/busybox 777 0 0
+slink /bin/diff /sbin/busybox 777 0 0
+slink /bin/dirname /sbin/busybox 777 0 0
+slink /bin/dmesg /sbin/busybox 777 0 0
+slink /bin/dnsd /sbin/busybox 777 0 0
+slink /bin/dnsdomainname /sbin/busybox 777 0 0
+slink /bin/dos2unix /sbin/busybox 777 0 0
+slink /bin/du /sbin/busybox 777 0 0
+slink /bin/dumpkmap /sbin/busybox 777 0 0
+slink /bin/dumpleases /sbin/busybox 777 0 0
+slink /bin/echo /sbin/busybox 777 0 0
+slink /bin/ed /sbin/busybox 777 0 0
+slink /bin/egrep /sbin/busybox 777 0 0
+slink /bin/eject /sbin/busybox 777 0 0
+slink /bin/env /sbin/busybox 777 0 0
+slink /bin/envdir /sbin/busybox 777 0 0
+slink /bin/envuidgid /sbin/busybox 777 0 0
+slink /bin/ether-wake /sbin/busybox 777 0 0
+slink /bin/expand /sbin/busybox 777 0 0
+slink /bin/expr /sbin/busybox 777 0 0
+slink /bin/fakeidentd /sbin/busybox 777 0 0
+slink /bin/false /sbin/busybox 777 0 0
+slink /bin/fbset /sbin/busybox 777 0 0
+slink /bin/fbsplash /sbin/busybox 777 0 0
+slink /bin/fdflush /sbin/busybox 777 0 0
+slink /bin/fdformat /sbin/busybox 777 0 0
+slink /bin/fdisk /sbin/busybox 777 0 0
+slink /bin/fgconsole /sbin/busybox 777 0 0
+slink /bin/fgrep /sbin/busybox 777 0 0
+slink /bin/find /sbin/busybox 777 0 0
+slink /bin/findfs /sbin/busybox 777 0 0
+slink /bin/flock /sbin/busybox 777 0 0
+slink /bin/fold /sbin/busybox 777 0 0
+slink /bin/free /sbin/busybox 777 0 0
+slink /bin/freeramdisk /sbin/busybox 777 0 0
+slink /bin/fsck /sbin/busybox 777 0 0
+slink /bin/fsck.minix /sbin/busybox 777 0 0
+slink /bin/fsync /sbin/busybox 777 0 0
+slink /bin/ftpd /sbin/busybox 777 0 0
+slink /bin/ftpget /sbin/busybox 777 0 0
+slink /bin/ftpput /sbin/busybox 777 0 0
+slink /bin/fuser /sbin/busybox 777 0 0
+slink /bin/getopt /sbin/busybox 777 0 0
+slink /bin/getty /sbin/busybox 777 0 0
+slink /bin/grep /sbin/busybox 777 0 0
+slink /bin/groups /sbin/busybox 777 0 0
+slink /bin/gunzip /sbin/busybox 777 0 0
+slink /bin/gzip /sbin/busybox 777 0 0
+slink /bin/halt /sbin/busybox 777 0 0
+slink /bin/hd /sbin/busybox 777 0 0
+slink /bin/hdparm /sbin/busybox 777 0 0
+slink /bin/head /sbin/busybox 777 0 0
+slink /bin/hexdump /sbin/busybox 777 0 0
+slink /bin/hostid /sbin/busybox 777 0 0
+slink /bin/hostname /sbin/busybox 777 0 0
+slink /bin/httpd /sbin/busybox 777 0 0
+slink /bin/hush /sbin/busybox 777 0 0
+slink /bin/hwclock /sbin/busybox 777 0 0
+slink /bin/id /sbin/busybox 777 0 0
+slink /bin/ifconfig /sbin/busybox 777 0 0
+slink /bin/ifdown /sbin/busybox 777 0 0
+slink /bin/ifenslave /sbin/busybox 777 0 0
+slink /bin/ifplugd /sbin/busybox 777 0 0
+slink /bin/ifup /sbin/busybox 777 0 0
+slink /bin/inetd /sbin/busybox 777 0 0
+slink /bin/init /sbin/busybox 777 0 0
+slink /bin/insmod /sbin/busybox 777 0 0
+slink /bin/install /sbin/busybox 777 0 0
+slink /bin/ionice /sbin/busybox 777 0 0
+slink /bin/iostat /sbin/busybox 777 0 0
+slink /bin/ip /sbin/busybox 777 0 0
+slink /bin/ipaddr /sbin/busybox 777 0 0
+slink /bin/ipcalc /sbin/busybox 777 0 0
+slink /bin/ipcrm /sbin/busybox 777 0 0
+slink /bin/ipcs /sbin/busybox 777 0 0
+slink /bin/iplink /sbin/busybox 777 0 0
+slink /bin/iproute /sbin/busybox 777 0 0
+slink /bin/iprule /sbin/busybox 777 0 0
+slink /bin/iptunnel /sbin/busybox 777 0 0
+slink /bin/kbd_mode /sbin/busybox 777 0 0
+slink /bin/kill /sbin/busybox 777 0 0
+slink /bin/killall /sbin/busybox 777 0 0
+slink /bin/killall5 /sbin/busybox 777 0 0
+slink /bin/klogd /sbin/busybox 777 0 0
+slink /bin/last /sbin/busybox 777 0 0
+slink /bin/less /sbin/busybox 777 0 0
+slink /bin/linux32 /sbin/busybox 777 0 0
+slink /bin/linux64 /sbin/busybox 777 0 0
+slink /bin/linuxrc /sbin/busybox 777 0 0
+slink /bin/ln /sbin/busybox 777 0 0
+slink /bin/loadfont /sbin/busybox 777 0 0
+slink /bin/loadkmap /sbin/busybox 777 0 0
+slink /bin/logger /sbin/busybox 777 0 0
+slink /bin/login /sbin/busybox 777 0 0
+slink /bin/logname /sbin/busybox 777 0 0
+slink /bin/logread /sbin/busybox 777 0 0
+slink /bin/losetup /sbin/busybox 777 0 0
+slink /bin/lpd /sbin/busybox 777 0 0
+slink /bin/lpq /sbin/busybox 777 0 0
+slink /bin/lpr /sbin/busybox 777 0 0
+slink /bin/ls /sbin/busybox 777 0 0
+slink /bin/lsattr /sbin/busybox 777 0 0
+slink /bin/lsmod /sbin/busybox 777 0 0
+slink /bin/lspci /sbin/busybox 777 0 0
+slink /bin/lsusb /sbin/busybox 777 0 0
+slink /bin/lzcat /sbin/busybox 777 0 0
+slink /bin/lzma /sbin/busybox 777 0 0
+slink /bin/lzop /sbin/busybox 777 0 0
+slink /bin/lzopcat /sbin/busybox 777 0 0
+slink /bin/makedevs /sbin/busybox 777 0 0
+slink /bin/makemime /sbin/busybox 777 0 0
+slink /bin/man /sbin/busybox 777 0 0
+slink /bin/md5sum /sbin/busybox 777 0 0
+slink /bin/mdev /sbin/busybox 777 0 0
+slink /bin/mesg /sbin/busybox 777 0 0
+slink /bin/microcom /sbin/busybox 777 0 0
+slink /bin/mkdir /sbin/busybox 777 0 0
+slink /bin/mkdosfs /sbin/busybox 777 0 0
+slink /bin/mke2fs /sbin/busybox 777 0 0
+slink /bin/mkfifo /sbin/busybox 777 0 0
+slink /bin/mkfs.ext2 /sbin/busybox 777 0 0
+slink /bin/mkfs.minix /sbin/busybox 777 0 0
+slink /bin/mkfs.vfat /sbin/busybox 777 0 0
+slink /bin/mknod /sbin/busybox 777 0 0
+slink /bin/mkpasswd /sbin/busybox 777 0 0
+slink /bin/mkswap /sbin/busybox 777 0 0
+slink /bin/mktemp /sbin/busybox 777 0 0
+slink /bin/modinfo /sbin/busybox 777 0 0
+slink /bin/modprobe /sbin/busybox 777 0 0
+slink /bin/more /sbin/busybox 777 0 0
+slink /bin/mount /sbin/busybox 777 0 0
+slink /bin/mountpoint /sbin/busybox 777 0 0
+slink /bin/mpstat /sbin/busybox 777 0 0
+slink /bin/mt /sbin/busybox 777 0 0
+slink /bin/mv /sbin/busybox 777 0 0
+slink /bin/nameif /sbin/busybox 777 0 0
+slink /bin/nbd-client /sbin/busybox 777 0 0
+slink /bin/nc /sbin/busybox 777 0 0
+slink /bin/netstat /sbin/busybox 777 0 0
+slink /bin/nice /sbin/busybox 777 0 0
+slink /bin/nmeter /sbin/busybox 777 0 0
+slink /bin/nohup /sbin/busybox 777 0 0
+slink /bin/nslookup /sbin/busybox 777 0 0
+slink /bin/ntpd /sbin/busybox 777 0 0
+slink /bin/od /sbin/busybox 777 0 0
+slink /bin/openvt /sbin/busybox 777 0 0
+slink /bin/passwd /sbin/busybox 777 0 0
+slink /bin/patch /sbin/busybox 777 0 0
+slink /bin/pgrep /sbin/busybox 777 0 0
+slink /bin/pidof /sbin/busybox 777 0 0
+slink /bin/ping /sbin/busybox 777 0 0
+slink /bin/ping6 /sbin/busybox 777 0 0
+slink /bin/pipe_progress /sbin/busybox 777 0 0
+slink /bin/pivot_root /sbin/busybox 777 0 0
+slink /bin/pkill /sbin/busybox 777 0 0
+slink /bin/pmap /sbin/busybox 777 0 0
+slink /bin/popmaildir /sbin/busybox 777 0 0
+slink /bin/poweroff /sbin/busybox 777 0 0
+slink /bin/powertop /sbin/busybox 777 0 0
+slink /bin/printenv /sbin/busybox 777 0 0
+slink /bin/printf /sbin/busybox 777 0 0
+slink /bin/ps /sbin/busybox 777 0 0
+slink /bin/pscan /sbin/busybox 777 0 0
+slink /bin/pstree /sbin/busybox 777 0 0
+slink /bin/pwd /sbin/busybox 777 0 0
+slink /bin/pwdx /sbin/busybox 777 0 0
+slink /bin/raidautorun /sbin/busybox 777 0 0
+slink /bin/rdate /sbin/busybox 777 0 0
+slink /bin/rdev /sbin/busybox 777 0 0
+slink /bin/readahead /sbin/busybox 777 0 0
+slink /bin/readlink /sbin/busybox 777 0 0
+slink /bin/readprofile /sbin/busybox 777 0 0
+slink /bin/realpath /sbin/busybox 777 0 0
+slink /bin/reboot /sbin/busybox 777 0 0
+slink /bin/reformime /sbin/busybox 777 0 0
+slink /bin/remove-shell /sbin/busybox 777 0 0
+slink /bin/renice /sbin/busybox 777 0 0
+slink /bin/reset /sbin/busybox 777 0 0
+slink /bin/resize /sbin/busybox 777 0 0
+slink /bin/rev /sbin/busybox 777 0 0
+slink /bin/rm /sbin/busybox 777 0 0
+slink /bin/rmdir /sbin/busybox 777 0 0
+slink /bin/rmmod /sbin/busybox 777 0 0
+slink /bin/route /sbin/busybox 777 0 0
+slink /bin/rpm /sbin/busybox 777 0 0
+slink /bin/rpm2cpio /sbin/busybox 777 0 0
+slink /bin/rtcwake /sbin/busybox 777 0 0
+slink /bin/run-parts /sbin/busybox 777 0 0
+slink /bin/runlevel /sbin/busybox 777 0 0
+slink /bin/runsv /sbin/busybox 777 0 0
+slink /bin/runsvdir /sbin/busybox 777 0 0
+slink /bin/rx /sbin/busybox 777 0 0
+slink /bin/script /sbin/busybox 777 0 0
+slink /bin/scriptreplay /sbin/busybox 777 0 0
+slink /bin/sed /sbin/busybox 777 0 0
+slink /bin/sendmail /sbin/busybox 777 0 0
+slink /bin/seq /sbin/busybox 777 0 0
+slink /bin/setarch /sbin/busybox 777 0 0
+slink /bin/setconsole /sbin/busybox 777 0 0
+slink /bin/setfont /sbin/busybox 777 0 0
+slink /bin/setkeycodes /sbin/busybox 777 0 0
+slink /bin/setlogcons /sbin/busybox 777 0 0
+slink /bin/setserial /sbin/busybox 777 0 0
+slink /bin/setsid /sbin/busybox 777 0 0
+slink /bin/setuidgid /sbin/busybox 777 0 0
+slink /bin/sh /sbin/busybox 777 0 0
+slink /bin/sha1sum /sbin/busybox 777 0 0
+slink /bin/sha256sum /sbin/busybox 777 0 0
+slink /bin/sha512sum /sbin/busybox 777 0 0
+slink /bin/showkey /sbin/busybox 777 0 0
+slink /bin/slattach /sbin/busybox 777 0 0
+slink /bin/sleep /sbin/busybox 777 0 0
+slink /bin/smemcap /sbin/busybox 777 0 0
+slink /bin/softlimit /sbin/busybox 777 0 0
+slink /bin/sort /sbin/busybox 777 0 0
+slink /bin/split /sbin/busybox 777 0 0
+slink /bin/start-stop-daemon /sbin/busybox 777 0 0
+slink /bin/stat /sbin/busybox 777 0 0
+slink /bin/strings /sbin/busybox 777 0 0
+slink /bin/stty /sbin/busybox 777 0 0
+slink /bin/su /sbin/busybox 777 0 0
+slink /bin/sulogin /sbin/busybox 777 0 0
+slink /bin/sum /sbin/busybox 777 0 0
+slink /bin/sv /sbin/busybox 777 0 0
+slink /bin/svlogd /sbin/busybox 777 0 0
+slink /bin/swapoff /sbin/busybox 777 0 0
+slink /bin/swapon /sbin/busybox 777 0 0
+slink /bin/switch_root /sbin/busybox 777 0 0
+slink /bin/sync /sbin/busybox 777 0 0
+slink /bin/sysctl /sbin/busybox 777 0 0
+slink /bin/syslogd /sbin/busybox 777 0 0
+slink /bin/tac /sbin/busybox 777 0 0
+slink /bin/tail /sbin/busybox 777 0 0
+slink /bin/tar /sbin/busybox 777 0 0
+slink /bin/tcpsvd /sbin/busybox 777 0 0
+slink /bin/tee /sbin/busybox 777 0 0
+slink /bin/telnet /sbin/busybox 777 0 0
+slink /bin/telnetd /sbin/busybox 777 0 0
+slink /bin/test /sbin/busybox 777 0 0
+slink /bin/tftp /sbin/busybox 777 0 0
+slink /bin/tftpd /sbin/busybox 777 0 0
+slink /bin/time /sbin/busybox 777 0 0
+slink /bin/timeout /sbin/busybox 777 0 0
+slink /bin/top /sbin/busybox 777 0 0
+slink /bin/touch /sbin/busybox 777 0 0
+slink /bin/tr /sbin/busybox 777 0 0
+slink /bin/traceroute /sbin/busybox 777 0 0
+slink /bin/traceroute6 /sbin/busybox 777 0 0
+slink /bin/true /sbin/busybox 777 0 0
+slink /bin/tty /sbin/busybox 777 0 0
+slink /bin/ttysize /sbin/busybox 777 0 0
+slink /bin/tunctl /sbin/busybox 777 0 0
+slink /bin/ubiattach /sbin/busybox 777 0 0
+slink /bin/ubidetach /sbin/busybox 777 0 0
+slink /bin/ubimkvol /sbin/busybox 777 0 0
+slink /bin/ubirmvol /sbin/busybox 777 0 0
+slink /bin/ubirsvol /sbin/busybox 777 0 0
+slink /bin/ubiupdatevol /sbin/busybox 777 0 0
+slink /bin/udhcpc /sbin/busybox 777 0 0
+slink /bin/udhcpd /sbin/busybox 777 0 0
+slink /bin/udpsvd /sbin/busybox 777 0 0
+slink /bin/umount /sbin/busybox 777 0 0
+slink /bin/uname /sbin/busybox 777 0 0
+slink /bin/unexpand /sbin/busybox 777 0 0
+slink /bin/uniq /sbin/busybox 777 0 0
+slink /bin/unix2dos /sbin/busybox 777 0 0
+slink /bin/unlzma /sbin/busybox 777 0 0
+slink /bin/unlzop /sbin/busybox 777 0 0
+slink /bin/unxz /sbin/busybox 777 0 0
+slink /bin/unzip /sbin/busybox 777 0 0
+slink /bin/uptime /sbin/busybox 777 0 0
+slink /bin/users /sbin/busybox 777 0 0
+slink /bin/usleep /sbin/busybox 777 0 0
+slink /bin/uudecode /sbin/busybox 777 0 0
+slink /bin/uuencode /sbin/busybox 777 0 0
+slink /bin/vconfig /sbin/busybox 777 0 0
+slink /bin/vi /sbin/busybox 777 0 0
+slink /bin/vlock /sbin/busybox 777 0 0
+slink /bin/volname /sbin/busybox 777 0 0
+slink /bin/wall /sbin/busybox 777 0 0
+slink /bin/watch /sbin/busybox 777 0 0
+slink /bin/watchdog /sbin/busybox 777 0 0
+slink /bin/wc /sbin/busybox 777 0 0
+slink /bin/wget /sbin/busybox 777 0 0
+slink /bin/which /sbin/busybox 777 0 0
+slink /bin/who /sbin/busybox 777 0 0
+slink /bin/whoami /sbin/busybox 777 0 0
+slink /bin/whois /sbin/busybox 777 0 0
+slink /bin/xargs /sbin/busybox 777 0 0
+slink /bin/xz /sbin/busybox 777 0 0
+slink /bin/xzcat /sbin/busybox 777 0 0
+slink /bin/yes /sbin/busybox 777 0 0
+slink /bin/zcat /sbin/busybox 777 0 0
+slink /bin/zcip /sbin/busybox 777 0 0
+
+
+## /boot/
+
+dir   /boot/menu             775 0 0
+
+
+## /dev/
+
+dir /dev/pts 775 0 0
+dir /dev/shm 775 0 0
+
+
+## /doc/
+
+file /doc/Changelog usr/ubifs/doc/Changelog 444 0 0
+file /doc/TODO      usr/ubifs/doc/TODO      444 0 0
+
+
+## /etc/
+
+file  /etc/fstab                   usr/ubifs/etc/fstab                   664 0 0
+file  /etc/mtab                    usr/ubifs/etc/mtab                    644 0 0
+file  /etc/moslo-version           usr/ubifs/etc/moslo-version           644 0 0
+file  /etc/ubiboot-version         usr/ubifs/etc/ubiboot-version         644 0 0
+file  /etc/required-config-version usr/ubifs/etc/required-config-version 644 0 0
+file  /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             755 0 0
+slink /etc/passwd                  /mnt/2/etc/passwd                     777 0 0
+slink /etc/group                   /mnt/2/etc/group                      777 0 0
+
+
+## /lib/
+
+file /lib/ld-2.10.1.so         usr/ubifs/lib/ld-2.10.1.so         775 0 0
+file /lib/ld-linux.so.3        usr/ubifs/lib/ld-linux.so.3        775 0 0
+file /lib/libattr.so.1         usr/ubifs/lib/libattr.so.1         775 0 0
+file /lib/libc-2.10.1.so       usr/ubifs/lib/libc-2.10.1.so       775 0 0
+file /lib/libc.so.6            usr/ubifs/lib/libc.so.6            775 0 0
+file /lib/libcal.so.1          usr/ubifs/lib/libcal.so.1          775 0 0
+file /lib/libcom_err.so.2      usr/ubifs/lib/libcom_err.so.2      775 0 0
+file /lib/libdl.so.2           usr/ubifs/lib/libdl.so.2           775 0 0
+file /lib/libe2p.so.2          usr/ubifs/lib/libe2p.so.2          775 0 0
+file /lib/libext2fs.so.2       usr/ubifs/lib/libext2fs.so.2       775 0 0
+file /lib/libgcc_s.so.1        usr/ubifs/lib/libgcc_s.so.1        775 0 0
+file /lib/libglib-2.0.so.0     usr/ubifs/lib/libglib-2.0.so.0     775 0 0
+file /lib/libm.so.6            usr/ubifs/lib/libm.so.6            775 0 0
+file /lib/libpopt.so.0         usr/ubifs/lib/libpopt.so.0         775 0 0
+file /lib/libpthread-2.10.1.so usr/ubifs/lib/libpthread-2.10.1.so 775 0 0
+file /lib/libpthread.so.0      usr/ubifs/lib/libpthread.so.0      775 0 0
+file /lib/libreadline.so.5     usr/ubifs/lib/libreadline.so.5     775 0 0
+file /lib/librt-2.10.1.so      usr/ubifs/lib/librt-2.10.1.so      775 0 0
+file /lib/librt.so.1           usr/ubifs/lib/librt.so.1           775 0 0
+file /lib/libtinfo.so.5        usr/ubifs/lib/libtinfo.so.5        775 0 0
+
+
+## /lib/dsme/
+
+dir  /lib/dsme                                                                        775 0 0
+file /lib/dsme/alarmtracker.so           usr/ubifs/lib/dsme/alarmtracker.so           644 0 0
+file /lib/dsme/dbusautoconnector.so      usr/ubifs/lib/dsme/dbusautoconnector.so      644 0 0
+file /lib/dsme/dbusproxy.so              usr/ubifs/lib/dsme/dbusproxy.so              644 0 0
+file /lib/dsme/diskmonitor.so            usr/ubifs/lib/dsme/diskmonitor.so            644 0 0
+file /lib/dsme/emergencycalltracker.so   usr/ubifs/lib/dsme/emergencycalltracker.so   644 0 0
+file /lib/dsme/heartbeat.so              usr/ubifs/lib/dsme/heartbeat.so              644 0 0
+file /lib/dsme/iphb.so                   usr/ubifs/lib/dsme/iphb.so                   644 0 0
+file /lib/dsme/libabnormalexitwrapper.so usr/ubifs/lib/dsme/libabnormalexitwrapper.so 644 0 0
+file /lib/dsme/libstartup.so             usr/ubifs/lib/dsme/libstartup.so             644 0 0
+file /lib/dsme/malf.so                   usr/ubifs/lib/dsme/malf.so                   644 0 0
+file /lib/dsme/powerontimer.so           usr/ubifs/lib/dsme/powerontimer.so           644 0 0
+file /lib/dsme/processwd.so              usr/ubifs/lib/dsme/processwd.so              644 0 0
+file /lib/dsme/startup.so                usr/ubifs/lib/dsme/startup.so                644 0 0
+file /lib/dsme/state.so                  usr/ubifs/lib/dsme/state.so                  644 0 0
+file /lib/dsme/tempreaper.so             usr/ubifs/lib/dsme/tempreaper.so             644 0 0
+file /lib/dsme/thermalflagger.so         usr/ubifs/lib/dsme/thermalflagger.so         644 0 0
+file /lib/dsme/thermalmanager.so         usr/ubifs/lib/dsme/thermalmanager.so         644 0 0
+file /lib/dsme/thermalobject_surface.so  usr/ubifs/lib/dsme/thermalobject_surface.so  644 0 0
+file /lib/dsme/upstart.so                usr/ubifs/lib/dsme/upstart.so                644 0 0
+file /lib/dsme/usbtracker.so             usr/ubifs/lib/dsme/usbtracker.so             644 0 0
+file /lib/dsme/validatorlistener.so      usr/ubifs/lib/dsme/validatorlistener.so      644 0 0
+
+
+## /lib/modules/
+
+dir  /lib/modules                                                                                 775 0 0
+dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                          775 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko 775 0 0
+#file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko 775 0 0
+
+
+## /mnt/
+
+dir /mnt/1  755 0 0
+dir /mnt/2  755 0 0
+dir /mnt/3  755 0 0
+dir /mnt/4  755 0 0
+dir /mnt/5  755 0 0
+dir /mnt/6  755 0 0
+dir /mnt/7  755 0 0
+dir /mnt/8  755 0 0
+dir /mnt/9  755 0 0
+dir /mnt/u4 755 0 0
+dir /mnt/u5 755 0 0
+
+
+## /sbin/
+
+file  /sbin/busybox     usr/ubifs/sbin/busybox     775 0 0
+file  /sbin/depmod      usr/ubifs/sbin/depmod      775 0 0
+file  /sbin/dosfsck     usr/ubifs/sbin/dosfsck     775 0 0
+file  /sbin/dsme        usr/ubifs/sbin/dsme        775 0 0
+file  /sbin/dsme-server usr/ubifs/sbin/dsme-server 775 0 0
+file  /sbin/evkey       usr/ubifs/sbin/evkey       775 0 0
+file  /sbin/fsck.ext4   usr/ubifs/sbin/fsck.ext4   775 0 0
+file  /sbin/hwclock     usr/ubifs/sbin/hwclock     775 0 0
+file  /sbin/insmod      usr/ubifs/sbin/insmod      775 0 0
+file  /sbin/mkfs.ext4   usr/ubifs/sbin/mkfs.ext4   775 0 0
+file  /sbin/parted      usr/ubifs/sbin/parted      775 0 0
+file  /sbin/reboot2     usr/ubifs/sbin/reboot2     775 0 0
+#file  /sbin/shutdown    usr/ubifs/sbin/shutdown    775 0 0
+slink /sbin/preinit     /init                      777 0 0
+
+
+## /usr/
+
+dir /usr/bin  755 0 0
+dir /usr/lib  755 0 0
+dir /usr/sbin 755 0 0
+
+
+## /usr/bin/
+
+file /usr/bin/autopartition.sh usr/ubifs/usr/bin/autopartition.sh 775 0 0
+file /usr/bin/bmestat          usr/ubifs/usr/bin/bmestat          775 0 0
+file /usr/bin/disable_pm       usr/ubifs/usr/bin/disable_pm       775 0 0
+file /usr/bin/evtap            usr/ubifs/usr/bin/evtap            775 0 0
+file /usr/bin/evtap_0.8.5      usr/ubifs/usr/bin/evtap_0.8.5      775 0 0
+file /usr/bin/fb_text2screen   usr/ubifs/usr/bin/fb_text2screen   775 0 0
+file /usr/bin/kexec_load       usr/ubifs/usr/bin/kexec_load       775 0 0
+file /usr/bin/show_png         usr/ubifs/usr/bin/show_png         775 0 0
+file /usr/bin/text2screen      usr/ubifs/usr/bin/text2screen      775 0 0
+
+
+## /usr/lib/
+
+#file /usr/lib/libbb5.so.0       usr/ubifs/usr/lib/libbb5.so.0       775 0 0
+file /usr/lib/libblkid.so.1     usr/ubifs/usr/lib/libblkid.so.1     775 0 0
+file /usr/lib/libcreds.so.2     usr/ubifs/usr/lib/libcreds.so.2     775 0 0
+file /usr/lib/libcreds.so.3     usr/ubifs/usr/lib/libcreds.so.3     775 0 0
+file /usr/lib/libdbus-1.so.3    usr/ubifs/usr/lib/libdbus-1.so.3    775 0 0
+file /usr/lib/libdsme.so.0.2.0  usr/ubifs/usr/lib/libdsme.so.0.2.0  775 0 0
+file /usr/lib/libiphb.so.0      usr/ubifs/usr/lib/libiphb.so.0      775 0 0
+#file /usr/lib/libnih-dbus.so.1  usr/ubifs/usr/lib/libnih-dbus.so.1  775 0 0
+#file /usr/lib/libnih.so.1       usr/ubifs/usr/lib/libnih.so.1       775 0 0
+file /usr/lib/libparted.so.0    usr/ubifs/usr/lib/libparted.so.0    775 0 0
+file /usr/lib/libpcre.so.1      usr/ubifs/usr/lib/libpcre.so.1      775 0 0
+file /usr/lib/libpng12.so.0     usr/ubifs/usr/lib/libpng12.so.0     775 0 0
+file /usr/lib/libsmack.so.1     usr/ubifs/usr/lib/libsmack.so.1     775 0 0
+file /usr/lib/libuuid.so.1      usr/ubifs/usr/lib/libuuid.so.1      775 0 0
+file /usr/lib/libz.so.1         usr/ubifs/usr/lib/libz.so.1         775 0 0
+dir  /usr/lib/hwi                                                   775 0 0
+dir  /usr/lib/hwi/bc                                                775 0 0
+dir  /usr/lib/hwi/hw                                                775 0 0
+dir  /usr/lib/hwi/ic                                                775 0 0
+file /usr/lib/hwi/bc/tabby.so   usr/ubifs/usr/lib/hwi/bc/tabby.so   775 0 0
+file /usr/lib/hwi/hw/rx71.so    usr/ubifs/usr/lib/hwi/hw/rx71.so    775 0 0
+file /usr/lib/hwi/ic/bq24153.so usr/ubifs/usr/lib/hwi/ic/bq24153.so 775 0 0
+file /usr/lib/hwi/ic/bq24156.so usr/ubifs/usr/lib/hwi/ic/bq24156.so 775 0 0
+file /usr/lib/hwi/ic/bq27521.so usr/ubifs/usr/lib/hwi/ic/bq27521.so 775 0 0
+file /usr/lib/hwi/ic/twl5030.so usr/ubifs/usr/lib/hwi/ic/twl5030.so 775 0 0
+file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 775 0 0
+
+
+## /usr/sbin
+
+file /usr/sbin/bme_RX-71  usr/ubifs/usr/sbin/bme_RX-71  775 0 0
+file /usr/sbin/dnsmasq    usr/ubifs/usr/sbin/dnsmasq    775 0 0
+file /usr/sbin/kexec      usr/ubifs/usr/sbin/kexec      775 0 0
+file /usr/sbin/start_dhcp usr/ubifs/usr/sbin/start_dhcp 775 0 0
+file /usr/sbin/ubiattach  usr/ubifs/usr/sbin/ubiattach  775 0 0
+file /usr/sbin/ubidetach  usr/ubifs/usr/sbin/ubidetach  775 0 0
+file /usr/sbin/ubiformat  usr/ubifs/usr/sbin/ubiformat  775 0 0
+file /usr/sbin/ubimkvol   usr/ubifs/usr/sbin/ubimkvol   775 0 0
+file /usr/sbin/ubinfo     usr/ubifs/usr/sbin/ubinfo     775 0 0
+file /usr/sbin/ubirmvol   usr/ubifs/usr/sbin/ubirmvol   775 0 0
+
+
+## /var/
+
+dir /var/cache          775 0 0
+dir /var/cache/sysinfod 775 0 0
+dir /var/log            775 0 0
+dir /var/run            775 0 0
+

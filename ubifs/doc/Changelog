@@ -1,0 +1,146 @@
+2013-09-25 Jussi Ohenoja <juice@swagman.org>
+	* Added version check for CPIO.
+
+2013-09-24 Jussi Ohenoja <juice@swagman.org>
+	* Added configuration parameters for own IP addrress and DHCP offer IP address.
+
+2013-09-23 Jussi Ohenoja <juice@swagman.org>
+	* Restored the modules in the build. There are some dependencies that affect the USB export & IP over USB when only g_multi is compiled. However, other modules can be left off the cpio without ill effects.
+	* Test version for exfat support & mounting. Usable for example if conf file is on mmcblk0p1 formatted as extfat.
+
+2013-09-17 Jussi Ohenoja <juice@swagman.org>
+	* Changed the animation scripts to support new icon layout.
+
+2013-09-12 Jussi Ohenoja <juice@swagman.org>
+	* Fixed mounting, now system tries vfat, ext2, ext3, ext4 before giving up.
+	* Fixed the typo causing ubifs mount problem on /mnt/u5.
+	* Changes to mountable partition format in ubiboot.conf.
+	* Removed all modules except g_multi from the build.
+
+2013-09-06 Jussi Ohenoja <juice@swagman.org>
+	* Rewrite of the animation toolkit, added more customizable options.
+
+2013-06-04 Jussi Ohenoja <juice@swagman.org>
+	* New version 0.3.3 released.
+	* Fixed the HWrev. 1603 boot problem.
+
+2013-05-30 Jussi Ohenoja <juice@swagman.org>
+	* New version 0.3.2 released.
+	* Configurable boot partitions by peterleinchen.
+	* Fixed module dependencies for extra module loaded off cpio archive.
+	* Added serial console logging.
+
+2013-05-29 Jussi Ohenoja <juice@swagman.org>
+        * Trying to implement conditional shutdown option, but that depends on unimplemened DSME functionality.
+
+2013-05-24 Jussi Ohenoja <juice@swagman.org>
+        * Taken logs of 1603 boot, trying to isolate the BME problem.
+
+2013-04-09 Jussi Ohenoja <juice@swagman.org>
+        * Changed BME initialization to support client connection.
+        * Changed watchdog kicker startup.
+
+2013-04-08 Jussi Ohenoja <juice@swagman.org>
+        * Watchdog kicker by Jonni.
+
+2013-04-05 Jussi Ohenoja <juice@swagman.org>
+        * New version 0.3.1 released.
+        * Correction to the init log saving race condition.
+        * Some logging changes.
+
+2013-04-04 Jussi Ohenoja <juice@swagman.org>
+        * Releasing ubiboot-02 (intgrated) version as 0.3.0.
+        * Changed directory structure on ubiboot page.
+        * Added irclogs of #ubiboot to crontab. (stored to http://www.swagman.org/juice/ubiboot/irclog/)
+
+2013-04-03 Jussi Ohenoja <juice@swagman.org>
+        * A lot of initscript corrections.
+        * 1st stage gets correct time/date from RTC.
+        * Adding logger commands and copying ubiboot.log to FS.
+
+2013-04-02 Jussi Ohenoja <juice@swagman.org>
+        * Default booting options added for RTC & Charger initiated powerups.
+        * Fastboot kernel selection option.
+
+2013-03-28 Jussi Ohenoja <juice@swagman.org>
+        * First prerelease of ubiboot-02 done.
+
+2013-03-18 Jussi Ohenoja <juice@swagman.org>
+        * Updated README instructions for installing on mtd5.
+
+2013-03-14 Jussi Ohenoja <juice@swagman.org>
+        * ubiboot on mtd5 works.
+        * Started to work on idea based on autmatically locating the loadable parts of kernel.
+
+2013-03-09 Jussi Ohenoja <juice@swagman.org>
+        * Updated README document to check for ubifs mount.
+        * Added a bit of openmode instructions to README.
+
+2013-03-05 Jussi Ohenoja <juice@swagman.org>
+        * started working on integrated ubiboot, having the kernel+initrams in one blob.
+
+2013-03-04 Jussi Ohenoja <juice@swagman.org>
+        * Added warning to the README about the dangers of using flash_erase.
+        * Added note about uninstalling to the README document.
+
+2013-03-02 Jussi Ohenoja <juice@swagman.org>
+        * Added the openmode+L2fix kernel to the download page
+        * Updated the README document to describe the use of the openmode+L2fix kernel.
+
+2013-03-01 Jussi Ohenoja <juice@swagman.org>
+        * Fixed some missing dependencies and cleaned up scripts.
+        * The ubiboot envoironment and animated menu system packaged for first release.
+
+2013-02-28 Jussi Ohenoja <juice@swagman.org>
+        * Experimenting with the led module.
+        * Recompiled ubiboot kernel with gpio settings to enable led controls.
+
+2013-02-26 Jussi Ohenoja <juice@swagman.org>
+        * Restructured the menu files, everything is done now in one shell script.
+
+2013-02-25 Jussi Ohenoja <juice@swagman.org>
+        * Started to redesign the menu based on the idea of popup icons.
+
+2013-02-21 Jussi Ohenoja <juice@swagman.org>
+        * First version of animated selection menu ready. Menu icons use slidein/slideout.
+
+2013-02-07 Jussi Ohenoja <juice@swagman.org>
+        * Started designing the animated boot menu.
+
+2013-02-05 Jussi Ohenoja <juice@swagman.org>
+        * Patched dnsmasq for ubiboot environment.
+
+2013-02-04 Jussi Ohenoja <juice@swagman.org>
+        * Finally found the way to kexec() the 2nd level kernel from script.
+
+2013-01-23 Jussi Ohenoja <juice@swagman.org>
+        * Playing with aegis configuration.
+        * Backported Nemo kernel to Harmattan environment.
+
+2013-01-15 Jussi Ohenoja <juice@swagman.org>
+        * Found out that kernel crash logs are written to mtd3. Debugging crash logs.
+
+2013-01-04 Jussi Ohenoja <juice@swagman.org>
+        * Debugging device initialization during kexec()
+        * Experimenting with FB device to get real-time kernel logging on screen. Not successful.
+
+2013-03-01 Jussi Ohenoja <juice@swagman.org>
+        * Some boot optimizations.
+        * Tried to start Nemo in chroot environment. Not successful.
+
+2013-01-01 Jussi Ohenoja <juice@swagman.org>
+        * First boot from N9 ubifs using the Nemo kernel and modified MOSLO filesystem.
+        * Changed build toolchain from scratchbox to arm-linux-gnueabi-gcc toolset.
+
+2012-12-29 Jussi Ohenoja <juice@swagman.org>
+        * Started to work on the Nemo kernel as loader platform.
+
+2012-12-27  Jussi Ohenoja <juice@swagman.org>
+        * First boot from ubifs partition ubi.mtd4 successful.
+
+2012-12-26  Jussi Ohenoja <juice@swagman.org>
+        * Patched the kernel command line handling to force boot from preconfigured partition.
+
+2012-12-13  Jussi Ohenoja <juice@swagman.org>
+        * Started experimenting with kernel boot parameters.
+

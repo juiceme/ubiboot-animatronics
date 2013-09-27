@@ -1,0 +1,36 @@
+Wishlist for ubiboot-02
+-----------------------
+
+ - Fix the preinit.harmattan script. Currectly it fails on few occasions and
+   there still is excess things, like the USB device IP address setup.
+
+ - Add runtime checks for the existance of kernel paths in ubiboot.conf so
+   that user is given meaningful info is path does not exist.
+   Maybe paths could be logged also, for easier problem solving?
+
+ - Finish the SSHD setup for ubiboot environment;
+   1.) Get SSL libs to compile, what was the blocker again?
+   2.) Patch SSHD to work in the root-only environment
+   3.) Mechanism in init to get root password hash from ubiboot.conf and set
+       it up in the /etc/passwd
+
+ - Move the ubiboot-created log files to some more sensible location.
+   Should it be configurable in ubiboot.conf or just store to ubiboot config
+   directory? What about when config directory is on mtd4/mtd5?
+
+ - Modify init so that it will search all partitions for ubiboot.conf
+
+ - WLAN access for ubiboot maintanance mode.
+   1.) Authentication, should port wpasupplicant. What else is required?
+   2.) Mechanism in init to write the config files based on ubiboot.conf.
+       What about case when gonfig file not found? maybe it's best to not
+       activate WLAN then...
+   3.) Should there be an icon for "access via WLAN" in menu, or just do it
+       when menu is paused/waiting for input?
+
+ - Check what happens when there is an alarm and the device is in charging mode?
+
+ - Addition to the boot CMDLINE handling; have an alternate method of giving
+   boot parameters, either by using a pre-saved CMDLINE or appending given
+   parameters to kernel command line.
+

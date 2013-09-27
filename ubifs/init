@@ -1,0 +1,587 @@
+#!/bin/sh
+
+##
+## Init script for UBIBOOT
+## Based on the MOSLO (MeeGo OS LOader) code, heavily modified to support
+## multiple-OS loading for N9.                     
+##
+## Authors:
+## Copyright 2013 by Jussi Ohenoja <juice@swagman.org>
+##
+## Original copyright (C) 2010-2011 Nokia Corporation.
+## Authors:
+##          Peter Antoniac <peter.antoniac@nokia.com>
+##          Timo Kokkonen <timo.t.kokkonen@nokia.com>
+##          Janne Lääkkö <janne.laakko@nokia.com>
+##          Jussi Ohenoja <juice@swagman.org>
+## 
+## This program is free software; you can redistribute it and/or modify
+## it under the terms of the GNU General Public License version 2 as
+## published by the Free Software Foundation.
+##
+
+MMC_DEV="/dev/mmcblk0"
+WD_NAME=twl4030_wdt
+UBIBOOT_VERSION=$(cat /etc/ubiboot-version)
+MOSLO_VERSION=$(cat /etc/moslo-version)
+G_REQUIRED_VERSION=$(cat /etc/required-config-version)
+WATCHDOG_KICKER_RUNNING=0
+
+
+# Text2screen wrapper for next lines
+TTSYI=0 # Where to start
+TTSX=0
+TTSY=TTSYI
+TTS_PIX_PER_CHAR=9
+TTS_SCALE=2
+TTSYM=480 # Max y lines
+TTSXM=830 # Max x lines
+TTSCM=$(($TTSXM/($TTS_PIX_PER_CHAR*$TTS_SCALE))) # Max char/line
+TTSI=$(((TTS_PIX_PER_CHAR+1)*TTS_SCALE))
+
+ttsr()
+{
+  TTSY=$TTSYI
+  fb_text2screen -c -B000
+}
+
+tts()
+{
+  fb_text2screen -s $TTS_SCALE -y $TTSY -t "$1"
+  echo $1
+  let "LINES=1+${#1}/$TTSCM"
+  let "TTSY+=($TTSI*$LINES)"
+  if [ $TTSY -gt $TTSYM ] ; then ttsr ; fi
+}
+
+tts_dot_wait(){
+  TTSX=0
+  for i in 5 4 3 2 1 0; do
+    fb_text2screen -s $TTS_SCALE -y $TTSY -x $TTSX -t "$i "
+    echo -n "$i "
+    let "TTSX+=30"
+    sleep 1
+  done
+  let "LINES=1+6/$TTSCM"
+  let "TTSY+=($TTSI*$LINES)"
+  if [ $TTSY -gt $TTSYM ] ; then ttsr ; fi
+}
+
+start_watchdog()
+{
+  exec 6> /dev/watchdog
+  while :; do
+    echo XXX 1>&6
+    sleep 10
+  done &
+
+  exec 7> /dev/twl4030_wdt
+  while :; do
+    echo XXX 1>&7
+    sleep 10
+  done &
+
+  logger "Started watchdog kicker"
+  WATCHDOG_KICKER_RUNNING=1
+}
+
+shell()
+{
+  echo "Starting shell..."
+  getty 115200 ttyS0 -n -l /bin/sh &
+  while : ; do
+    echo "30" >&3
+    sleep 2
+  done
+}
+
+welcome_banner()
+{
+  # Clear screen and display welcome message 
+  ttsr
+  tts "Welcome to N9 Ubiboot ver. $UBIBOOT_VERSION"
+  tts "  (Boot loader is based on MOSLO ver. $MOSLO_VERSION)"
+  tts ""                         
+}
+
+trap_func()
+{
+  logger "Caught trap!"
+  save_logfile
+  tts "Trap!"
+  tts "Booting in 2 seconds!"
+  sleep 2
+  reboot2 s
+}
+
+usb_is_plugged()
+{
+  usb=$(cat /sys/class/power_supply/usb/present)
+  return $usb
+}
+
+wait_mmc()
+{
+  TRY=0
+  tts "  Waiting for eMMC device..."
+  while [ ! -e "$MMC_DEV" -a $TRY -lt 10 ] ; do
+    sleep 1
+    TRY=$(($TRY+1))
+  done
+  if [ $TRY == 10 ]; then
+    tts "  eMMC device not found!"
+  fi
+}
+
+try_to_mount()
+{
+  mount -t vfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as VFAT"
+    return 0
+  fi
+  mount -t exfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXFAT"
+    return 0
+  fi
+  mount -t ext2 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT2"
+    return 0
+  fi
+  mount -t ext3 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT3"
+    return 0
+  fi
+  mount -t ext4 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT4"
+    return 0
+  fi
+  logger "Could not mount $1 on $2"
+  return 255
+}
+
+save_logfile()
+{
+  try_to_mount /dev/mmcblk0p2 /mnt/2
+  logger "Saving ubiboot log files"
+  cat /var/log/messages >> /mnt/2/var/log/ubiboot.log
+  date >> /mnt/2/var/log/ubiboot.dmesg
+  dmesg  >> /mnt/2/var/log/ubiboot.dmesg
+  echo >> /mnt/2/var/log/ubiboot.dmesg
+  sync
+  umount /mnt/2
+}
+
+start_dhcp_server()
+{
+  if [ $G_START_DHCP_SERVER -ne 0 ]; then
+    if [ -z "$G_DHCP_ADDRESS" ]; then
+      G_DHCP_ADDRESS="192.168.0.100"
+    fi
+    logger "Starting DHCP server, offering $G_DHCP_ADDRESS"
+    tts "  Starting DHCP server, offering $G_DHCP_ADDRESS"
+    /usr/sbin/start_dhcp $G_DHCP_ADDRESS
+  fi
+}
+
+start_telnet_server()
+{
+  if [ $G_START_TELNET_SERVER -ne 0 ]; then
+    logger "Starting TELNET server"
+    tts "  Starting TELNET server"
+    telnetd -l/bin/sh                                                                      
+  fi
+}
+
+start_ssh_server()
+{
+  if [ $G_START_SSH_SERVER -ne 0 ]; then
+    logger "Starting SSH server"
+    tts "  Starting SSH server"
+    sshd
+  fi
+}
+
+mount_partitions()
+{
+  for mpart in $G_MOUNTABLE_PARTITONS
+  do
+    logger "Mounting /mnt/$mpart"
+    try_to_mount "/dev/mmcblk0p$mpart /mnt/$mpart"
+  done
+}
+
+umount_partitions()
+{
+  for mpart in $G_MOUNTABLE_PARTITONS
+  do
+    logger "Umounting /mnt/$mpart"
+    umount "/mnt/$mpart"
+  done
+}
+
+restart_to_default_os()
+{
+  if [ -x /boot/menu/select_default_os.sh ]; then
+    mount_partitions
+    /boot/menu/select_default_os.sh
+    if [ $? -eq 0 ]; then
+      umount_partitions
+      logger "Restarting to default OS"
+      save_logfile
+      /usr/bin/disable_pm
+      # restart to the default OS
+      kexec -e ; echo $? ; sleep 10
+    else
+      # now we're in deep trouble
+      logger "Failed to load default OS!"
+      save_logfile
+      ttsr
+      tts ""
+      tts "Booting to default OS unsuccessful!"
+      tts "Please run a maintanance boot"
+    fi
+  else
+    # cannot find default script
+    logger "Cannot find default OS loadscript!"
+    save_logfile
+    ttsr
+    tts ""
+    tts "Cannot find default OS loadscript!"
+    tts "Please run a maintanance boot"
+  fi
+}
+
+export_mmc_partitions()
+{
+  umount_partitions
+
+# /sys/devices/platform/musb_hdrc/gadget/lun0/file
+# /sys/devices/platform/musb_hdrc/gadget/lun0/nofua
+# /sys/devices/platform/musb_hdrc/gadget/lun0/ro
+
+  if [ -z "$G_IP_ADDRESS" ]; then
+    G_IP_ADDRESS="192.168.0.15"
+  fi
+
+  EXPORT_FILE="$G_EXPORTED_PARTITONS"
+  MP_ERR=1
+  TRY=0
+  while [ "$MP_ERR" -ne "0" -a $TRY -lt 10 ] ; do
+    modprobe g_multi ${EXPORT_FILE:+file=$EXPORT_FILE} stall=0 removable=1 nofua=1
+    # check that the module really is loaded
+    lsmod |grep -q g_multi
+    MP_ERR=$?
+    TRY=$(($TRY+1))
+    tts "  Try $TRY ($MP_ERR)"
+  done
+  if [ $TRY == 10 ]; then
+    tts "  Unable to load the USB modules!"
+  else
+    tts "  Partitons exported successifully via USB"
+    ifconfig usb0 $G_IP_ADDRESS up
+    [ $? -eq 0 ] && tts "  Configured $G_IP_ADDRESS on USB" || \
+                    tts "  Setting IP address failed!"
+    start_dhcp_server
+    start_telnet_server                                                               
+    start_ssh_server                                                                  
+  fi
+
+  sleep 1
+  usb_is_plugged
+  while [ $? -eq 1 ] ; do
+    sleep 1
+    usb_is_plugged
+  done
+}
+
+trap "trap_func" 0 2
+
+# exit immediately if a command fails
+#set -e
+
+export PATH=/sbin:/bin:/usr/bin:/usr/sbin
+
+mount /dev
+mkdir /dev/pts
+mount -a
+cat /proc/mounts > /etc/mtab
+
+# set time & date from RTC
+hwclock -s
+
+# Kick the watch dog
+#exec 3>/dev/$WD_NAME
+#echo "30" >&3
+
+# adjust kernel to minimize memory consumption,
+# flushing of memory card buffers
+# and optimize IO pressure
+
+#TODO fix pty/max and dirty ratio in kernel configuration
+echo 256 > /proc/sys/kernel/threads-max || \
+  tts "Set fail for kernel thread-max"
+echo 8192 > /proc/sys/fs/file-max || \
+  tts "Set fail for kernel file-max"
+echo 1 > /proc/sys/vm/swappiness || \
+  tts "Set fail for swappiness"
+echo 5 > /proc/sys/vm/page-cluster || \
+  tts "Set fail for page-cluster"
+echo 500 > /proc/sys/vm/dirty_expire_centisecs || \
+  tts "Set fail for expire_centisecs"
+echo 60 > /proc/sys/vm/dirty_background_ratio || \
+  tts "Set fail for dirty_background_ratio"
+echo 65536 > /proc/sys/net/core/rmem_default || \
+  tts "Set fail for rmem_default"
+echo 16384 > /proc/sys/net/core/wmem_default || \
+  tts "Set fail for wmem_default"
+
+#Run mdev
+mdev -s
+
+#Set mdev as hotplug manager
+echo /bin/mdev > /proc/sys/kernel/hotplug
+
+# Load modules
+#modprobe twl4030_keypad
+#modprobe g_nokia  # load g_nokia to make bme function properly
+
+#Start services
+syslogd &
+#dsme -d -p /lib/dsme/libstartup.so -l syslog
+#bme_RX-71 -l syslog -v 7 -c /usr/lib/hwi/hw/rx71.so -d
+
+# Start shell for console use
+shell &
+
+# Wait for one second for eMMC to settle
+wait_mmc
+
+# turn off the sleepy led lights
+leds=$(find /sys/devices/virtual/gpio -name name | xargs grep sleep_ind | cut -d ":" -f 1| sed -e "s/name/value/")
+echo "0" > $leds
+
+# log versions
+logger "N9 ubiboot ver. $UBIBOOT_VERSION"
+logger "kernel $(uname -a)"
+
+# Search for the rest of the system to load up.
+# There should be configuration file ubiboot.conf, and the possible location
+# is on mtd4, mtd5, or harmattan /boot/.
+
+# first try loading from mtd4:
+G_CONFIG_LOADED=""
+G_CPIO_LOADED=""
+ubiattach /dev/ubi_ctrl -m 4
+if [ $? -eq 0 ]; then
+  mount /mnt/u4
+  if [ $? -eq 0 ]; then
+    ## Check for existance of ubiboot.conf
+    if [ -r /mnt/u4/ubiboot.conf ]; then
+      G_CONFIG_LOADED="YES"
+      source /mnt/u4/ubiboot.conf
+      cp /mnt/u4/ubiboot.conf /etc
+      if [ -r "/mnt/u4/$G_UBIBOOT_ARCHIVE" ]; then
+        G_CPIO_LOADED="YES"
+        cpio -id < "/mnt/u4/$G_UBIBOOT_ARCHIVE"
+        logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd4"
+      else
+        logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
+      fi
+    else
+      logger "No config found from mtd4"
+    fi
+    umount /mnt/u4
+  fi
+  /usr/sbin/ubidetach  -m 4
+fi
+
+# if it was not there, try mtd5:
+if [ -z "$G_CONFIG_LOADED" ]; then
+  ubiattach /dev/ubi_ctrl -m 5
+  if [ $? -eq 0 ]; then
+    mount /mnt/u5
+    if [ $? -eq 0 ]; then
+      ## Check for existance of ubiboot.conf
+      if [ -r /mnt/u5/ubiboot.conf ]; then
+        G_CONFIG_LOADED="YES"
+        source /mnt/u5/ubiboot.conf
+        cp /mnt/u5/ubiboot.conf /etc
+        if [ -r "/mnt/u5/$G_UBIBOOT_ARCHIVE" ]; then
+          G_CPIO_LOADED="YES"
+          cpio -id < "/mnt/u5/$G_UBIBOOT_ARCHIVE"
+          logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd5"
+        else
+          logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
+        fi
+      else
+        logger "No config found from mtd5"
+      fi
+      umount /mnt/u5
+    fi
+    /usr/sbin/ubidetach  -m 5
+  fi
+fi
+
+# finally, if it was not there, try Harmattan /MyDocs/:
+if [ -z "$G_CONFIG_LOADED" ]; then
+  try_to_mount /dev/mmcblk0p1 /mnt/1
+  if [ $? -eq 0 ]; then
+    ## Check for existance of ubiboot.conf
+    if [ -r /mnt/1/boot/ubiboot.conf ]; then
+      G_CONFIG_LOADED="YES"
+      source /mnt/1/boot/ubiboot.conf
+      cp /mnt/1/boot/ubiboot.conf /etc
+      if [ -r "/mnt/1/boot/$G_UBIBOOT_ARCHIVE" ]; then
+        G_CPIO_LOADED="YES"
+        cpio -id < "/mnt/1/boot/$G_UBIBOOT_ARCHIVE"
+        logger "Copied archive $G_UBIBOOT_ARCHIVE from mmcblk0p1/boot"
+      else
+        logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
+      fi
+    else
+      logger "No config found from mmcblk0p1/boot"
+    fi
+    umount /mnt/1
+  fi
+fi
+
+# doublecheck, if we were unable to find the config file, set up some sane values
+# for maintanance mode
+if [ -z "$G_CONFIG_LOADED" ]; then
+  G_START_DHCP_SERVER=1                                                                
+  G_START_TELNET_SERVER=1
+  G_EXPORTED_PARTITONS="/dev/mmcblk0"
+  G_OVERRIDE_RTC_ALARM_BOOT=1
+  G_OVERRIDE_USB_CHARGER_BOOT=1
+  G_HARMATTAN_PARTITION=2
+  G_NITDROID_PARTITION=2
+  G_NEMO_PARTITION=4
+  logger "Could not find ubiboot configuration file"
+else
+  if [ -z "$G_CPIO_LOADED" ]; then
+    logger "Could not find archive of system menus to copy"
+  fi
+  # check that we have compatible config and cpio and version
+  if [ -z "G_CONFIG_VERSION" ]; then
+    logger "Could not determine config version"
+  else
+    logger "Config version is $G_CONFIG_VERSION"
+  fi
+  if [ -r /boot/cpio-version ]; then
+    G_CPIO_VERSION=$(cat /boot/cpio-version)
+    logger "Archive cpio version is $G_CPIO_VERSION"
+  else
+    G_CPIO_VERSION=""
+    logger "Could not determine cpio version"
+  fi
+fi
+
+# if powerup reason is USB Charger or RTC Alarm, boot up directly to default Harmattan
+bootreason=$(cat /proc/original_cmdline | cut -d' ' -f12 |  cut -d'=' -f2)
+bootmode=$(cat /proc/original_cmdline | cut -d' ' -f13 |  cut -d'=' -f2)
+logger "bootreason: $bootreason"
+logger "bootmode: $bootmode"
+if [ "$G_OVERRIDE_RTC_ALARM_BOOT" == "1" -a "$bootreason" == "rtc_alarm" ]; then
+  logger "Restarted to default OS due to RTC alarm powerup event"
+  restart_to_default_os
+fi
+if [ "$G_OVERRIDE_USB_CHARGER_BOOT" == "1" -a "$bootreason" == "usb" ]; then
+  usbtype=$(cat /sys/class/power_supply/usb/type)
+  if [ "$usbtype" == "USB_DCP" ]; then
+    logger "Restarted to default OS due to charger powerup event"
+    restart_to_default_os
+  fi
+fi
+
+# If cable is connected, enter maintanance mode
+usb_is_plugged
+if [ $? -eq 1 ]; then
+  # Start the watchdog kicker
+  if [ $WATCHDOG_KICKER_RUNNING -eq 0 ]; then
+    start_watchdog
+  fi
+
+  # Clear screen and display welcome message
+  logger "Started maintanance mode"
+  welcome_banner
+    
+  # Export all partitions and start daemons
+  export_mmc_partitions
+
+  # Remove exports and mount partitons locally
+  ifconfig usb0 down
+  rmmod g_multi
+  sleep 1
+
+  logger "Exit maintanance mode"
+fi
+
+# Mount the partitions that got kernels on them
+mount_partitions
+sleep 1
+
+# Start the watchdog kicker
+if [ $WATCHDOG_KICKER_RUNNING -eq 0 ]; then
+  start_watchdog
+fi
+
+G_MUST_FAIL=""
+# Check that needed component versions are present
+if [ -z "$G_CONFIG_LOADED" ]; then
+  $G_MUST_FAIL="YES"
+  save_logfile
+  ttsr
+  tts ""
+  tts "Boot configuration not found!"
+  tts "Please run a maintanance boot"
+fi
+if [ -z "$G_MUST_FAIL" ]; then
+  if [ -z "$G_CPIO_LOADED" ]; then
+    $G_MUST_FAIL="YES"
+    save_logfile
+    ttsr
+    tts ""
+    tts "Boot menu archive not found!"
+    tts "Please run a maintanance boot"
+  fi
+fi
+if [ -z "$G_MUST_FAIL" ]; then
+  if [ "$G_CONFIG_VERSION" -ne "$G_CPIO_VERSION" -o
+       "$G_CONFIG_VERSION" -ne "$G_REQUIRED_VERSION" ] ; then
+    $G_MUST_FAIL="YES"
+    save_logfile
+    ttsr
+    tts ""
+    tts "Version mismatch in confuguration files!"
+    tts "Please run a maintanance boot"
+  fi
+fi
+
+if [ -z "$G_MUST_FAIL" ]; then
+  # Start the boot OS & kernel selection via animated boot menu
+  if [ -x /boot/menu/select_and_boot_os.sh ]; then
+    logger "Starting menu launcher"
+    sh /boot/menu/select_and_boot_os.sh &
+  else
+    logger "Failed to start menu launcher!"
+    save_logfile
+    ttsr
+    tts ""
+    tts "Boot menu script not found!"
+    tts "Please run a maintanance boot"
+  fi
+fi
+
+# Now hopefully menu is launched and we loop here waiting for the 2nd stage boot.
+logger "Reached end of init!" 
+
+# exit would trap and start a new shell again, so stay in the loop
+# forever
+while true; do
+  sleep 99999
+done

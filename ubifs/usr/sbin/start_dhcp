@@ -1,0 +1,9 @@
+#!/bin/sh
+
+DHCP_OFFER=$1
+
+/usr/sbin/dnsmasq --log-dhcp --no-daemon --keep-in-foreground -z -R -i usb0 \
+                  -I lo -h -5 -p 0 -F $DHCP_OFFER,$DHCP_OFFER,9999h \
+                  --dhcp-option=6 --dhcp-option=3 -9 > /var/log/dhcp.log 2>&1 &
+
+
