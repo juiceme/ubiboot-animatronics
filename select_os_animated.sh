@@ -98,10 +98,6 @@ load_harmattan()
   BOOTKERNEL=$1
   logger "Selecting Harmattan OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  if [ x$(readlink /boot/Harmattan) != x/mnt/$G_HARMATTAN_PARTITION ]; then
-    rm /boot/Harmattan
-    ln -s /mnt/$G_HARMATTAN_PARTITION /boot/Harmattan
-  fi
   TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_HARMATTAN_PARTITION/")
   TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_HARMATTAN_INITSCRIPT)/")
   F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
@@ -123,10 +119,6 @@ load_nitdroid()
   BOOTKERNEL=$1
   logger "Selecting Nitdroid OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  if [ x$(readlink /boot/Nitdroid) != x/mnt/$G_NITDROID_PARTITION ]; then
-    rm /boot/Nitdroid
-    ln -s /mnt/$G_NITDROID_PARTITION /boot/Nitdroid
-  fi
   TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NITDROID_PARTITION/")
   TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NITDROID_INITSCRIPT)/")
   F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
@@ -148,10 +140,6 @@ load_nemo()
   BOOTKERNEL=$1
   logger "Selecting Nemo OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  if [ x$(readlink /boot/Nemo) != x/mnt/$G_NEMO_PARTITION ]; then
-    rm /boot/Nemo
-    ln -s /mnt/$G_NEMO_PARTITION /boot/Nemo
-  fi
   TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NEMO_PARTITION/")
   TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NEMO_INITSCRIPT)/")
   F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""

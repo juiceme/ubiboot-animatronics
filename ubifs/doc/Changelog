@@ -1,3 +1,9 @@
+2013-09-30 Jussi Ohenoja <juice@swagman.org>
+	* Updated required config version to 2
+	* Added the OS entries for FirefoxOS, Ubuntu & SailfishOS
+	* Removed mountable partition listing from ubiboot.conf and changed init to try to mount all partitions.
+	* Changed the boot kernel link creation from the menu script to init. Removed the link creation from CPIO packing script.
+
 2013-09-27 Jussi Ohenoja <juice@swagman.org>
 	* Decided to put the usr/ubifs hierarchy under subversion.
 

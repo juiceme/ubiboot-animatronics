@@ -21,6 +21,7 @@
 ##
 
 MMC_DEV="/dev/mmcblk0"
+G_PARTITION_LIST="1 2 3 4 5 6 7"
 WD_NAME=twl4030_wdt
 UBIBOOT_VERSION=$(cat /etc/ubiboot-version)
 MOSLO_VERSION=$(cat /etc/moslo-version)
@@ -208,7 +209,7 @@ start_ssh_server()
 
 mount_partitions()
 {
-  for mpart in $G_MOUNTABLE_PARTITONS
+  for mpart in $G_PARTITION_LIST
   do
     logger "Mounting /mnt/$mpart"
     try_to_mount "/dev/mmcblk0p$mpart /mnt/$mpart"
@@ -217,7 +218,7 @@ mount_partitions()
 
 umount_partitions()
 {
-  for mpart in $G_MOUNTABLE_PARTITONS
+  for mpart in $G_PARTITION_LIST
   do
     logger "Umounting /mnt/$mpart"
     umount "/mnt/$mpart"
@@ -563,6 +564,26 @@ if [ -z "$G_MUST_FAIL" ]; then
 fi
 
 if [ -z "$G_MUST_FAIL" ]; then
+  # Set up the softlinks for OS'es/kernels boot locations
+  if [ ! -z "$G_HARMATTAN_PARTITION"]; then
+    ln -s /mnt/$G_HARMATTAN_PARTITION /boot/Harmattan
+  fi
+  if [ ! -z "$G_NITDROID_PARTITION"]; then
+    ln -s /mnt/$G_NITDROID_PARTITION /boot/Nitdroid
+  fi
+  if [ ! -z "$G_NEMO_PARTITION"]; then
+    ln -s /mnt/$G_NEMO_PARTITION /boot/Nemo
+  fi
+  if [ ! -z "$G_FIREFOX_PARTITION"]; then
+    ln -s /mnt/$G_FIREFOX_PARTITION /boot/Firefox
+  fi
+  if [ ! -z "$G_UBUNTU_PARTITION"]; then
+    ln -s /mnt/$G_UBUNTU_PARTITION /boot/Ubuntu
+  fi
+  if [ ! -z "$G_SAILFISH_PARTITION"]; then
+    ln -s /mnt/$G_SAILFISH_PARTITION /boot/Sailfish
+  fi
+
   # Start the boot OS & kernel selection via animated boot menu
   if [ -x /boot/menu/select_and_boot_os.sh ]; then
     logger "Starting menu launcher"
