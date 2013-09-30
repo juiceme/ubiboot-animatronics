@@ -1,5 +1,6 @@
 2013-09-30 Jussi Ohenoja <juice@swagman.org>
 	* Updated required config version to 2
+	* Modified init so that it searches all partitions for ubiboot.conf
 	* Added the OS entries for FirefoxOS, Ubuntu & SailfishOS
 	* Removed mountable partition listing from ubiboot.conf and changed init to try to mount all partitions.
 	* Changed the boot kernel link creation from the menu script to init. Removed the link creation from CPIO packing script.

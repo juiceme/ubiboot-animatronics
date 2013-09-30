@@ -372,7 +372,7 @@ logger "kernel $(uname -a)"
 
 # Search for the rest of the system to load up.
 # There should be configuration file ubiboot.conf, and the possible location
-# is on mtd4, mtd5, or harmattan /boot/.
+# is on mtd4, mtd5, or /boot/ directory of some mmcblk0 partition.
 
 # first try loading from mtd4:
 G_CONFIG_LOADED=""
@@ -428,27 +428,30 @@ if [ -z "$G_CONFIG_LOADED" ]; then
   fi
 fi
 
-# finally, if it was not there, try Harmattan /MyDocs/:
+# finally, if it was not on either ubifs partitions, try to search for it from other partitions
 if [ -z "$G_CONFIG_LOADED" ]; then
-  try_to_mount /dev/mmcblk0p1 /mnt/1
-  if [ $? -eq 0 ]; then
-    ## Check for existance of ubiboot.conf
-    if [ -r /mnt/1/boot/ubiboot.conf ]; then
+  mount_partitions
+  for mpart in $G_PARTITION_LIST
+  do
+    if [ -r "/mnt/$mpart/boot/ubiboot.conf" ]; then
+      logger "Found /mnt/$mpart/boot/ubiboot.conf"
       G_CONFIG_LOADED="YES"
-      source /mnt/1/boot/ubiboot.conf
-      cp /mnt/1/boot/ubiboot.conf /etc
-      if [ -r "/mnt/1/boot/$G_UBIBOOT_ARCHIVE" ]; then
+      source "/mnt/$mpart/boot/ubiboot.conf"
+      cp "/mnt/$mpart/boot/ubiboot.conf" /etc/
+      if [ -r "/mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE" ]; then
         G_CPIO_LOADED="YES"
-        cpio -id < "/mnt/1/boot/$G_UBIBOOT_ARCHIVE"
-        logger "Copied archive $G_UBIBOOT_ARCHIVE from mmcblk0p1/boot"
+        cpio -id < "/mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
+        logger "Copied archive /mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
       else
-        logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
+        logger "Could not find archive /mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
       fi
+      # Now bail out as config was processed.
+      break;
     else
-      logger "No config found from mmcblk0p1/boot"
+      logger "No config found from /mnt/$mpart/boot/"
     fi
-    umount /mnt/1
-  fi
+  done
+  umount_partitions
 fi
 
 # doublecheck, if we were unable to find the config file, set up some sane values
@@ -459,9 +462,6 @@ if [ -z "$G_CONFIG_LOADED" ]; then
   G_EXPORTED_PARTITONS="/dev/mmcblk0"
   G_OVERRIDE_RTC_ALARM_BOOT=1
   G_OVERRIDE_USB_CHARGER_BOOT=1
-  G_HARMATTAN_PARTITION=2
-  G_NITDROID_PARTITION=2
-  G_NEMO_PARTITION=4
   logger "Could not find ubiboot configuration file"
 else
   if [ -z "$G_CPIO_LOADED" ]; then

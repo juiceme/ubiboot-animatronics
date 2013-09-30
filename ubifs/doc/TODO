@@ -18,8 +18,6 @@ Wishlist for ubiboot-02
    Should it be configurable in ubiboot.conf or just store to ubiboot config
    directory? What about when config directory is on mtd4/mtd5?
 
- - Modify init so that it will search all partitions for ubiboot.conf
-
  - WLAN access for ubiboot maintanance mode.
    1.) Authentication, should port wpasupplicant. What else is required?
    2.) Mechanism in init to write the config files based on ubiboot.conf.
