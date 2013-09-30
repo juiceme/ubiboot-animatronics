@@ -1,3 +1,6 @@
+2013-09-27 Jussi Ohenoja <juice@swagman.org>
+	* Decided to put the usr/ubifs hierarchy under subversion.
+
 2013-09-25 Jussi Ohenoja <juice@swagman.org>
 	* Added version check for CPIO.
 
@@ -19,6 +22,7 @@
 
 2013-09-06 Jussi Ohenoja <juice@swagman.org>
 	* Rewrite of the animation toolkit, added more customizable options.
+	* Removed partitions 8 and 9 from the partition list.
 
 2013-06-04 Jussi Ohenoja <juice@swagman.org>
 	* New version 0.3.3 released.
