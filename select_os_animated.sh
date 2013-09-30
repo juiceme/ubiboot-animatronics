@@ -98,12 +98,28 @@ load_harmattan()
   BOOTKERNEL=$1
   logger "Selecting Harmattan OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_HARMATTAN_PARTITION/")
-  TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_HARMATTAN_INITSCRIPT)/")
-  F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+  if [ -r "$G_HARMATTAN_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_HARMATTAN_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_HARMATTAN_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_HARMATTAN_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_HARMATTAN_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_HARMATTAN_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_HARMATTAN_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_HARMATTAN_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$BOOTKERNEL" ]; then
+    logger "Cannot load Harmattan kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loading kernel $BOOTKERNEL"
   eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
   ret=$?
-  if [ $? -eq 0 ]; then
+  if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
     exit 0
   else
@@ -119,9 +135,25 @@ load_nitdroid()
   BOOTKERNEL=$1
   logger "Selecting Nitdroid OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NITDROID_PARTITION/")
-  TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NITDROID_INITSCRIPT)/")
-  F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+  if [ -r "$G_NITDROID_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_NITDROID_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_NITDROID_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NITDROID_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NITDROID_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_NITDROID_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_NITDROID_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_NITDROID_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$G_DEFAULT_KERNEL" ]; then
+    logger "Cannot load Nitdroid kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loading kernel $BOOTKERNEL"
   eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
   ret=$?
   if [ $ret -eq 0 ]; then
@@ -140,12 +172,139 @@ load_nemo()
   BOOTKERNEL=$1
   logger "Selecting Nemo OS, running kernel $BOOTKERNEL"
   menu_fadeout
-  TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NEMO_PARTITION/")
-  TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NEMO_INITSCRIPT)/")
-  F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+  if [ -r "$G_NEMO_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_NEMO_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_NEMO_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NEMO_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NEMO_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_NEMO_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_NEMO_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_NEMO_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$BOOTKERNEL" ]; then
+    logger "Cannot load Nemo kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loadin kernel $BOOTKERNEL"
   eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
   ret=$?
-  if [ $? -eq 0 ]; then
+  if [ $ret -eq 0 ]; then
+    logger "kexec_load() successful"
+    exit 0
+  else
+    logger "kexec_load() returned $ret"
+    exit 1
+  fi
+}
+
+
+## Preload the kexec() with FirefoxOS kernel, set boot partiton to whatever given
+load_firefox()
+{
+  BOOTKERNEL=$1
+  logger "Selecting FirefoxOS, running kernel $BOOTKERNEL"
+  menu_fadeout
+  if [ -r "$G_FIREFOX_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_FIREFOX_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_FIREFOX_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_FIREFOX_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_FIREFOX_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_FIREFOX_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_FIREFOX_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_FIREFOX_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$BOOTKERNEL" ]; then
+    logger "Cannot load FirefoxOS kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loading kernel $BOOTKERNEL"
+  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  ret=$?
+  if [ $ret -eq 0 ]; then
+    logger "kexec_load() successful"
+    exit 0
+  else
+    logger "kexec_load() returned $ret"
+    exit 1
+  fi
+}
+
+
+## Preload the kexec() with Ubuntu kernel, set boot partiton to whatever given
+load_ubuntu()
+{
+  BOOTKERNEL=$1
+  logger "Selecting Ubuntu OS, running kernel $BOOTKERNEL"
+  menu_fadeout
+  if [ -r "$G_UBUNTU_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_UBUNTU_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_UBUNTU_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_UBUNTU_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_UBUNTU_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_UBUNTU_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_UBUNTU_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_UBUNTU_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$BOOTKERNEL" ]; then
+    logger "Cannot load Ubuntu kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loading kernel $BOOTKERNEL"
+  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  ret=$?
+  if [ $ret -eq 0 ]; then
+    logger "kexec_load() successful"
+    exit 0
+  else
+    logger "kexec_load() returned $ret"
+    exit 1
+  fi
+}
+
+
+## Preload the kexec() with SailfishOS kernel, set boot partiton to whatever given
+load_sailfish()
+{
+  BOOTKERNEL=$1
+  logger "Selecting SailfishOS, running kernel $BOOTKERNEL"
+  menu_fadeout
+  if [ -r "$G_SAILFISH_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_SAILFISH_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_SAILFISH_INIT_CMDLINE_FILE")
+    F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
+  else
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_SAILFISH_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_SAILFISH_INITSCRIPT)/")
+    F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
+    if [ ! -z "$G_SAILFISH_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_SAILFISH_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_SAILFISH_INIT_CMDLINE_APPENDS"
+      F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
+    fi
+  fi
+  if [ -r "$BOOTKERNEL" ]; then
+    logger "Cannot load SailfishOS kernel $BOOTKERNEL"
+    exit 1
+  fi
+  logger "Loading kernel $BOOTKERNEL"
+  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  ret=$?
+  if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
     exit 0
   else
@@ -167,6 +326,15 @@ load_default_os()
   fi
   if [ "$G_DEFAULT_OS" == "Nemo" ]; then
     load_nemo "$G_DEFAULT_KERNEL"
+  fi
+  if [ "$G_DEFAULT_OS" == "Firefox" ]; then
+    load_firefox "$G_DEFAULT_KERNEL"
+  fi
+  if [ "$G_DEFAULT_OS" == "Ubuntu" ]; then
+    load_ubuntu "$G_DEFAULT_KERNEL"
+  fi
+  if [ "$G_DEFAULT_OS" == "Sailfish" ]; then
+    load_sailfish "$G_DEFAULT_KERNEL"
   fi
 
   ## If we get here something is wrong
@@ -424,6 +592,135 @@ draw_kernel_list()
     echo $G_NEMO_NUM
   fi
 
+  if [ "$mode" == "firefox" ]; then
+    if [ $G_FIREFOX_NUM -gt 6 ]; then
+      G_FIREFOX_NUM=6
+    fi
+    if [ $G_FIREFOX_NUM -ge 1 -a "$G_FIREFOX_1_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_FIREFOX_1_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "1" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_FIREFOX_1_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_FIREFOX_NUM -ge 2 -a "$G_FIREFOX_2_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_FIREFOX_2_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "2" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_FIREFOX_2_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_FIREFOX_NUM -ge 3 -a "$G_FIREFOX_3_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_FIREFOX_3_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "3" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_FIREFOX_3_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_FIREFOX_NUM -ge 4 -a "$G_FIREFOX_4_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_FIREFOX_4_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "4" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_FIREFOX_4_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_FIREFOX_NUM -ge 5 -a "$G_FIREFOX_5_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_FIREFOX_5_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "5" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_FIREFOX_5_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_FIREFOX_NUM -ge 6 -a "$G_FIREFOX_6_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_FIREFOX_6_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "6" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_FIREFOX_6_LABEL" -T "$highcolor"
+      fi
+    fi
+    echo $G_FIREFOX_NUM
+  fi
+
+  if [ "$mode" == "ubuntu" ]; then
+    if [ $G_UBUNTU_NUM -gt 6 ]; then
+      G_UBUNTU_NUM=6
+    fi
+    if [ $G_UBUNTU_NUM -ge 1 -a "$G_UBUNTU_1_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_UBUNTU_1_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "1" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_UBUNTU_1_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_UBUNTU_NUM -ge 2 -a "$G_UBUNTU_2_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_UBUNTU_2_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "2" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_UBUNTU_2_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_UBUNTU_NUM -ge 3 -a "$G_UBUNTU_3_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_UBUNTU_3_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "3" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_UBUNTU_3_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_UBUNTU_NUM -ge 4 -a "$G_UBUNTU_4_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_UBUNTU_4_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "4" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_UBUNTU_4_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_UBUNTU_NUM -ge 5 -a "$G_UBUNTU_5_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_UBUNTU_5_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "5" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_UBUNTU_5_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_UBUNTU_NUM -ge 6 -a "$G_UBUNTU_6_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_UBUNTU_6_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "6" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_UBUNTU_6_LABEL" -T "$highcolor"
+      fi
+    fi
+    echo $G_UBUNTU_NUM
+  fi
+
+  if [ "$mode" == "sailfish" ]; then
+    if [ $G_SAILFISH_NUM -gt 6 ]; then
+      G_SAILFISH_NUM=6
+    fi
+    if [ $G_SAILFISH_NUM -ge 1 -a "$G_SAILFISH_1_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_SAILFISH_1_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "1" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$G_SAILFISH_1_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_SAILFISH_NUM -ge 2 -a "$G_SAILFISH_2_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_SAILFISH_2_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "2" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$G_SAILFISH_2_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_SAILFISH_NUM -ge 3 -a "$G_SAILFISH_3_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_SAILFISH_3_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "3" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$G_SAILFISH_3_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_SAILFISH_NUM -ge 4 -a "$G_SAILFISH_4_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_SAILFISH_4_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "4" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$G_SAILFISH_4_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_SAILFISH_NUM -ge 5 -a "$G_SAILFISH_5_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_SAILFISH_5_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "5" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$G_SAILFISH_5_LABEL" -T "$highcolor"
+      fi
+    fi
+    if [ $G_SAILFISH_NUM -ge 6 -a "$G_SAILFISH_6_LABEL" != "" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_SAILFISH_6_LABEL" -T "$textcolor"
+      if [ "$highlighted" == "6" ]; then
+        $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$G_SAILFISH_6_LABEL" -T "$highcolor"
+      fi
+    fi
+    echo $G_SAILFISH_NUM
+  fi
+
   return "0"
 }
 
@@ -447,12 +744,15 @@ get_menuitem()
     maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "firefox" ]; then
+    maplines=$(generate_temporary_mapfile $menulines "$G_FIREFOX_1_FILE" "$G_FIREFOX_2_FILE" "$G_FIREFOX_3_FILE" "$G_FIREFOX_4_FILE" "$G_FIREFOX_5_FILE" "$G_FIREFOX_6_FILE")
     maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "ubuntu" ]; then
+    maplines=$(generate_temporary_mapfile $menulines "$G_UBUNTU_1_FILE" "$G_UBUNTU_2_FILE" "$G_UBUNTU_3_FILE" "$G_UBUNTU_4_FILE" "$G_UBUNTU_5_FILE" "$G_UBUNTU_6_FILE")
     maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "sailfish" ]; then
+    maplines=$(generate_temporary_mapfile $menulines "$G_SAILFISH_1_FILE" "$G_SAILFISH_2_FILE" "$G_SAILFISH_3_FILE" "$G_SAILFISH_4_FILE" "$G_SAILFISH_5_FILE" "$G_SAILFISH_6_FILE")
     maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "info" ]; then
@@ -569,6 +869,66 @@ get_kernel_line()
       echo "$G_NEMO_6_FILE"
     fi
   fi
+  if [ "$mode" == "firefox" ]; then
+    if [ "$bootline" -eq 1 ]; then
+      echo "$G_FIREFOX_1_FILE"
+    fi
+    if [ "$bootline" -eq 2 ]; then
+      echo "$G_FIREFOX_2_FILE"
+    fi
+    if [ "$bootline" -eq 3 ]; then
+      echo "$G_FIREFOX_3_FILE"
+    fi
+    if [ "$bootline" -eq 4 ]; then
+      echo "$G_FIREFOX_4_FILE"
+    fi
+    if [ "$bootline" -eq 5 ]; then
+      echo "$G_FIREFOX_5_FILE"
+    fi
+    if [ "$bootline" -eq 6 ]; then
+      echo "$G_FIREFOX_6_FILE"
+    fi
+  fi
+  if [ "$mode" == "ubuntu" ]; then
+    if [ "$bootline" -eq 1 ]; then
+      echo "$G_UBUNTU_1_FILE"
+    fi
+    if [ "$bootline" -eq 2 ]; then
+      echo "$G_UBUNTU_2_FILE"
+    fi
+    if [ "$bootline" -eq 3 ]; then
+      echo "$G_UBUNTU_3_FILE"
+    fi
+    if [ "$bootline" -eq 4 ]; then
+      echo "$G_UBUNTU_4_FILE"
+    fi
+    if [ "$bootline" -eq 5 ]; then
+      echo "$G_UBUNTU_5_FILE"
+    fi
+    if [ "$bootline" -eq 6 ]; then
+      echo "$G_UBUNTU_6_FILE"
+    fi
+  fi
+  if [ "$mode" == "sailfish" ]; then
+    if [ "$bootline" -eq 1 ]; then
+      echo "$G_SAILFISH_1_FILE"
+    fi
+    if [ "$bootline" -eq 2 ]; then
+      echo "$G_SAILFISH_2_FILE"
+    fi
+    if [ "$bootline" -eq 3 ]; then
+      echo "$G_SAILFISH_3_FILE"
+    fi
+    if [ "$bootline" -eq 4 ]; then
+      echo "$G_SAILFISH_4_FILE"
+    fi
+    if [ "$bootline" -eq 5 ]; then
+      echo "$G_SAILFISH_5_FILE"
+    fi
+    if [ "$bootline" -eq 6 ]; then
+      echo "$G_SAILFISH_6_FILE"
+    fi
+  fi
 
   return 0
 }
@@ -615,14 +975,29 @@ second_level_menu()
   if [ "$callmode" == "firefox" ]; then
     IFILE="mui5"
     LASTFRAME="$ANIM_M5_COUNT"
+    if [ "$G_FIREFOX_AUTOBOOT" -ne 0 ]; then
+      selection=$(get_kernel_line $callmode $G_FIREFOX_AUTOBOOT)
+      echo -e "$selection"
+      return 0
+    fi
   fi
   if [ "$callmode" == "ubuntu" ]; then
     IFILE="mui6"
     LASTFRAME="$ANIM_M6_COUNT"
+    if [ "$G_UBUNTU_AUTOBOOT" -ne 0 ]; then
+      selection=$(get_kernel_line $callmode $G_UBUNTU_AUTOBOOT)
+      echo -e "$selection"
+      return 0
+    fi
   fi
   if [ "$callmode" == "sailfish" ]; then
     IFILE="mui7"
     LASTFRAME="$ANIM_M7_COUNT"
+    if [ "$G_SAILFISH_AUTOBOOT" -ne 0 ]; then
+      selection=$(get_kernel_line $callmode $G_SAILFISH_AUTOBOOT)
+      echo -e "$selection"
+      return 0
+    fi
   fi
   if [ "$callmode" == "info" ]; then
     IFILE="mui8"
@@ -650,19 +1025,19 @@ second_level_menu()
     ret=$?
   fi
   if [ "$callmode" == "firefox" ]; then
-    # no need to draw anything for info, just get the "back" button press
-    selection=$(get_menuitem $callmode 0)
-    ret=1
+    items=$(draw_kernel_list $callmode "0x001200" 0)
+    selection=$(get_menuitem $callmode $items)
+    ret=$?
   fi
   if [ "$callmode" == "ubuntu" ]; then
-    # no need to draw anything for info, just get the "back" button press
-    selection=$(get_menuitem $callmode 0)
-    ret=1
+    items=$(draw_kernel_list $callmode "0x001200" 0)
+    selection=$(get_menuitem $callmode $items)
+    ret=$?
   fi
   if [ "$callmode" == "sailfish" ]; then
-    # no need to draw anything for info, just get the "back" button press
-    selection=$(get_menuitem $callmode 0)
-    ret=1
+    items=$(draw_kernel_list $callmode "0x001200" 0)
+    selection=$(get_menuitem $callmode $items)
+    ret=$?
   fi
   if [ "$callmode" == "info" ]; then
     # no need to draw anything for info, just get the "back" button press
@@ -722,24 +1097,21 @@ get_selection()
   fi
   if [ "$ret" == "5" ]; then
     bounce_icon "Firefox"
-    SELECTED_OS=0
-    SELECTED_KERNEL=0
-    second_level_menu "firefox"
-    ret=1
+    SELECTED_OS=$ret
+    SELECTED_KERNEL=$(second_level_menu "firefox")
+    ret=$?
   fi
   if [ "$ret" == "6" ]; then
     bounce_icon "Ubuntu"
-    SELECTED_OS=0
-    SELECTED_KERNEL=0
-    second_level_menu "ubuntu"
-    ret=1
+    SELECTED_OS=$ret
+    SELECTED_KERNEL=$(second_level_menu "ubuntu")
+    ret=$?
   fi
   if [ "$ret" == "7" ]; then
     bounce_icon "Sailfish"
-    SELECTED_OS=0
-    SELECTED_KERNEL=0
-    second_level_menu "sailfish"
-    ret=1
+    SELECTED_OS=$ret
+    SELECTED_KERNEL=$(second_level_menu "sailfish")
+    ret=$?
   fi
   if [ "$ret" == "8" ]; then
     bounce_icon "Info"
@@ -811,6 +1183,15 @@ main_menu()
   fi
   if [ "$SELECTED_OS" == "3" ]; then
     load_nemo $SELECTED_KERNEL
+  fi
+  if [ "$SELECTED_OS" == "5" ]; then
+    load_firefox $SELECTED_KERNEL
+  fi
+  if [ "$SELECTED_OS" == "6" ]; then
+    load_ubuntu $SELECTED_KERNEL
+  fi
+  if [ "$SELECTED_OS" == "7" ]; then
+    load_sailfish $SELECTED_KERNEL
   fi
 
   # Should not ever reach this point...

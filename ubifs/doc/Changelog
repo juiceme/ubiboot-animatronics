@@ -1,7 +1,11 @@
 2013-09-30 Jussi Ohenoja <juice@swagman.org>
-	* Updated required config version to 2
-	* Modified init so that it searches all partitions for ubiboot.conf
-	* Added the OS entries for FirefoxOS, Ubuntu & SailfishOS
+	* Updated required config version to 2.
+	* Added checking/logging of the selected kernel file existance.
+	* Added handling of 8-item menu in boot selection scripts.
+	* Added kernel command line override switches; either replace whole commandline from a file or append parameters defined in the configuration file.
+	* Corrected bug in kernel selection which caused load_harmattan() and load_nemo() to return success even when kernel file was not found.
+	* Modified init so that it searches all partitions for ubiboot.conf before giving up.
+	* Added the OS entries for FirefoxOS, Ubuntu & SailfishOS.
 	* Removed mountable partition listing from ubiboot.conf and changed init to try to mount all partitions.
 	* Changed the boot kernel link creation from the menu script to init. Removed the link creation from CPIO packing script.
 

@@ -4,10 +4,6 @@ Wishlist for ubiboot-02
  - Fix the preinit.harmattan script. Currectly it fails on few occasions and
    there still is excess things, like the USB device IP address setup.
 
- - Add runtime checks for the existance of kernel paths in ubiboot.conf so
-   that user is given meaningful info is path does not exist.
-   Maybe paths could be logged also, for easier problem solving?
-
  - Finish the SSHD setup for ubiboot environment;
    1.) Get SSL libs to compile, what was the blocker again?
    2.) Patch SSHD to work in the root-only environment
@@ -27,8 +23,3 @@ Wishlist for ubiboot-02
        when menu is paused/waiting for input?
 
  - Check what happens when there is an alarm and the device is in charging mode?
-
- - Addition to the boot CMDLINE handling; have an alternate method of giving
-   boot parameters, either by using a pre-saved CMDLINE or appending given
-   parameters to kernel command line.
-
