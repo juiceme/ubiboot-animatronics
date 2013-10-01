@@ -408,19 +408,24 @@ file /lib/libc-2.10.1.so       usr/ubifs/lib/libc-2.10.1.so       775 0 0
 file /lib/libc.so.6            usr/ubifs/lib/libc.so.6            775 0 0
 file /lib/libcal.so.1          usr/ubifs/lib/libcal.so.1          775 0 0
 file /lib/libcom_err.so.2      usr/ubifs/lib/libcom_err.so.2      775 0 0
+file /lib/libcrypt.so.1        usr/ubifs/lib/libcrypt.so.1        775 0 0
+file /lib/libcrypto.so.0.9.8   usr/ubifs/lib/libcrypto.so.0.9.8   775 0 0
 file /lib/libdl.so.2           usr/ubifs/lib/libdl.so.2           775 0 0
 file /lib/libe2p.so.2          usr/ubifs/lib/libe2p.so.2          775 0 0
 file /lib/libext2fs.so.2       usr/ubifs/lib/libext2fs.so.2       775 0 0
 file /lib/libgcc_s.so.1        usr/ubifs/lib/libgcc_s.so.1        775 0 0
 file /lib/libglib-2.0.so.0     usr/ubifs/lib/libglib-2.0.so.0     775 0 0
 file /lib/libm.so.6            usr/ubifs/lib/libm.so.6            775 0 0
+file /lib/libnsl.so.1          usr/ubifs/lib/libnsl.so.1          775 0 0
 file /lib/libpopt.so.0         usr/ubifs/lib/libpopt.so.0         775 0 0
 file /lib/libpthread-2.10.1.so usr/ubifs/lib/libpthread-2.10.1.so 775 0 0
 file /lib/libpthread.so.0      usr/ubifs/lib/libpthread.so.0      775 0 0
 file /lib/libreadline.so.5     usr/ubifs/lib/libreadline.so.5     775 0 0
+file /lib/libresolv.so.2       usr/ubifs/lib/libresolv.so.2       775 0 0
 file /lib/librt-2.10.1.so      usr/ubifs/lib/librt-2.10.1.so      775 0 0
 file /lib/librt.so.1           usr/ubifs/lib/librt.so.1           775 0 0
 file /lib/libtinfo.so.5        usr/ubifs/lib/libtinfo.so.5        775 0 0
+file /lib/libutil.so.1         usr/ubifs/lib/libutil.so.1         775 0 0
 
 
 ## /lib/dsme/
@@ -545,6 +550,7 @@ file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 775 0 0
 file /usr/sbin/bme_RX-71  usr/ubifs/usr/sbin/bme_RX-71  775 0 0
 file /usr/sbin/dnsmasq    usr/ubifs/usr/sbin/dnsmasq    775 0 0
 file /usr/sbin/kexec      usr/ubifs/usr/sbin/kexec      775 0 0
+file /usr/sbin/sshd       usr/ubifs/usr/sbin/sshd       775 0 0
 file /usr/sbin/start_dhcp usr/ubifs/usr/sbin/start_dhcp 775 0 0
 file /usr/sbin/ubiattach  usr/ubifs/usr/sbin/ubiattach  775 0 0
 file /usr/sbin/ubidetach  usr/ubifs/usr/sbin/ubidetach  775 0 0
