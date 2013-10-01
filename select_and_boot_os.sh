@@ -12,6 +12,10 @@
 ##
 
 
+## Get the kernel configuration
+## We already know this file exists because it is checked in init.
+source /etc/ubiboot.conf
+
 # Text2screen wrapper for next lines
 TTSYI=0 # Where to start
 TTSX=0
@@ -38,17 +42,17 @@ tts()
 }
 
 
-## Save persistent ubiboot log file 
+## Save persistent ubiboot log file
 save_logfile()
 {
-  mount /mnt/2
   logger "Saving ubiboot log files"
-  cat /var/log/messages >> /mnt/2/var/log/ubiboot.log
-  date >> /mnt/2/var/log/ubiboot.dmesg
-  dmesg  >> /mnt/2/var/log/ubiboot.dmesg
-  echo >> /mnt/2/var/log/ubiboot.dmesg
+  try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  cat /var/log/messages >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
+  date >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  dmesg >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  echo >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
   sync
-  umount /mnt/2
+  umount "/mnt/$G_LOGFILE_PARTITION"
 }
 
 

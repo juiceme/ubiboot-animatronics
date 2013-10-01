@@ -246,7 +246,6 @@ load_sailfish()
 }
 
 
-
 # Load up the default OS. Usually this is Harmattan but what do you know...?
 #
 if [ "$G_DEFAULT_OS" == "Harmattan" ]; then

@@ -559,7 +559,7 @@ if [ -z "$G_MUST_FAIL" ]; then
     save_logfile
     ttsr
     tts ""
-    tts "Version mismatch in confuguration files!"
+    tts "Version mismatch in configuration files!"
     tts "Please run a maintanance boot"
   fi
 fi
