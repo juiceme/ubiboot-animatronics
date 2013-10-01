@@ -68,6 +68,50 @@ tts_dot_wait(){
   if [ $TTSY -gt $TTSYM ] ; then ttsr ; fi
 }
 
+try_to_mount()
+{
+  mount -t vfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as VFAT"
+    return 0
+  fi
+  mount -t exfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXFAT"
+    return 0
+  fi
+  mount -t ext2 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT2"
+    return 0
+  fi
+  mount -t ext3 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT3"
+    return 0
+  fi
+  mount -t ext4 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT4"
+    return 0
+  fi
+  logger "Could not mount $1 on $2"
+  return 255
+}
+
+save_logfile()
+{
+  logger "Saving ubiboot log files"
+  try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  mkdir -p "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}"
+  cat /var/log/messages >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
+  date >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  dmesg >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  echo >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  sync
+  umount "/mnt/$G_LOGFILE_PARTITION"
+}
+
 start_watchdog()
 {
   exec 6> /dev/watchdog
@@ -132,49 +176,6 @@ wait_mmc()
   if [ $TRY == 10 ]; then
     tts "  eMMC device not found!"
   fi
-}
-
-try_to_mount()
-{
-  mount -t vfat $1 $2 > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    logger "Mounted $1 on $2 as VFAT"
-    return 0
-  fi
-  mount -t exfat $1 $2 > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    logger "Mounted $1 on $2 as EXFAT"
-    return 0
-  fi
-  mount -t ext2 $1 $2 > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    logger "Mounted $1 on $2 as EXT2"
-    return 0
-  fi
-  mount -t ext3 $1 $2 > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    logger "Mounted $1 on $2 as EXT3"
-    return 0
-  fi
-  mount -t ext4 $1 $2 > /dev/null 2>&1
-  if [ $? -eq 0 ]; then
-    logger "Mounted $1 on $2 as EXT4"
-    return 0
-  fi
-  logger "Could not mount $1 on $2"
-  return 255
-}
-
-save_logfile()
-{
-  logger "Saving ubiboot log files"
-  try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
-  cat /var/log/messages >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
-  date >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
-  dmesg >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
-  echo >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
-  sync
-  umount "/mnt/$G_LOGFILE_PARTITION"
 }
 
 start_dhcp_server()
