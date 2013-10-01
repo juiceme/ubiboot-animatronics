@@ -54,7 +54,7 @@ load_harmattan()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default Harmattan kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
@@ -89,7 +89,7 @@ load_nitdroid()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default Nitdroid kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
@@ -124,7 +124,7 @@ load_nemo()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default Nemo kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
@@ -159,7 +159,7 @@ load_firefox()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default FirefoxOS kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
@@ -194,7 +194,7 @@ load_ubuntu()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default Ubuntu kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
@@ -229,7 +229,7 @@ load_sailfish()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$G_DEFAULT_KERNEL" ]; then
     logger "Cannot load default SailfishOS kernel $G_DEFAULT_KERNEL"
     exit 1
   fi

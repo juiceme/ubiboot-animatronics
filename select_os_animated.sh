@@ -112,7 +112,7 @@ load_harmattan()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$BOOTKERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load Harmattan kernel $BOOTKERNEL"
     exit 1
   fi
@@ -149,7 +149,7 @@ load_nitdroid()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$G_DEFAULT_KERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load Nitdroid kernel $BOOTKERNEL"
     exit 1
   fi
@@ -186,7 +186,7 @@ load_nemo()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$BOOTKERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load Nemo kernel $BOOTKERNEL"
     exit 1
   fi
@@ -223,7 +223,7 @@ load_firefox()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$BOOTKERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load FirefoxOS kernel $BOOTKERNEL"
     exit 1
   fi
@@ -260,7 +260,7 @@ load_ubuntu()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$BOOTKERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load Ubuntu kernel $BOOTKERNEL"
     exit 1
   fi
@@ -297,7 +297,7 @@ load_sailfish()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
-  if [ -r "$BOOTKERNEL" ]; then
+  if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load SailfishOS kernel $BOOTKERNEL"
     exit 1
   fi
