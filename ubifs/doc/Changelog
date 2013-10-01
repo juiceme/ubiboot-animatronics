@@ -1,3 +1,8 @@
+2013-10-01 Jussi Ohenoja <juice@swagman.org>
+	* Compiled sshd for ubiboot.
+	* Some bug corrections for menu scripts
+	* Added configurable log file directories
+
 2013-09-30 Jussi Ohenoja <juice@swagman.org>
 	* Updated required config version to 2.
 	* Added checking/logging of the selected kernel file existance.

@@ -10,10 +10,6 @@ Wishlist for ubiboot-02
    3.) Mechanism in init to get root password hash from ubiboot.conf and set
        it up in the /etc/passwd
 
- - Move the ubiboot-created log files to some more sensible location.
-   Should it be configurable in ubiboot.conf or just store to ubiboot config
-   directory? What about when config directory is on mtd4/mtd5?
-
  - WLAN access for ubiboot maintanance mode.
    1.) Authentication, should port wpasupplicant. What else is required?
    2.) Mechanism in init to write the config files based on ubiboot.conf.
