@@ -25,6 +25,7 @@
 
 
 IBASE="./imagebase"
+MBASE="./menuscripts"
 BUTTONIMAGE="$IBASE/backbutton.png"
 OWNERPANEL="$IBASE/ownerpanel.png"
 
@@ -142,11 +143,7 @@ rm -f $TEMPIMAGES/* > /dev/null 2>&1
 rm -f $FINIMAGES/* > /dev/null 2>&1
 rm -f $ANIMIMAGES/* > /dev/null 2>&1
 rm -f $VIDEOS/* > /dev/null 2>&1
-cp ./select_and_boot_os.sh $FINIMAGES
-cp ./select_default_os.sh $FINIMAGES
-cp ./select_os_animated.sh $FINIMAGES
-cp ./animated_menu_top.map $FINIMAGES
-cp ./test_animate.sh $FINIMAGES
+cp $MBASE/* $FINIMAGES
 
 
 ## create the animated backbutton sequence
