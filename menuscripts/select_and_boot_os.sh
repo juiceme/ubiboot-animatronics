@@ -47,10 +47,10 @@ save_logfile()
 {
   logger "Saving ubiboot log files"
   try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
-  cat /var/log/messages >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
-  date >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
-  dmesg >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
-  echo >> "/mnt/G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  cat /var/log/messages >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
+  date >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  dmesg >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
+  echo >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
   sync
   umount "/mnt/$G_LOGFILE_PARTITION"
 }
