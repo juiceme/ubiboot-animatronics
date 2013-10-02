@@ -567,22 +567,22 @@ fi
 
 if [ -z "$G_MUST_FAIL" ]; then
   # Set up the softlinks for OS'es/kernels boot locations
-  if [ ! -z "$G_HARMATTAN_PARTITION"]; then
+  if [ ! -z "$G_HARMATTAN_PARTITION" ]; then
     ln -s /mnt/$G_HARMATTAN_PARTITION /boot/Harmattan
   fi
-  if [ ! -z "$G_NITDROID_PARTITION"]; then
+  if [ ! -z "$G_NITDROID_PARTITION" ]; then
     ln -s /mnt/$G_NITDROID_PARTITION /boot/Nitdroid
   fi
-  if [ ! -z "$G_NEMO_PARTITION"]; then
+  if [ ! -z "$G_NEMO_PARTITION" ]; then
     ln -s /mnt/$G_NEMO_PARTITION /boot/Nemo
   fi
-  if [ ! -z "$G_FIREFOX_PARTITION"]; then
+  if [ ! -z "$G_FIREFOX_PARTITION" ]; then
     ln -s /mnt/$G_FIREFOX_PARTITION /boot/Firefox
   fi
-  if [ ! -z "$G_UBUNTU_PARTITION"]; then
+  if [ ! -z "$G_UBUNTU_PARTITION" ]; then
     ln -s /mnt/$G_UBUNTU_PARTITION /boot/Ubuntu
   fi
-  if [ ! -z "$G_SAILFISH_PARTITION"]; then
+  if [ ! -z "$G_SAILFISH_PARTITION" ]; then
     ln -s /mnt/$G_SAILFISH_PARTITION /boot/Sailfish
   fi
 
