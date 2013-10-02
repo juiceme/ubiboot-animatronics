@@ -389,14 +389,21 @@ file /doc/TODO      usr/ubifs/doc/TODO      444 0 0
 
 ## /etc/
 
-file  /etc/fstab                   usr/ubifs/etc/fstab                   664 0 0
-file  /etc/mtab                    usr/ubifs/etc/mtab                    644 0 0
-file  /etc/moslo-version           usr/ubifs/etc/moslo-version           644 0 0
-file  /etc/ubiboot-version         usr/ubifs/etc/ubiboot-version         644 0 0
-file  /etc/required-config-version usr/ubifs/etc/required-config-version 644 0 0
-file  /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             755 0 0
-slink /etc/passwd                  /mnt/2/etc/passwd                     777 0 0
-slink /etc/group                   /mnt/2/etc/group                      777 0 0
+file /etc/fstab                   usr/ubifs/etc/fstab                   664 0 0
+file /etc/mtab                    usr/ubifs/etc/mtab                    644 0 0
+file /etc/moslo-version           usr/ubifs/etc/moslo-version           644 0 0
+file /etc/ubiboot-version         usr/ubifs/etc/ubiboot-version         644 0 0
+file /etc/required-config-version usr/ubifs/etc/required-config-version 644 0 0
+file /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             755 0 0
+file /etc/passwd                  usr/ubifs/etc/passwd                  644 0 0
+file /etc/group                   usr/ubifs/etc/group                   644 0 0
+
+
+## /etc/ssh/
+
+dir  /etc/ssh                                           775 0 0
+file /etc/ssh/sshd_config usr/ubifs/etc/ssh/sshd_config 644 0 0
+file /etc/ssh/issue.net   usr/ubifs/etc/ssh/issue.net   644 0 0
 
 
 ## /lib/
@@ -471,8 +478,6 @@ dir /mnt/4  755 0 0
 dir /mnt/5  755 0 0
 dir /mnt/6  755 0 0
 dir /mnt/7  755 0 0
-dir /mnt/8  755 0 0
-dir /mnt/9  755 0 0
 dir /mnt/u4 755 0 0
 dir /mnt/u5 755 0 0
 
