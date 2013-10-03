@@ -36,26 +36,26 @@ source /etc/ubiboot.conf
 O_COMMAND_LINE=$(cat /proc/original_cmdline)
 
 
-## Preload the kexec() with Harmattan kernel, set boot params to /dev/mmcblk2 and /sbin/preinit_harmattan
-load_harmattan()
+## Preload the kexec() with OS1 kernel, and set boot command line parameters
+load_OS1()
 {
-  logger "Selecting Harmattan OS"
-  if [ -r "$G_HARMATTAN_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_HARMATTAN_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_HARMATTAN_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS1_NAME OS"
+  if [ -r "$G_OS1_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS1_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS1_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_HARMATTAN_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_HARMATTAN_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS1_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS1_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_HARMATTAN_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_HARMATTAN_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_HARMATTAN_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS1_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS1_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS1_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default Harmattan kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS1_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -71,26 +71,26 @@ load_harmattan()
 }
 
 
-## Preload the kexec() with Nitdroid kernel, set boot params to /dev/mmcblk2 and /sbin/preinit_nitdtoid
-load_nitdroid()
+## Preload the kexec() with OS2 kernel, and set boot command line parameters
+load_OS2()
 {
-  logger "Selecting Nitdroid OS"
-  if [ -r "$G_NITDROID_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_NITDROID_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_NITDROID_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS2_NAME OS"
+  if [ -r "$G_OS2_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS2_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS2_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NITDROID_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NITDROID_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS2_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS2_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_NITDROID_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_NITDROID_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_NITDROID_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS2_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS2_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS2_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default Nitdroid kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS2_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -106,26 +106,26 @@ load_nitdroid()
 }
 
 
-## Preload the kexec() with Nemo kernel, set boot partiton to /dev/mmcblk4
-load_nemo()
+## Preload the kexec() with OS3 kernel, and set boot command line parameters
+load_OS3()
 {
-  logger "Selecting Nemo OS"
-  if [ -r "$G_NEMO_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_NEMO_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_NEMO_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS3_NAME OS"
+  if [ -r "$G_OS3_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS3_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS3_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_NEMO_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_NEMO_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS3_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS3_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_NEMO_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_NEMO_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_NEMO_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS3_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS3_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS3_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default Nemo kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS3_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -141,26 +141,26 @@ load_nemo()
 }
 
 
-## Preload the kexec() with FirefoxOS kernel, set boot partiton to whatever given
-load_firefox()
+## Preload the kexec() with OS4 kernel, and set boot command line parameters
+load_OS4()
 {
-  logger "Selecting FirefoxOS"
-  if [ -r "$G_FIREFOX_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_FIREFOX_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_FIREFOX_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS4_NAME OS"
+  if [ -r "$G_OS4_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS4_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS4_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_FIREFOX_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_FIREFOX_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS4_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS4_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_FIREFOX_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_FIREFOX_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_FIREFOX_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS4_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS4_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS4_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default FirefoxOS kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS4_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -176,26 +176,26 @@ load_firefox()
 }
 
 
-## Preload the kexec() with Ubuntu kernel, set boot partiton to whatever given
-load_ubuntu()
+## Preload the kexec() with OS5 kernel, and set boot command line parameters
+load_OS5()
 {
-  logger "Selecting Ubuntu OS"
-  if [ -r "$G_UBUNTU_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_UBUNTU_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_UBUNTU_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS5_NAME OS"
+  if [ -r "$G_OS5_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS5_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS5_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_UBUNTU_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_UBUNTU_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS5_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS5_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_UBUNTU_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_UBUNTU_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_UBUNTU_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS5_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS5_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS5_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default Ubuntu kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS5_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -211,26 +211,26 @@ load_ubuntu()
 }
 
 
-## Preload the kexec() with SailfishOS kernel, set boot partiton to whatever given
-load_sailfish()
+## Preload the kexec() with OS6 kernel, and set boot command line parameters
+load_OS6()
 {
-  logger "Selecting SailfishOS"
-  if [ -r "$G_SAILFISH_INIT_CMDLINE_FILE" ]; then
-    logger "Loading CMDLINE override from $G_SAILFISH_INIT_CMDLINE_FILE"
-    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_SAILFISH_INIT_CMDLINE_FILE")
+  logger "Selecting $G_OS6_NAME OS"
+  if [ -r "$G_OS6_INIT_CMDLINE_FILE" ]; then
+    logger "Loading CMDLINE override from $G_OS6_INIT_CMDLINE_FILE"
+    O_COMMAND_LINE_OVERRRIDE=$(cat "$G_OS6_INIT_CMDLINE_FILE")
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
-    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_SAILFISH_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_SAILFISH_INITSCRIPT)/")
+    TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS6_PARTITION/")
+    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS6_INITSCRIPT)/")
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
-    if [ ! -z "$G_SAILFISH_INIT_CMDLINE_APPENDS" ]; then 
-      logger "Appending options to CMDLINE: $G_SAILFISH_INIT_CMDLINE_APPENDS"
-      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_SAILFISH_INIT_CMDLINE_APPENDS")
+    if [ ! -z "$G_OS6_INIT_CMDLINE_APPENDS" ]; then 
+      logger "Appending options to CMDLINE: $G_OS6_INIT_CMDLINE_APPENDS"
+      TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS6_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
   if [ ! -r "$G_DEFAULT_KERNEL" ]; then
-    logger "Cannot load default SailfishOS kernel $G_DEFAULT_KERNEL"
+    logger "Cannot load default $G_OS6_NAME kernel $G_DEFAULT_KERNEL"
     exit 1
   fi
   logger "Loading default kernel $G_DEFAULT_KERNEL"
@@ -246,23 +246,23 @@ load_sailfish()
 }
 
 
-# Load up the default OS. Usually this is Harmattan but what do you know...?
+# Load up the default OS. Usually this is OS2 but what do you know...?
 #
-if [ "$G_DEFAULT_OS" == "Harmattan" ]; then
-  load_harmattan
+if [ "$G_DEFAULT_OS" == "OS1" ]; then
+  load_OS1
 fi
-if [ "$G_DEFAULT_OS" == "Nitdroid" ]; then
-  load_nitdroid
+if [ "$G_DEFAULT_OS" == "OS2" ]; then
+  load_OS2
 fi
-if [ "$G_DEFAULT_OS" == "Nemo" ]; then
-  load_nemo
+if [ "$G_DEFAULT_OS" == "OS3" ]; then
+  load_OS3
 fi
-if [ "$G_DEFAULT_OS" == "Firefox" ]; then
-  load_firefox
+if [ "$G_DEFAULT_OS" == "OS4" ]; then
+  load_OS4
 fi
-if [ "$G_DEFAULT_OS" == "Ubuntu" ]; then
-  load_ubuntu
+if [ "$G_DEFAULT_OS" == "OS5" ]; then
+  load_OS5
 fi
-if [ "$G_DEFAULT_OS" == "Sailfish" ]; then
-  load_sailfish
+if [ "$G_DEFAULT_OS" == "OS6" ]; then
+  load_OS6
 fi

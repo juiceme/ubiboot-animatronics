@@ -105,6 +105,7 @@ save_logfile()
   try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
   mkdir -p "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}"
   cat /var/log/messages >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
+  echo >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
   date >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
   dmesg >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
   echo >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"
@@ -484,7 +485,27 @@ else
   fi
 fi
 
-# if powerup reason is USB Charger or RTC Alarm, boot up directly to default Harmattan
+# Set up the softlinks for OS'es/kernels boot locations
+if [ ! -z "$G_OS1_PARTITION" ]; then
+  ln -s "/mnt/$G_OS1_PARTITION" "/boot/$G_OS1_NAME"
+fi
+if [ ! -z "$G_OS2_PARTITION" ]; then
+  ln -s "/mnt/$G_OS2_PARTITION" "/boot/$G_OS2_NAME"
+fi
+if [ ! -z "$G_OS3_PARTITION" ]; then
+  ln -s "/mnt/$G_OS3_PARTITION" "/boot/$G_OS3_NAME"
+fi
+if [ ! -z "$G_OS4_PARTITION" ]; then
+  ln -s "/mnt/$G_OS4_PARTITION" "/boot/$G_OS4_NAME"
+fi
+if [ ! -z "$G_OS5_PARTITION" ]; then
+  ln -s "/mnt/$G_OS5_PARTITION" "/boot/$G_OS5_NAME"
+fi
+if [ ! -z "$G_OS6_PARTITION" ]; then
+  ln -s "/mnt/$G_OS6_PARTITION" "/boot/$G_OS6_NAME"
+fi
+
+# if powerup reason is USB Charger or RTC Alarm, boot up directly to default OS
 bootreason=$(cat /proc/original_cmdline | cut -d' ' -f12 |  cut -d'=' -f2)
 bootmode=$(cat /proc/original_cmdline | cut -d' ' -f13 |  cut -d'=' -f2)
 logger "bootreason: $bootreason"
@@ -566,31 +587,12 @@ if [ -z "$G_MUST_FAIL" ]; then
 fi
 
 if [ -z "$G_MUST_FAIL" ]; then
-  # Set up the softlinks for OS'es/kernels boot locations
-  if [ ! -z "$G_HARMATTAN_PARTITION" ]; then
-    ln -s /mnt/$G_HARMATTAN_PARTITION /boot/Harmattan
-  fi
-  if [ ! -z "$G_NITDROID_PARTITION" ]; then
-    ln -s /mnt/$G_NITDROID_PARTITION /boot/Nitdroid
-  fi
-  if [ ! -z "$G_NEMO_PARTITION" ]; then
-    ln -s /mnt/$G_NEMO_PARTITION /boot/Nemo
-  fi
-  if [ ! -z "$G_FIREFOX_PARTITION" ]; then
-    ln -s /mnt/$G_FIREFOX_PARTITION /boot/Firefox
-  fi
-  if [ ! -z "$G_UBUNTU_PARTITION" ]; then
-    ln -s /mnt/$G_UBUNTU_PARTITION /boot/Ubuntu
-  fi
-  if [ ! -z "$G_SAILFISH_PARTITION" ]; then
-    ln -s /mnt/$G_SAILFISH_PARTITION /boot/Sailfish
-  fi
-
   # Start the boot OS & kernel selection via animated boot menu
   if [ -x /boot/menu/select_and_boot_os.sh ]; then
     logger "Starting menu launcher"
     sh /boot/menu/select_and_boot_os.sh &
   else
+    $G_MUST_FAIL="YES"
     logger "Failed to start menu launcher!"
     save_logfile
     ttsr
@@ -606,5 +608,29 @@ logger "Reached end of init!"
 # exit would trap and start a new shell again, so stay in the loop
 # forever
 while true; do
-  sleep 99999
+  if [ ! -z "$G_MUST_FAIL" ]; then
+    # something went wrong, so wait if cable is connected
+    usb_is_plugged
+    if [ $? -eq 1 ]; then
+      # Start the watchdog kicker
+      if [ $WATCHDOG_KICKER_RUNNING -eq 0 ]; then
+        start_watchdog
+      fi
+
+      # Clear screen and display welcome message
+      logger "Started maintanance mode"
+      welcome_banner
+    
+      # Export all partitions and start daemons
+      export_mmc_partitions
+
+      # Remove exports and mount partitons locally
+      ifconfig usb0 down
+      rmmod g_multi
+      sleep 1
+
+      logger "Exit maintanance mode"
+    fi
+  fi
+  sleep 1
 done

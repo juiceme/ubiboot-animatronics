@@ -33,7 +33,7 @@ OWNERPANEL="$IBASE/ownerpanel.png"
 ICONIMAGE_1="$IBASE/nitdroid_200x200.png"
 ICONIMAGE_2="$IBASE/meego_200x200.png"
 ICONIMAGE_3="$IBASE/nemo_200x200.png"
-ICONIMAGE_4="$IBASE/backupmenu_200x200.png"
+ICONIMAGE_4="$IBASE/tools_200x200.png"
 ICONIMAGE_5="$IBASE/firefox_200x200.png"
 ICONIMAGE_6="$IBASE/ubuntu_200x200.png"
 ICONIMAGE_7="$IBASE/sailfish_200x200.png"
@@ -195,12 +195,6 @@ while [ $XS -gt 3 ]; do
   let "XS-=6"
   let "YS=XS"
   echo -n "."
-
-#  $CONVERT -resize $YSx$XS $DROIDIMAGE $TEMPIMAGES/dim_$CI.png
-#  $CONVERT -resize $YSx$XS $HARMIMAGE $TEMPIMAGES/him_$CI.png
-#  $CONVERT -resize $YSx$XS $NEMOIMAGE $TEMPIMAGES/nim_$CI.png
-#  $CONVERT -resize $YSx$XS $INFOIMAGE $TEMPIMAGES/iim_$CI.png
-#  $CONVERT -resize $YSx$XS $BUMENUIMAGE $TEMPIMAGES/bim_$CI.png
 
   $CONVERT -resize $YSx$XS $ICONIMAGE_1 $TEMPIMAGES/iim1_$CI.png
   $CONVERT -resize $YSx$XS $ICONIMAGE_2 $TEMPIMAGES/iim2_$CI.png
@@ -778,7 +772,7 @@ while [ $XINT -gt 5 ]; do
 done
 ANIM_M4_COUNT=$FRAMENUM
 
-## The fbm panel is embedded to the backupmenu screen, so fix that now
+## The fbm panel is embedded to the tools menu screen, so fix that now
 
 $CONVERT -size 854x480 xc:black \
          -page +0+0 $ANIMIMAGES/mui4_$INDP.png \
