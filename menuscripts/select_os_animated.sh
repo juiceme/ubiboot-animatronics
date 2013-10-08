@@ -355,9 +355,6 @@ bounce_icon()
   if [ "$1" == "OS3" ]; then
     IFILE="pi3"
   fi
-  if [ "$1" == "Backup" ]; then
-    IFILE="pi4"
-  fi
   if [ "$1" == "OS4" ]; then
     IFILE="pi5"
   fi
@@ -366,6 +363,9 @@ bounce_icon()
   fi
   if [ "$1" == "OS6" ]; then
     IFILE="pi7"
+  fi
+  if [ "$1" == "Toolsmenu" ]; then
+    IFILE="pi4"
   fi
   if [ "$1" == "Info" ]; then
     IFILE="pi8"
@@ -731,6 +731,8 @@ get_menuitem()
   mode=$1
   menulines=$2
 
+  logger "Get menuitem for $mode ($menulines lines)"
+
   if [ "$mode" == "OS1" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_OS1_1_FILE" "$G_OS1_2_FILE" "$G_OS1_3_FILE" "$G_OS1_4_FILE" "$G_OS1_5_FILE" "$G_OS1_6_FILE")
   fi
@@ -740,19 +742,16 @@ get_menuitem()
   if [ "$mode" == "OS3" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_OS3_1_FILE" "$G_OS3_2_FILE" "$G_OS3_3_FILE" "$G_OS3_4_FILE" "$G_OS3_5_FILE" "$G_OS3_6_FILE")
   fi
-  if [ "$mode" == "backupmenu" ]; then
-    maplines=$(generate_temporary_mapfile $menulines)
-  fi
   if [ "$mode" == "OS4" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_OS4_1_FILE" "$G_OS4_2_FILE" "$G_OS4_3_FILE" "$G_OS4_4_FILE" "$G_OS4_5_FILE" "$G_OS4_6_FILE")
-    maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "OS5" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_OS5_1_FILE" "$G_OS5_2_FILE" "$G_OS5_3_FILE" "$G_OS5_4_FILE" "$G_OS5_5_FILE" "$G_OS5_6_FILE")
-    maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "OS6" ]; then
     maplines=$(generate_temporary_mapfile $menulines "$G_OS6_1_FILE" "$G_OS6_2_FILE" "$G_OS6_3_FILE" "$G_OS6_4_FILE" "$G_OS6_5_FILE" "$G_OS6_6_FILE")
+  fi
+  if [ "$mode" == "toolsmenu" ]; then
     maplines=$(generate_temporary_mapfile $menulines)
   fi
   if [ "$mode" == "info" ]; then
@@ -826,7 +825,7 @@ get_kernel_line()
       echo "$G_OS1_5_FILE"
     fi
     if [ "$bootline" -eq 6 ]; then
-      echo "$G_OS1_7_FILE"
+      echo "$G_OS1_6_FILE"
     fi
   fi
   if [ "$mode" == "OS2" ]; then
@@ -945,6 +944,7 @@ second_level_menu()
     IFILE="mui1"
     LASTFRAME="$ANIM_M1_COUNT"
     if [ "$G_OS1_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS1 with kernel line $G_OS1_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS1_AUTOBOOT)
       echo -e "$selection"
       return 0
@@ -954,6 +954,7 @@ second_level_menu()
     IFILE="mui2"
     LASTFRAME="$ANIM_M2_COUNT"
     if [ "$G_OS2_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS2 with kernel line $G_OS2_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS2_AUTOBOOT)
       echo -e "$selection"
       return 0
@@ -963,12 +964,13 @@ second_level_menu()
     IFILE="mui3"
     LASTFRAME="$ANIM_M3_COUNT"
     if [ "$G_OS3_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS3 with kernel line $G_OS3_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS3_AUTOBOOT)
       echo -e "$selection"
       return 0
     fi
   fi
-  if [ "$callmode" == "backupmenu" ]; then
+  if [ "$callmode" == "toolsmenu" ]; then
     IFILE="mui4"
     LASTFRAME="$ANIM_M4_COUNT"
   fi
@@ -976,6 +978,7 @@ second_level_menu()
     IFILE="mui5"
     LASTFRAME="$ANIM_M5_COUNT"
     if [ "$G_OS4_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS4 with kernel line $G_OS4_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS4_AUTOBOOT)
       echo -e "$selection"
       return 0
@@ -985,6 +988,7 @@ second_level_menu()
     IFILE="mui6"
     LASTFRAME="$ANIM_M6_COUNT"
     if [ "$G_OS5_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS5 with kernel line $G_OS5_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS5_AUTOBOOT)
       echo -e "$selection"
       return 0
@@ -994,6 +998,7 @@ second_level_menu()
     IFILE="mui7"
     LASTFRAME="$ANIM_M7_COUNT"
     if [ "$G_OS6_AUTOBOOT" -ne 0 ]; then
+      logger "Autobooting OS6 with kernel line $G_OS6_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS6_AUTOBOOT)
       echo -e "$selection"
       return 0
@@ -1010,46 +1015,54 @@ second_level_menu()
     $SHOWPNG "$IMAGEBASE/${IFILE}_$IND.png" > /dev/null
   done
   if [ "$callmode" == "OS1" ]; then
+    logger "Drawing second level menu items for OS1"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
   if [ "$callmode" == "OS2" ]; then
+    logger "Drawing second level menu items for OS2"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
   if [ "$callmode" == "OS3" ]; then
+    logger "Drawing second level menu items for OS3"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
   if [ "$callmode" == "OS4" ]; then
+    logger "Drawing second level menu items for OS4"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
   if [ "$callmode" == "OS5" ]; then
+    logger "Drawing second level menu items for OS5"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
   if [ "$callmode" == "OS6" ]; then
+    logger "Drawing second level menu items for OS6"
     items=$(draw_kernel_list $callmode "0x001200" 0)
     selection=$(get_menuitem $callmode $items)
     ret=$?
   fi
-  if [ "$callmode" == "info" ]; then
-    # no need to draw anything for info, just get the "back" button press
-    selection=$(get_menuitem $callmode 0)
-    ret=1
-  fi
-  if [ "$callmode" == "backupmenu" ]; then
-    # Here goes the stuff of backup menu.
+  if [ "$callmode" == "toolsmenu" ]; then
+    logger "Drawing second level menu items for Tools menu"
+    # Here goes all kinds of random tools, like the stuff of backupmenu etc...
     # This just gets the "back" button press currently:
     selection=$(get_menuitem $callmode 0)
     ret=1
   fi 
+  if [ "$callmode" == "info" ]; then
+    logger "Drawing second level menu items for Info menu"
+    # no need to draw anything for info, just get the "back" button press
+    selection=$(get_menuitem $callmode 0)
+    ret=1
+  fi
   while [ $FRAMENUM -gt 1 ] ; do
     let "FRAMENUM-=1"
     IND=$(printindex $FRAMENUM)
@@ -1071,49 +1084,57 @@ get_selection()
   selection=$($EVTAP -t /dev/input/$touchdevice -m $TOPMAP -d 200 -s)
   ret=$?
   if [ "$ret" == "1" ]; then
+    logger "Selected second level menu for OS1"
     bounce_icon "OS1"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS1")
     ret=$?
   fi
   if [ "$ret" == "2" ]; then
+    logger "Selected second level menu for OS2"
     bounce_icon "OS2"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS2")
     ret=$?
   fi
   if [ "$ret" == "3" ]; then
+    logger "Selected second level menu for OS3"
     bounce_icon "OS3"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS3")
     ret=$?
   fi
   if [ "$ret" == "4" ]; then
-    bounce_icon "Backupmenu"
-    SELECTED_OS=0
-    SELECTED_KERNEL=0
-    second_level_menu "backupmenu"
-    ret=1
-  fi
-  if [ "$ret" == "5" ]; then
+    logger "Selected second level menu for OS4"
     bounce_icon "OS4"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS4")
     ret=$?
   fi
-  if [ "$ret" == "6" ]; then
+  if [ "$ret" == "5" ]; then
+    logger "Selected second level menu for OS5"
     bounce_icon "OS5"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS5")
     ret=$?
   fi
-  if [ "$ret" == "7" ]; then
+  if [ "$ret" == "6" ]; then
+    logger "Selected second level menu for OS6"
     bounce_icon "OS6"
     SELECTED_OS=$ret
     SELECTED_KERNEL=$(second_level_menu "OS6")
     ret=$?
   fi
+  if [ "$ret" == "7" ]; then
+    logger "Selected second level menu for Tools"
+    bounce_icon "Toolsmenu"
+    SELECTED_OS=0
+    SELECTED_KERNEL=0
+    second_level_menu "toolsmenu"
+    ret=1
+  fi
   if [ "$ret" == "8" ]; then
+    logger "Selected second level menu for Info"
     bounce_icon "Info"
     SELECTED_OS=0
     SELECTED_KERNEL=0
@@ -1184,13 +1205,13 @@ main_menu()
   if [ "$SELECTED_OS" == "3" ]; then
     load_OS3 $SELECTED_KERNEL
   fi
-  if [ "$SELECTED_OS" == "5" ]; then
+  if [ "$SELECTED_OS" == "4" ]; then
     load_OS4 $SELECTED_KERNEL
   fi
-  if [ "$SELECTED_OS" == "6" ]; then
+  if [ "$SELECTED_OS" == "5" ]; then
     load_OS5 $SELECTED_KERNEL
   fi
-  if [ "$SELECTED_OS" == "7" ]; then
+  if [ "$SELECTED_OS" == "6" ]; then
     load_OS6 $SELECTED_KERNEL
   fi
 
