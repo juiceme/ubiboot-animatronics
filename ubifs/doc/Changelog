@@ -1,3 +1,6 @@
+2013-10-09 Jussi Ohenoja <juice@swagman.org>
+	* Added compile-time ID string to cpio
+	
 2013-10-08 Jussi Ohenoja <juice@swagman.org>
 	* Released fix ubiboot-02_0.3.4_081013.tar
 	* Bug corrections to menu selection scripts. There was a variable mixup that prevented booting off the Firefox‚ Ubuntu & Sailfish menus.
