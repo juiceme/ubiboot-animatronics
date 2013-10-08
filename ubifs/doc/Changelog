@@ -1,8 +1,13 @@
 2013-10-08 Jussi Ohenoja <juice@swagman.org>
+	* Released fix ubiboot-02_0.3.4_081013.tar
 	* Bug corrections to menu selection scripts. There was a variable mixup that prevented booting off the Firefox‚ Ubuntu & Sailfish menus.
 	* Added more detailed logging to menu scripts
 
+2013-10-04 Jussi Ohenoja <juice@swagman.org>
+        * Updated the preinit_harmattan file in preinits.tar to original version.
+
 2013-10-03 Jussi Ohenoja <juice@swagman.org>
+	* New version 0.3.4 released.
 	* Changed init so that in case of failure repair mode can be entered without booting the device first.
 	* Replaced OS names with generic OS tags all over the scripts.
 
