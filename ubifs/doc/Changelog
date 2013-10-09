@@ -1,10 +1,12 @@
 2013-10-09 Jussi Ohenoja <juice@swagman.org>
-	* Added compile-time ID string to cpio
-	
+	* Added compile-time ID string to cpio.
+	* Added the compile-time ID checking to init.
+	* Added cpio checksum logging.
+
 2013-10-08 Jussi Ohenoja <juice@swagman.org>
 	* Released fix ubiboot-02_0.3.4_081013.tar
 	* Bug corrections to menu selection scripts. There was a variable mixup that prevented booting off the Firefox‚ Ubuntu & Sailfish menus.
-	* Added more detailed logging to menu scripts
+	* Added more detailed logging to menu scripts.
 
 2013-10-04 Jussi Ohenoja <juice@swagman.org>
         * Updated the preinit_harmattan file in preinits.tar to original version.
@@ -15,7 +17,7 @@
 	* Replaced OS names with generic OS tags all over the scripts.
 
 2013-10-02 Jussi Ohenoja <juice@swagman.org>
-	* Tried to get SSHD working, still some problems
+	* Tried to get SSHD working, still some problems.
 	* Organized menu scripts under own directory in repositiry.
 	* Added templates for sshd configuration scripts.
 	* Changed logging so that the output directory is configurable.

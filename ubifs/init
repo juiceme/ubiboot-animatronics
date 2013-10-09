@@ -378,6 +378,7 @@ logger "kernel $(uname -a)"
 # first try loading from mtd4:
 G_CONFIG_LOADED=""
 G_CPIO_LOADED=""
+G_CPIO_MD5=""
 ubiattach /dev/ubi_ctrl -m 4
 if [ $? -eq 0 ]; then
   mount /mnt/u4
@@ -389,8 +390,9 @@ if [ $? -eq 0 ]; then
       cp /mnt/u4/ubiboot.conf /etc
       if [ -r "/mnt/u4/$G_UBIBOOT_ARCHIVE" ]; then
         G_CPIO_LOADED="YES"
+        G_CPIO_MD5=$(md5sum "/mnt/u4/$G_UBIBOOT_ARCHIVE" | cut -d' ' -f1)
         cpio -id < "/mnt/u4/$G_UBIBOOT_ARCHIVE"
-        logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd4"
+        logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd4 (md5sum=$G_CPIO_MD5)"
       else
         logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
       fi
@@ -415,8 +417,9 @@ if [ -z "$G_CONFIG_LOADED" ]; then
         cp /mnt/u5/ubiboot.conf /etc
         if [ -r "/mnt/u5/$G_UBIBOOT_ARCHIVE" ]; then
           G_CPIO_LOADED="YES"
+          G_CPIO_MD5=$(md5sum "/mnt/u5/$G_UBIBOOT_ARCHIVE" | cut -d' ' -f1)
           cpio -id < "/mnt/u5/$G_UBIBOOT_ARCHIVE"
-          logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd5"
+          logger "Copied archive $G_UBIBOOT_ARCHIVE from mtd5 (md5sum=$G_CPIO_MD5)"
         else
           logger "Could not copy archive $G_UBIBOOT_ARCHIVE from mtd4"
         fi
@@ -441,8 +444,9 @@ if [ -z "$G_CONFIG_LOADED" ]; then
       cp "/mnt/$mpart/boot/ubiboot.conf" /etc/
       if [ -r "/mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE" ]; then
         G_CPIO_LOADED="YES"
+        G_CPIO_MD5=$(md5sum "/mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE" | cut -d' ' -f1)
         cpio -id < "/mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
-        logger "Copied archive /mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
+        logger "Copied archive /mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE (md5sum=$G_CPIO_MD5)"
       else
         logger "Could not find archive /mnt/$mpart/boot/$G_UBIBOOT_ARCHIVE"
       fi
@@ -482,6 +486,13 @@ else
   else
     G_CPIO_VERSION=""
     logger "Could not determine cpio version"
+  fi
+  if [ -r /boot/cpio-info ]; then
+    G_CPIO_INFO=$(cat /boot/cpio-info)
+    logger "Archive cpio build info: $G_CPIO_INFO"
+  else
+    G_CPIO_INFO=""
+    logger "Could not determine cpio build info"
   fi
 fi
 
