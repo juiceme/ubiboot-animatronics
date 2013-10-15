@@ -5,8 +5,7 @@ Wishlist for ubiboot-02
    there still is excess things, like the USB device IP address setup.
 
  - Finish the SSHD setup for ubiboot environment;
-   1.) Patch SSHD to work in the root-only environment
-   2.) Set up keys from config file
+   1.) Set up keys from config file
 
  - WLAN access for ubiboot maintanance mode.
    1.) Authentication, should port wpasupplicant. What else is required?

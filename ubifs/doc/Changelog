@@ -1,3 +1,8 @@
+2013-10-15 Jussi Ohenoja <juice@swagman.org>
+	* Fixed issues with sshd.
+	* Added ssh keyfile configuration to init.
+	* Added sftp-server.
+
 2013-10-09 Jussi Ohenoja <juice@swagman.org>
 	* Added compile-time ID string to cpio.
 	* Added the compile-time ID checking to init.

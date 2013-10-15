@@ -24,7 +24,7 @@
 ## 
 
 
-CPIO_VERSION="2"
+CPIO_VERSION="3"
 TEMPDIR="./temp"
 BOOTDIR="$TEMPDIR/boot"
 MENUDIR="$BOOTDIR/menu"

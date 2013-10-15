@@ -405,6 +405,10 @@ dir  /etc/ssh                                           775 0 0
 file /etc/ssh/sshd_config usr/ubifs/etc/ssh/sshd_config 644 0 0
 file /etc/ssh/issue.net   usr/ubifs/etc/ssh/issue.net   644 0 0
 
+## /etc/ssh/keys
+
+dir /etc/ssh/keys 744 0 0
+
 
 ## /lib/
 
@@ -552,17 +556,18 @@ file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 775 0 0
 
 ## /usr/sbin
 
-file /usr/sbin/bme_RX-71  usr/ubifs/usr/sbin/bme_RX-71  775 0 0
-file /usr/sbin/dnsmasq    usr/ubifs/usr/sbin/dnsmasq    775 0 0
-file /usr/sbin/kexec      usr/ubifs/usr/sbin/kexec      775 0 0
-file /usr/sbin/sshd       usr/ubifs/usr/sbin/sshd       775 0 0
-file /usr/sbin/start_dhcp usr/ubifs/usr/sbin/start_dhcp 775 0 0
-file /usr/sbin/ubiattach  usr/ubifs/usr/sbin/ubiattach  775 0 0
-file /usr/sbin/ubidetach  usr/ubifs/usr/sbin/ubidetach  775 0 0
-file /usr/sbin/ubiformat  usr/ubifs/usr/sbin/ubiformat  775 0 0
-file /usr/sbin/ubimkvol   usr/ubifs/usr/sbin/ubimkvol   775 0 0
-file /usr/sbin/ubinfo     usr/ubifs/usr/sbin/ubinfo     775 0 0
-file /usr/sbin/ubirmvol   usr/ubifs/usr/sbin/ubirmvol   775 0 0
+file /usr/sbin/bme_RX-71   usr/ubifs/usr/sbin/bme_RX-71   775 0 0
+file /usr/sbin/dnsmasq     usr/ubifs/usr/sbin/dnsmasq     775 0 0
+file /usr/sbin/kexec       usr/ubifs/usr/sbin/kexec       775 0 0
+file /usr/sbin/sshd        usr/ubifs/usr/sbin/sshd        775 0 0
+file /usr/sbin/sftp-server usr/ubifs/usr/sbin/sftp-server 775 0 0
+file /usr/sbin/start_dhcp  usr/ubifs/usr/sbin/start_dhcp  775 0 0
+file /usr/sbin/ubiattach   usr/ubifs/usr/sbin/ubiattach   775 0 0
+file /usr/sbin/ubidetach   usr/ubifs/usr/sbin/ubidetach   775 0 0
+file /usr/sbin/ubiformat   usr/ubifs/usr/sbin/ubiformat   775 0 0
+file /usr/sbin/ubimkvol    usr/ubifs/usr/sbin/ubimkvol    775 0 0
+file /usr/sbin/ubinfo      usr/ubifs/usr/sbin/ubinfo      775 0 0
+file /usr/sbin/ubirmvol    usr/ubifs/usr/sbin/ubirmvol    775 0 0
 
 
 ## /var/
