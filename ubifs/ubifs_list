@@ -1,21 +1,23 @@
 
 ## top level hierarchy
 
-file /init usr/ubifs/init 775 0 0
-dir  /bin  775 0 0
-dir  /boot 775 0 0
-dir  /dev  775 0 0
-dir  /doc  775 0 0
-dir  /etc  775 0 0
-dir  /lib  775 0 0
-dir  /mnt  775 0 0
-dir  /proc 775 0 0
-dir  /root 775 0 0
-dir  /sbin 775 0 0
-dir  /sys  775 0 0
-dir  /tmp  775 0 0
-dir  /usr  775 0 0
-dir  /var  775 0 0
+dir / 744 0 0
+
+file /init usr/ubifs/init 744 0 0
+dir  /bin                 744 0 0
+dir  /boot                744 0 0
+dir  /dev                 744 0 0
+dir  /doc                 744 0 0
+dir  /etc                 744 0 0
+dir  /lib                 744 0 0
+dir  /mnt                 744 0 0
+dir  /proc                744 0 0
+dir  /root                744 0 0
+dir  /sbin                744 0 0
+dir  /sys                 744 0 0
+dir  /tmp                 744 0 0
+dir  /usr                 744 0 0
+dir  /var                 744 0 0
 
 
 ## /bin/ is full of links
@@ -372,13 +374,13 @@ slink /bin/zcip /sbin/busybox 777 0 0
 
 ## /boot/
 
-dir   /boot/menu             775 0 0
+dir   /boot/menu             744 0 0
 
 
 ## /dev/
 
-dir /dev/pts 775 0 0
-dir /dev/shm 775 0 0
+dir /dev/pts 744 0 0
+dir /dev/shm 744 0 0
 
 
 ## /doc/
@@ -394,14 +396,14 @@ file /etc/mtab                    usr/ubifs/etc/mtab                    644 0 0
 file /etc/moslo-version           usr/ubifs/etc/moslo-version           644 0 0
 file /etc/ubiboot-version         usr/ubifs/etc/ubiboot-version         644 0 0
 file /etc/required-config-version usr/ubifs/etc/required-config-version 644 0 0
-file /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             755 0 0
+file /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             744 0 0
 file /etc/passwd                  usr/ubifs/etc/passwd                  644 0 0
 file /etc/group                   usr/ubifs/etc/group                   644 0 0
 
 
 ## /etc/ssh/
 
-dir  /etc/ssh                                           775 0 0
+dir  /etc/ssh                                           744 0 0
 file /etc/ssh/sshd_config usr/ubifs/etc/ssh/sshd_config 644 0 0
 file /etc/ssh/issue.net   usr/ubifs/etc/ssh/issue.net   644 0 0
 
@@ -412,36 +414,36 @@ dir /etc/ssh/keys 700 0 0
 
 ## /lib/
 
-file /lib/ld-2.10.1.so         usr/ubifs/lib/ld-2.10.1.so         775 0 0
-file /lib/ld-linux.so.3        usr/ubifs/lib/ld-linux.so.3        775 0 0
-file /lib/libattr.so.1         usr/ubifs/lib/libattr.so.1         775 0 0
-file /lib/libc-2.10.1.so       usr/ubifs/lib/libc-2.10.1.so       775 0 0
-file /lib/libc.so.6            usr/ubifs/lib/libc.so.6            775 0 0
-file /lib/libcal.so.1          usr/ubifs/lib/libcal.so.1          775 0 0
-file /lib/libcom_err.so.2      usr/ubifs/lib/libcom_err.so.2      775 0 0
-file /lib/libcrypt.so.1        usr/ubifs/lib/libcrypt.so.1        775 0 0
-file /lib/libcrypto.so.0.9.8   usr/ubifs/lib/libcrypto.so.0.9.8   775 0 0
-file /lib/libdl.so.2           usr/ubifs/lib/libdl.so.2           775 0 0
-file /lib/libe2p.so.2          usr/ubifs/lib/libe2p.so.2          775 0 0
-file /lib/libext2fs.so.2       usr/ubifs/lib/libext2fs.so.2       775 0 0
-file /lib/libgcc_s.so.1        usr/ubifs/lib/libgcc_s.so.1        775 0 0
-file /lib/libglib-2.0.so.0     usr/ubifs/lib/libglib-2.0.so.0     775 0 0
-file /lib/libm.so.6            usr/ubifs/lib/libm.so.6            775 0 0
-file /lib/libnsl.so.1          usr/ubifs/lib/libnsl.so.1          775 0 0
-file /lib/libpopt.so.0         usr/ubifs/lib/libpopt.so.0         775 0 0
-file /lib/libpthread-2.10.1.so usr/ubifs/lib/libpthread-2.10.1.so 775 0 0
-file /lib/libpthread.so.0      usr/ubifs/lib/libpthread.so.0      775 0 0
-file /lib/libreadline.so.5     usr/ubifs/lib/libreadline.so.5     775 0 0
-file /lib/libresolv.so.2       usr/ubifs/lib/libresolv.so.2       775 0 0
-file /lib/librt-2.10.1.so      usr/ubifs/lib/librt-2.10.1.so      775 0 0
-file /lib/librt.so.1           usr/ubifs/lib/librt.so.1           775 0 0
-file /lib/libtinfo.so.5        usr/ubifs/lib/libtinfo.so.5        775 0 0
-file /lib/libutil.so.1         usr/ubifs/lib/libutil.so.1         775 0 0
+file /lib/ld-2.10.1.so         usr/ubifs/lib/ld-2.10.1.so         744 0 0
+file /lib/ld-linux.so.3        usr/ubifs/lib/ld-linux.so.3        744 0 0
+file /lib/libattr.so.1         usr/ubifs/lib/libattr.so.1         744 0 0
+file /lib/libc-2.10.1.so       usr/ubifs/lib/libc-2.10.1.so       744 0 0
+file /lib/libc.so.6            usr/ubifs/lib/libc.so.6            744 0 0
+file /lib/libcal.so.1          usr/ubifs/lib/libcal.so.1          744 0 0
+file /lib/libcom_err.so.2      usr/ubifs/lib/libcom_err.so.2      744 0 0
+file /lib/libcrypt.so.1        usr/ubifs/lib/libcrypt.so.1        744 0 0
+file /lib/libcrypto.so.0.9.8   usr/ubifs/lib/libcrypto.so.0.9.8   744 0 0
+file /lib/libdl.so.2           usr/ubifs/lib/libdl.so.2           744 0 0
+file /lib/libe2p.so.2          usr/ubifs/lib/libe2p.so.2          744 0 0
+file /lib/libext2fs.so.2       usr/ubifs/lib/libext2fs.so.2       744 0 0
+file /lib/libgcc_s.so.1        usr/ubifs/lib/libgcc_s.so.1        744 0 0
+file /lib/libglib-2.0.so.0     usr/ubifs/lib/libglib-2.0.so.0     744 0 0
+file /lib/libm.so.6            usr/ubifs/lib/libm.so.6            744 0 0
+file /lib/libnsl.so.1          usr/ubifs/lib/libnsl.so.1          744 0 0
+file /lib/libpopt.so.0         usr/ubifs/lib/libpopt.so.0         744 0 0
+file /lib/libpthread-2.10.1.so usr/ubifs/lib/libpthread-2.10.1.so 744 0 0
+file /lib/libpthread.so.0      usr/ubifs/lib/libpthread.so.0      744 0 0
+file /lib/libreadline.so.5     usr/ubifs/lib/libreadline.so.5     744 0 0
+file /lib/libresolv.so.2       usr/ubifs/lib/libresolv.so.2       744 0 0
+file /lib/librt-2.10.1.so      usr/ubifs/lib/librt-2.10.1.so      744 0 0
+file /lib/librt.so.1           usr/ubifs/lib/librt.so.1           744 0 0
+file /lib/libtinfo.so.5        usr/ubifs/lib/libtinfo.so.5        744 0 0
+file /lib/libutil.so.1         usr/ubifs/lib/libutil.so.1         744 0 0
 
 
 ## /lib/dsme/
 
-dir  /lib/dsme                                                                        775 0 0
+dir  /lib/dsme                                                                        744 0 0
 file /lib/dsme/alarmtracker.so           usr/ubifs/lib/dsme/alarmtracker.so           644 0 0
 file /lib/dsme/dbusautoconnector.so      usr/ubifs/lib/dsme/dbusautoconnector.so      644 0 0
 file /lib/dsme/dbusproxy.so              usr/ubifs/lib/dsme/dbusproxy.so              644 0 0
@@ -467,113 +469,113 @@ file /lib/dsme/validatorlistener.so      usr/ubifs/lib/dsme/validatorlistener.so
 
 ## /lib/modules/
 
-dir  /lib/modules                                                                                 775 0 0
-dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                          775 0 0
-file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko 775 0 0
-#file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko 775 0 0
+dir  /lib/modules                                                                                 744 0 0
+dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                          744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko 744 0 0
+#file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko 744 0 0
 
 
 ## /mnt/
 
-dir /mnt/1  755 0 0
-dir /mnt/2  755 0 0
-dir /mnt/3  755 0 0
-dir /mnt/4  755 0 0
-dir /mnt/5  755 0 0
-dir /mnt/6  755 0 0
-dir /mnt/7  755 0 0
-dir /mnt/u4 755 0 0
-dir /mnt/u5 755 0 0
+dir /mnt/1  744 0 0
+dir /mnt/2  744 0 0
+dir /mnt/3  744 0 0
+dir /mnt/4  744 0 0
+dir /mnt/5  744 0 0
+dir /mnt/6  744 0 0
+dir /mnt/7  744 0 0
+dir /mnt/u4 744 0 0
+dir /mnt/u5 744 0 0
 
 
 ## /sbin/
 
-file  /sbin/busybox     usr/ubifs/sbin/busybox     775 0 0
-file  /sbin/depmod      usr/ubifs/sbin/depmod      775 0 0
-file  /sbin/dosfsck     usr/ubifs/sbin/dosfsck     775 0 0
-file  /sbin/dsme        usr/ubifs/sbin/dsme        775 0 0
-file  /sbin/dsme-server usr/ubifs/sbin/dsme-server 775 0 0
-file  /sbin/evkey       usr/ubifs/sbin/evkey       775 0 0
-file  /sbin/fsck.ext4   usr/ubifs/sbin/fsck.ext4   775 0 0
-file  /sbin/hwclock     usr/ubifs/sbin/hwclock     775 0 0
-file  /sbin/insmod      usr/ubifs/sbin/insmod      775 0 0
-file  /sbin/mkfs.ext4   usr/ubifs/sbin/mkfs.ext4   775 0 0
-file  /sbin/parted      usr/ubifs/sbin/parted      775 0 0
-file  /sbin/reboot2     usr/ubifs/sbin/reboot2     775 0 0
-#file  /sbin/shutdown    usr/ubifs/sbin/shutdown    775 0 0
+file  /sbin/busybox     usr/ubifs/sbin/busybox     744 0 0
+file  /sbin/depmod      usr/ubifs/sbin/depmod      744 0 0
+file  /sbin/dosfsck     usr/ubifs/sbin/dosfsck     744 0 0
+file  /sbin/dsme        usr/ubifs/sbin/dsme        744 0 0
+file  /sbin/dsme-server usr/ubifs/sbin/dsme-server 744 0 0
+file  /sbin/evkey       usr/ubifs/sbin/evkey       744 0 0
+file  /sbin/fsck.ext4   usr/ubifs/sbin/fsck.ext4   744 0 0
+file  /sbin/hwclock     usr/ubifs/sbin/hwclock     744 0 0
+file  /sbin/insmod      usr/ubifs/sbin/insmod      744 0 0
+file  /sbin/mkfs.ext4   usr/ubifs/sbin/mkfs.ext4   744 0 0
+file  /sbin/parted      usr/ubifs/sbin/parted      744 0 0
+file  /sbin/reboot2     usr/ubifs/sbin/reboot2     744 0 0
+#file  /sbin/shutdown    usr/ubifs/sbin/shutdown    744 0 0
 slink /sbin/preinit     /init                      777 0 0
 
 
 ## /usr/
 
-dir /usr/bin  755 0 0
-dir /usr/lib  755 0 0
-dir /usr/sbin 755 0 0
+dir /usr/bin  744 0 0
+dir /usr/lib  744 0 0
+dir /usr/sbin 744 0 0
 
 
 ## /usr/bin/
 
-file /usr/bin/autopartition.sh usr/ubifs/usr/bin/autopartition.sh 775 0 0
-file /usr/bin/bmestat          usr/ubifs/usr/bin/bmestat          775 0 0
-file /usr/bin/disable_pm       usr/ubifs/usr/bin/disable_pm       775 0 0
-file /usr/bin/evtap            usr/ubifs/usr/bin/evtap            775 0 0
-file /usr/bin/evtap_0.8.5      usr/ubifs/usr/bin/evtap_0.8.5      775 0 0
-file /usr/bin/fb_text2screen   usr/ubifs/usr/bin/fb_text2screen   775 0 0
-file /usr/bin/kexec_load       usr/ubifs/usr/bin/kexec_load       775 0 0
-file /usr/bin/show_png         usr/ubifs/usr/bin/show_png         775 0 0
-file /usr/bin/text2screen      usr/ubifs/usr/bin/text2screen      775 0 0
+file /usr/bin/autopartition.sh usr/ubifs/usr/bin/autopartition.sh 744 0 0
+file /usr/bin/bmestat          usr/ubifs/usr/bin/bmestat          744 0 0
+file /usr/bin/disable_pm       usr/ubifs/usr/bin/disable_pm       744 0 0
+file /usr/bin/evtap            usr/ubifs/usr/bin/evtap            744 0 0
+file /usr/bin/evtap_0.8.5      usr/ubifs/usr/bin/evtap_0.8.5      744 0 0
+file /usr/bin/fb_text2screen   usr/ubifs/usr/bin/fb_text2screen   744 0 0
+file /usr/bin/kexec_load       usr/ubifs/usr/bin/kexec_load       744 0 0
+file /usr/bin/show_png         usr/ubifs/usr/bin/show_png         744 0 0
+file /usr/bin/text2screen      usr/ubifs/usr/bin/text2screen      744 0 0
 
 
 ## /usr/lib/
 
-#file /usr/lib/libbb5.so.0       usr/ubifs/usr/lib/libbb5.so.0       775 0 0
-file /usr/lib/libblkid.so.1     usr/ubifs/usr/lib/libblkid.so.1     775 0 0
-file /usr/lib/libcreds.so.2     usr/ubifs/usr/lib/libcreds.so.2     775 0 0
-file /usr/lib/libcreds.so.3     usr/ubifs/usr/lib/libcreds.so.3     775 0 0
-file /usr/lib/libdbus-1.so.3    usr/ubifs/usr/lib/libdbus-1.so.3    775 0 0
-file /usr/lib/libdsme.so.0.2.0  usr/ubifs/usr/lib/libdsme.so.0.2.0  775 0 0
-file /usr/lib/libiphb.so.0      usr/ubifs/usr/lib/libiphb.so.0      775 0 0
-#file /usr/lib/libnih-dbus.so.1  usr/ubifs/usr/lib/libnih-dbus.so.1  775 0 0
-#file /usr/lib/libnih.so.1       usr/ubifs/usr/lib/libnih.so.1       775 0 0
-file /usr/lib/libparted.so.0    usr/ubifs/usr/lib/libparted.so.0    775 0 0
-file /usr/lib/libpcre.so.1      usr/ubifs/usr/lib/libpcre.so.1      775 0 0
-file /usr/lib/libpng12.so.0     usr/ubifs/usr/lib/libpng12.so.0     775 0 0
-file /usr/lib/libsmack.so.1     usr/ubifs/usr/lib/libsmack.so.1     775 0 0
-file /usr/lib/libuuid.so.1      usr/ubifs/usr/lib/libuuid.so.1      775 0 0
-file /usr/lib/libz.so.1         usr/ubifs/usr/lib/libz.so.1         775 0 0
-dir  /usr/lib/hwi                                                   775 0 0
-dir  /usr/lib/hwi/bc                                                775 0 0
-dir  /usr/lib/hwi/hw                                                775 0 0
-dir  /usr/lib/hwi/ic                                                775 0 0
-file /usr/lib/hwi/bc/tabby.so   usr/ubifs/usr/lib/hwi/bc/tabby.so   775 0 0
-file /usr/lib/hwi/hw/rx71.so    usr/ubifs/usr/lib/hwi/hw/rx71.so    775 0 0
-file /usr/lib/hwi/ic/bq24153.so usr/ubifs/usr/lib/hwi/ic/bq24153.so 775 0 0
-file /usr/lib/hwi/ic/bq24156.so usr/ubifs/usr/lib/hwi/ic/bq24156.so 775 0 0
-file /usr/lib/hwi/ic/bq27521.so usr/ubifs/usr/lib/hwi/ic/bq27521.so 775 0 0
-file /usr/lib/hwi/ic/twl5030.so usr/ubifs/usr/lib/hwi/ic/twl5030.so 775 0 0
-file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 775 0 0
+#file /usr/lib/libbb5.so.0       usr/ubifs/usr/lib/libbb5.so.0       744 0 0
+file /usr/lib/libblkid.so.1     usr/ubifs/usr/lib/libblkid.so.1     744 0 0
+file /usr/lib/libcreds.so.2     usr/ubifs/usr/lib/libcreds.so.2     744 0 0
+file /usr/lib/libcreds.so.3     usr/ubifs/usr/lib/libcreds.so.3     744 0 0
+file /usr/lib/libdbus-1.so.3    usr/ubifs/usr/lib/libdbus-1.so.3    744 0 0
+file /usr/lib/libdsme.so.0.2.0  usr/ubifs/usr/lib/libdsme.so.0.2.0  744 0 0
+file /usr/lib/libiphb.so.0      usr/ubifs/usr/lib/libiphb.so.0      744 0 0
+#file /usr/lib/libnih-dbus.so.1  usr/ubifs/usr/lib/libnih-dbus.so.1  744 0 0
+#file /usr/lib/libnih.so.1       usr/ubifs/usr/lib/libnih.so.1       744 0 0
+file /usr/lib/libparted.so.0    usr/ubifs/usr/lib/libparted.so.0    744 0 0
+file /usr/lib/libpcre.so.1      usr/ubifs/usr/lib/libpcre.so.1      744 0 0
+file /usr/lib/libpng12.so.0     usr/ubifs/usr/lib/libpng12.so.0     744 0 0
+file /usr/lib/libsmack.so.1     usr/ubifs/usr/lib/libsmack.so.1     744 0 0
+file /usr/lib/libuuid.so.1      usr/ubifs/usr/lib/libuuid.so.1      744 0 0
+file /usr/lib/libz.so.1         usr/ubifs/usr/lib/libz.so.1         744 0 0
+dir  /usr/lib/hwi                                                   744 0 0
+dir  /usr/lib/hwi/bc                                                744 0 0
+dir  /usr/lib/hwi/hw                                                744 0 0
+dir  /usr/lib/hwi/ic                                                744 0 0
+file /usr/lib/hwi/bc/tabby.so   usr/ubifs/usr/lib/hwi/bc/tabby.so   744 0 0
+file /usr/lib/hwi/hw/rx71.so    usr/ubifs/usr/lib/hwi/hw/rx71.so    744 0 0
+file /usr/lib/hwi/ic/bq24153.so usr/ubifs/usr/lib/hwi/ic/bq24153.so 744 0 0
+file /usr/lib/hwi/ic/bq24156.so usr/ubifs/usr/lib/hwi/ic/bq24156.so 744 0 0
+file /usr/lib/hwi/ic/bq27521.so usr/ubifs/usr/lib/hwi/ic/bq27521.so 744 0 0
+file /usr/lib/hwi/ic/twl5030.so usr/ubifs/usr/lib/hwi/ic/twl5030.so 744 0 0
+file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 744 0 0
 
 
 ## /usr/sbin
 
-file /usr/sbin/bme_RX-71   usr/ubifs/usr/sbin/bme_RX-71   775 0 0
-file /usr/sbin/dnsmasq     usr/ubifs/usr/sbin/dnsmasq     775 0 0
-file /usr/sbin/kexec       usr/ubifs/usr/sbin/kexec       775 0 0
-file /usr/sbin/sshd        usr/ubifs/usr/sbin/sshd        775 0 0
-file /usr/sbin/sftp-server usr/ubifs/usr/sbin/sftp-server 775 0 0
-file /usr/sbin/start_dhcp  usr/ubifs/usr/sbin/start_dhcp  775 0 0
-file /usr/sbin/ubiattach   usr/ubifs/usr/sbin/ubiattach   775 0 0
-file /usr/sbin/ubidetach   usr/ubifs/usr/sbin/ubidetach   775 0 0
-file /usr/sbin/ubiformat   usr/ubifs/usr/sbin/ubiformat   775 0 0
-file /usr/sbin/ubimkvol    usr/ubifs/usr/sbin/ubimkvol    775 0 0
-file /usr/sbin/ubinfo      usr/ubifs/usr/sbin/ubinfo      775 0 0
-file /usr/sbin/ubirmvol    usr/ubifs/usr/sbin/ubirmvol    775 0 0
+file /usr/sbin/bme_RX-71   usr/ubifs/usr/sbin/bme_RX-71   744 0 0
+file /usr/sbin/dnsmasq     usr/ubifs/usr/sbin/dnsmasq     744 0 0
+file /usr/sbin/kexec       usr/ubifs/usr/sbin/kexec       744 0 0
+file /usr/sbin/sshd        usr/ubifs/usr/sbin/sshd        744 0 0
+file /usr/sbin/sftp-server usr/ubifs/usr/sbin/sftp-server 744 0 0
+file /usr/sbin/start_dhcp  usr/ubifs/usr/sbin/start_dhcp  744 0 0
+file /usr/sbin/ubiattach   usr/ubifs/usr/sbin/ubiattach   744 0 0
+file /usr/sbin/ubidetach   usr/ubifs/usr/sbin/ubidetach   744 0 0
+file /usr/sbin/ubiformat   usr/ubifs/usr/sbin/ubiformat   744 0 0
+file /usr/sbin/ubimkvol    usr/ubifs/usr/sbin/ubimkvol    744 0 0
+file /usr/sbin/ubinfo      usr/ubifs/usr/sbin/ubinfo      744 0 0
+file /usr/sbin/ubirmvol    usr/ubifs/usr/sbin/ubirmvol    744 0 0
 
 
 ## /var/
 
-dir /var/cache          775 0 0
-dir /var/cache/sysinfod 775 0 0
-dir /var/log            775 0 0
-dir /var/run            775 0 0
+dir /var/cache          744 0 0
+dir /var/cache/sysinfod 744 0 0
+dir /var/log            744 0 0
+dir /var/run            744 0 0
 

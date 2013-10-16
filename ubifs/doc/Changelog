@@ -1,3 +1,7 @@
+2013-10-16 Jussi Ohenoja <juice@swagman.org>
+	* Fixed directory permissions.
+	* Patched sshd & sftp-server to get correct user credentials.
+
 2013-10-15 Jussi Ohenoja <juice@swagman.org>
 	* Fixed issues with sshd.
 	* Added ssh keyfile configuration to init.
