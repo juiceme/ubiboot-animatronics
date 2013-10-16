@@ -204,16 +204,16 @@ start_ssh_server()
 {
   if [ ! -z "$G_SSH_HOST_KEY" ]; then
     echo "$G_SSH_HOST_KEY" > /etc/ssh/keys/ssh_host_rsa_key
-    chmod 644 /etc/ssh/keys/ssh_host_rsa_key
+    chmod 600 /etc/ssh/keys/ssh_host_rsa_key
   fi
   if [ ! -z "$G_SSH_AUTHORIZED_KEYS" ]; then
     echo "$G_SSH_AUTHORIZED_KEYS" > /etc/ssh/keys/authorized_keys
-    chmod 644 /etc/ssh/keys/authorized_keys
+    chmod 600 /etc/ssh/keys/authorized_keys
   fi
   if [ $G_START_SSH_SERVER -ne 0 ]; then
     logger "Starting SSH server"
     tts "  Starting SSH server"
-    /usr/sbin/sshd -c /etc/ssh/sshd_config
+    /usr/sbin/sshd -f /etc/ssh/sshd_config
   fi
 }
 
