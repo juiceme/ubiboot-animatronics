@@ -558,18 +558,19 @@ file /usr/lib/hwi/ic/twl5031.so usr/ubifs/usr/lib/hwi/ic/twl5031.so 744 0 0
 
 ## /usr/sbin
 
-file /usr/sbin/bme_RX-71   usr/ubifs/usr/sbin/bme_RX-71   744 0 0
-file /usr/sbin/dnsmasq     usr/ubifs/usr/sbin/dnsmasq     744 0 0
-file /usr/sbin/kexec       usr/ubifs/usr/sbin/kexec       744 0 0
-file /usr/sbin/sshd        usr/ubifs/usr/sbin/sshd        744 0 0
-file /usr/sbin/sftp-server usr/ubifs/usr/sbin/sftp-server 744 0 0
-file /usr/sbin/start_dhcp  usr/ubifs/usr/sbin/start_dhcp  744 0 0
-file /usr/sbin/ubiattach   usr/ubifs/usr/sbin/ubiattach   744 0 0
-file /usr/sbin/ubidetach   usr/ubifs/usr/sbin/ubidetach   744 0 0
-file /usr/sbin/ubiformat   usr/ubifs/usr/sbin/ubiformat   744 0 0
-file /usr/sbin/ubimkvol    usr/ubifs/usr/sbin/ubimkvol    744 0 0
-file /usr/sbin/ubinfo      usr/ubifs/usr/sbin/ubinfo      744 0 0
-file /usr/sbin/ubirmvol    usr/ubifs/usr/sbin/ubirmvol    744 0 0
+file /usr/sbin/bme_RX-71      usr/ubifs/usr/sbin/bme_RX-71      744 0 0
+file /usr/sbin/dnsmasq        usr/ubifs/usr/sbin/dnsmasq        744 0 0
+file /usr/sbin/kexec          usr/ubifs/usr/sbin/kexec          744 0 0
+file /usr/sbin/sftp-server    usr/ubifs/usr/sbin/sftp-server    744 0 0
+file /usr/sbin/sshd           usr/ubifs/usr/sbin/sshd           744 0 0
+file /usr/sbin/start_dhcp     usr/ubifs/usr/sbin/start_dhcp     744 0 0
+file /usr/sbin/ubiattach      usr/ubifs/usr/sbin/ubiattach      744 0 0
+file /usr/sbin/ubidetach      usr/ubifs/usr/sbin/ubidetach      744 0 0
+file /usr/sbin/ubiformat      usr/ubifs/usr/sbin/ubiformat      744 0 0
+file /usr/sbin/ubimkvol       usr/ubifs/usr/sbin/ubimkvol       744 0 0
+file /usr/sbin/ubinfo         usr/ubifs/usr/sbin/ubinfo         744 0 0
+file /usr/sbin/ubirmvol       usr/ubifs/usr/sbin/ubirmvol       744 0 0
+file /usr/sbin/wpa_supplicant usr/ubifs/usr/sbin/wpa_supplicant 744 0 0
 
 
 ## /var/

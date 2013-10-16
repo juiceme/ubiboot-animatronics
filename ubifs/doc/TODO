@@ -2,7 +2,7 @@ Wishlist for ubiboot-02
 -----------------------
 
  - WLAN access for ubiboot maintanance mode.
-   1.) Authentication, should port wpasupplicant. What else is required?
+   1.) Compiled wpa_supplicant. Tested preliminary, works.
    2.) Mechanism in init to write the config files based on ubiboot.conf.
        What about case when gonfig file not found? maybe it's best to not
        activate WLAN then...

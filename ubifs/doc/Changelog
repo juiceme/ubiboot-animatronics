@@ -1,4 +1,5 @@
 2013-10-16 Jussi Ohenoja <juice@swagman.org>
+	* Added wpa_supplicant to binaries.
 	* Added IP address binding to telnetd startup.
 	* Fixed directory permissions.
 	* Patched sshd & sftp-server to get correct user credentials.
