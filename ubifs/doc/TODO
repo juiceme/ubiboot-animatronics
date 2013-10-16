@@ -1,12 +1,6 @@
 Wishlist for ubiboot-02
 -----------------------
 
- - Fix the preinit.harmattan script. Currectly it fails on few occasions and
-   there still is excess things, like the USB device IP address setup.
-
- - Finish the SSHD setup for ubiboot environment;
-   1.) Set up keys from config file
-
  - WLAN access for ubiboot maintanance mode.
    1.) Authentication, should port wpasupplicant. What else is required?
    2.) Mechanism in init to write the config files based on ubiboot.conf.

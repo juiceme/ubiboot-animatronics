@@ -196,7 +196,7 @@ start_telnet_server()
   if [ $G_START_TELNET_SERVER -ne 0 ]; then
     logger "Starting TELNET server"
     tts "  Starting TELNET server"
-    telnetd -l/bin/sh                                                                      
+    telnetd -b "$G_IP_ADDRESS" -l/bin/sh
   fi
 }
 
