@@ -432,6 +432,7 @@ file /lib/libe2p.so.2          usr/ubifs/lib/libe2p.so.2          744 0 0
 file /lib/libext2fs.so.2       usr/ubifs/lib/libext2fs.so.2       744 0 0
 file /lib/libgcc_s.so.1        usr/ubifs/lib/libgcc_s.so.1        744 0 0
 file /lib/libglib-2.0.so.0     usr/ubifs/lib/libglib-2.0.so.0     744 0 0
+file /lib/libiw.so.30          usr/ubifs/lib/libiw.so.30          744 0 0
 file /lib/libm.so.6            usr/ubifs/lib/libm.so.6            744 0 0
 file /lib/libnsl.so.1          usr/ubifs/lib/libnsl.so.1          744 0 0
 file /lib/libpopt.so.0         usr/ubifs/lib/libpopt.so.0         744 0 0
@@ -513,6 +514,7 @@ file  /sbin/evkey       usr/ubifs/sbin/evkey       744 0 0
 file  /sbin/fsck.ext4   usr/ubifs/sbin/fsck.ext4   744 0 0
 file  /sbin/hwclock     usr/ubifs/sbin/hwclock     744 0 0
 file  /sbin/insmod      usr/ubifs/sbin/insmod      744 0 0
+file  /sbin/iwconfig    usr/ubifs/sbin/iwconfig    744 0 0
 file  /sbin/mkfs.ext4   usr/ubifs/sbin/mkfs.ext4   744 0 0
 file  /sbin/parted      usr/ubifs/sbin/parted      744 0 0
 file  /sbin/reboot2     usr/ubifs/sbin/reboot2     744 0 0
