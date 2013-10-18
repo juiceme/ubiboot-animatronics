@@ -3,7 +3,7 @@
 ##
 ## Init script for UBIBOOT
 ## Based on the MOSLO (MeeGo OS LOader) code, heavily modified to support
-## multiple-OS loading for N9.                     
+## multiple-OS loading for N9.
 ##
 ## Authors:
 ## Copyright 2013 by Jussi Ohenoja <juice@swagman.org>
@@ -14,7 +14,7 @@
 ##          Timo Kokkonen <timo.t.kokkonen@nokia.com>
 ##          Janne Lääkkö <janne.laakko@nokia.com>
 ##          Jussi Ohenoja <juice@swagman.org>
-## 
+##
 ## This program is free software; you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License version 2 as
 ## published by the Free Software Foundation.
@@ -49,7 +49,8 @@ ttsr()
 tts()
 {
   fb_text2screen -s $TTS_SCALE -y $TTSY -t "$1"
-  echo $1
+  echo "$1"
+  logger "Display Text: $1"
   let "LINES=1+${#1}/$TTSCM"
   let "TTSY+=($TTSI*$LINES)"
   if [ $TTSY -gt $TTSYM ] ; then ttsr ; fi
@@ -143,11 +144,11 @@ shell()
 
 welcome_banner()
 {
-  # Clear screen and display welcome message 
+  # Clear screen and display welcome message
   ttsr
   tts "Welcome to N9 Ubiboot ver. $UBIBOOT_VERSION"
   tts "  (Boot loader is based on MOSLO ver. $MOSLO_VERSION)"
-  tts ""                         
+  tts ""
 }
 
 trap_func()
@@ -288,6 +289,7 @@ export_mmc_partitions()
     MP_ERR=$?
     TRY=$(($TRY+1))
     tts "  Try $TRY ($MP_ERR)"
+    sleep 1
   done
   if [ $TRY == 10 ]; then
     tts "  Unable to load the USB modules!"
@@ -297,8 +299,8 @@ export_mmc_partitions()
     [ $? -eq 0 ] && tts "  Configured $G_IP_ADDRESS on USB" || \
                     tts "  Setting IP address failed!"
     start_dhcp_server
-    start_telnet_server                                                               
-    start_ssh_server                                                                  
+    start_telnet_server
+    start_ssh_server
   fi
 
   sleep 1
@@ -470,7 +472,7 @@ fi
 # doublecheck, if we were unable to find the config file, set up some sane values
 # for maintanance mode
 if [ -z "$G_CONFIG_LOADED" ]; then
-  G_START_DHCP_SERVER=1                                                                
+  G_START_DHCP_SERVER=1
   G_START_TELNET_SERVER=1
   G_EXPORTED_PARTITONS="/dev/mmcblk0"
   G_OVERRIDE_RTC_ALARM_BOOT=1

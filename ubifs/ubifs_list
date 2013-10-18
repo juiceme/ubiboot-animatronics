@@ -3,6 +3,9 @@
 
 dir / 744 0 0
 
+
+## everything under /
+
 file /init usr/ubifs/init 744 0 0
 dir  /bin                 744 0 0
 dir  /boot                744 0 0
@@ -407,6 +410,7 @@ dir  /etc/ssh                                           744 0 0
 file /etc/ssh/sshd_config usr/ubifs/etc/ssh/sshd_config 644 0 0
 file /etc/ssh/issue.net   usr/ubifs/etc/ssh/issue.net   644 0 0
 
+
 ## /etc/ssh/keys
 
 dir /etc/ssh/keys 700 0 0
@@ -467,12 +471,22 @@ file /lib/dsme/usbtracker.so             usr/ubifs/lib/dsme/usbtracker.so       
 file /lib/dsme/validatorlistener.so      usr/ubifs/lib/dsme/validatorlistener.so      644 0 0
 
 
+## /lib/firmware/
+
+dir  /lib/firmware                                                      744 0 0
+file /lib/firmware/wl1271-fw.bin  usr/ubifs/lib/firmware/wl1271-fw.bin  644 0 0
+file /lib/firmware/wl1271-nvs.bin usr/ubifs/lib/firmware/wl1271-nvs.bin 644 0 0
+
+
 ## /lib/modules/
 
-dir  /lib/modules                                                                                 744 0 0
-dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                          744 0 0
-file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko 744 0 0
-#file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko 744 0 0
+dir  /lib/modules                                                                                         744 0 0
+dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                                  744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko     lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko     744 0 0
+#file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko     lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko     744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_spi.ko  lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_spi.ko  744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx.ko      lib/modules/2.6.32.54-ubiboot-02-b/wl12xx.ko      744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_sdio.ko lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_sdio.ko 744 0 0
 
 
 ## /mnt/
