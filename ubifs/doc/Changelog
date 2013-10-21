@@ -1,10 +1,16 @@
-2013-10-17 Jussi Ohenoja <juice@swagman.org>
+2013-10-21 Jussi Ohenoja <juice@swagman.org>
+	* Added TI calibrator and netlink socket libraries to go.
+
+2013-10-18 Jussi Ohenoja <juice@swagman.org>
+	* Added iwconfig and libiw.so
 	* Patched arch/arm/kernel/vmlinux.lds.S to link the initramfs to the end of the kernel image. The size of the FS has grown largr than 16M which caused problems for module linking, see for ex. https://lkml.org/lkml/2011/1/11/259 for info.
 	* Added wlan modules and firmware file to build.
 	* Added logging of console-output messages in init.
 
-2013-10-16 Jussi Ohenoja <juice@swagman.org>
+2013-10-17 Jussi Ohenoja <juice@swagman.org>
 	* Added wpa_supplicant to binaries.
+
+2013-10-16 Jussi Ohenoja <juice@swagman.org>
 	* Added IP address binding to telnetd startup.
 	* Fixed directory permissions.
 	* Patched sshd & sftp-server to get correct user credentials.
