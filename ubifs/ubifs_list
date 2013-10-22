@@ -553,8 +553,8 @@ file /usr/lib/libdsme.so.0.2.0  usr/ubifs/usr/lib/libdsme.so.0.2.0  744 0 0
 file /usr/lib/libiphb.so.0      usr/ubifs/usr/lib/libiphb.so.0      744 0 0
 #file /usr/lib/libnih-dbus.so.1  usr/ubifs/usr/lib/libnih-dbus.so.1  744 0 0
 #file /usr/lib/libnih.so.1       usr/ubifs/usr/lib/libnih.so.1       744 0 0
-file /usr/lib/libnl.so.2        usr/lib/libnl.so.2                  744 0 0
-file /usr/lib/libnl-genl.so.2   usr/lib/libnl-genl.so.2             744 0 0
+file /usr/lib/libnl.so.2        usr/ubifs/usr/lib/libnl.so.2        744 0 0
+file /usr/lib/libnl-genl.so.2   usr/ubifs/usr/lib/libnl-genl.so.2   744 0 0
 file /usr/lib/libparted.so.0    usr/ubifs/usr/lib/libparted.so.0    744 0 0
 file /usr/lib/libpcre.so.1      usr/ubifs/usr/lib/libpcre.so.1      744 0 0
 file /usr/lib/libpng12.so.0     usr/ubifs/usr/lib/libpng12.so.0     744 0 0
