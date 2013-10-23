@@ -1,3 +1,7 @@
+2013-10-22 Jussi Ohenoja <juice@swagman.org>
+	* Added README to docs.
+	* Added GPL to docs.
+
 2013-10-21 Jussi Ohenoja <juice@swagman.org>
 	* Added TI calibrator and netlink socket libraries to go.
 

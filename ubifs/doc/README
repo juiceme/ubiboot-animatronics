@@ -1,0 +1,732 @@
+
+Documentation and general ramblings on UBIBOOT
+----------------------------------------------
+
+
+
+Licencing info
+--------------
+
+    The scripts, programs and environment that make up ubiboot are free
+    software; you can redistribute it and/or modify it under the terms of the
+    GNU General Public License as published by the Free Software Foundation;
+    either version 2 of the License, or (at your option) any later version.
+
+    The whole content is distributed in the hope that it will be useful, but
+    WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+    or FITNESS FOR A PARTICULAR PURPOSE.
+    See the GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+
+
+
+Support and contact
+-------------------
+
+    Download page: http://www.swagman.org/juice/ubiboot/
+    Mirror: http://juiceme.cloud-7.de/ubiboot/
+
+    All ubiboot related discussion: channel #ubiboot on Freenet IRC
+    Announcement thread on TMO: http://talk.maemo.org/showthread.php?t=89345
+
+
+
+Introduction
+------------
+
+    Ubiboot is a boot manager and maintanance console for N9(50) devices.
+    It is a self-contained mini-linux distribution that has tools for building
+    graphical boot menus for different OS'es.
+
+    Using the example configuration it is fairly easy to multiboot the device
+    between as many as 6 different OS'es, and change kernels at will.
+    The latest version includes boot script that generates animated graphical
+    boot menu that includes the following OS'es:
+    Harmattan / Nitdroid / Nemo / Firefox / Ubuntu / Sailfish
+
+    Note that this setup includes only ubiboot, you need to separately install
+    each OS that you want to use.
+    
+    Ubiboot is mainly aimed at developers and advanced users, so be warned.
+    The procedures in this guide require skills and understanding an of the
+    structure of an *nix filesystem and knowledge to work on a shell prompt.
+
+    Benefits of ubiboot N9
+      - You can have multiple boot OS'es, each with multiple optional kernels
+        on the device. (default layout allows 6 kernels for each OS)
+      - Selecting the boot kernel is quick and easy with the graphical menu
+        on device touchscreen
+      - You will not need to flash the device to install and test a new kernel,
+        just copying the kernel and modules to the device is enough.
+      - You have integrated repair/maintanance mode on the device, where you
+        can export all partitions for backup/restore to a PC automatically
+      - You can telnet/ssh to the device in maintanance mode, to do any desired
+        repair operations
+
+
+
+Prerequisites: IMPORTANT!
+-------------------------
+
+1.) You need to be running the device in open mode, and if you do not have open
+    mode enabled before the install procedure, your device will automatically
+    be in open mode afterwards.
+
+    This is generally a good thing IMHO, but you do need to know a few things
+    about having your device in open mode first:
+      - If you have not specifically disabled it before going to Open Mode,
+        the device will show an ugly "open mode warning" on boot.
+      - If you have not recreated your password storages, all your accounts
+        and passwords (facebook, email, etc..) will not be stored correctly
+        and you will be prompted for passwords every time you start any of the
+        applications.
+
+    To fix these things, look up the solutions on TMO (talk.maemo.org) before
+    entering open mode.
+
+    Additional info about open mode:
+
+    If you have not yet enabled open mode, it is advisable to do so before
+    starting to install ubiboot. Some people have run into difficulties which
+    can be avoided if your device is in Open Mode before You start these
+    procedures.
+
+    Generally, if you trigger open mode accidentally or on purpose without
+    preparing the device for it, you will be getting an ugly boot warning that
+    says "device is not using authorised NOKIA SW" and giving all kinds of
+    warnings. You usually want to get rid of this warning.
+
+    How to do it; the important thing here is that you have to disable it
+    BEFORE entering open mode. Afterwards it cannot be done any longer.
+    So, if you have this warning at boot, only way to remove it is to flash
+    your device clean to get back to closed mode.
+
+    When you are in closed mode, you need to give the following command:
+    "disclaimer-cal remove View-openmode"
+
+    This will remove the open-mode warning, and then you can flash the open
+    mode kernel, for example using the file
+    "zImage_2.6.32.54-openmode_l2fix" found at the ubiboot page.
+
+    For best results, and to make sure that all your password storages are
+    created correctly with open mode credentials you need to do a back-to-
+    back flashing of your device with closed-mode & open mode kernels, without
+    letting the device boot between the flashing operations.
+
+    Rationale: after a clean flash the password storages are created with the
+    current mode aegis keys when the device first boots. If the first boot that
+    happens after a clean flash is to Open MOde, then Open Mode keys are used
+    and everything goes nicely.
+
+    If the device boots even once to Closed Mode before installing Open Mode
+    kernel, you lose and will have to remove and recreate the password storage
+    manually. This will also later give you a lot of all kind of random aegis
+    faults that will piss you off really bad.
+
+    So, for best results, please do the flashing correctly. :)
+
+    Scenario for doing it correctly:
+    (this will clear your device, so back up everything before doing this!)
+      - Flash to closed mode, unless you already are in closed mode
+      - Remove the Open Mode Warning
+      - Flash device clean, and flash Open mode kernel IMMEDIATELY AFTER IT
+        before the device boots to closed mode the first time.
+        (best way is to "sudo su" yourself before giving flasher commands so
+         you need not give any passwords between the commands, and enter the
+         flasher commands on same row separated by semicolon...)
+
+
+2.) Ubiboot comes in several varieties:
+
+      - ubiboot-01-mtd4
+      - ubiboot-01-mtd5
+      - ubiboot-02 (integrated)
+
+    What you want, is the "ubiboot-02 (integrated)" version.
+    This is the currently supported version, it has the bugs ironed out of it
+    and it will work on all devices.
+
+    The 01-versions are provided for historical context only. Please do not
+    install them any longer.
+
+
+3.) It might help if you already have the alternate OS'es that you want to use
+    installed but it is also possible to install ubiboot environment on pure
+    Harmattan device, and possibly install additional OS'es later.
+
+
+4.) Some people have faced issues when booting the vanilla Harmattan kernel on
+    Harmattan OS. The vanilla kernel has a bug/feature that the CPU L2 cache is
+    not correctly turned on when the kernel is chainloaded by kexec().
+    In normal boot this causes no issues but on ubiboot the system will be very
+    slow during first minute or so.
+
+    On my own system it only makes Harmattan boot slowly, but some people have
+    reported that their devices will reboot, propably due to some software
+    components timing out due to the slow startup.
+    (additional information; it is possible that this is caused by aegis if the
+     device has not been flashed back-to-back Closed Mode - Open Mode before...
+     apparently some device variants are more likely to behave like this)
+
+    The fix is to use the patched openmode+L2fix kernel provided here:
+    (zImage_2.6.32.54-openmode_l2fix, md5sum=b64bc24b96faf6763f5e403eb5c7f528)
+    That kernel is module-compatible with original harmattan kernel, you do not
+    need to update anything else except copy that kernel to your /boot/
+    directory on Harmattan and update your ubiboot.conf file.
+
+    The patch against the vanilla PR1.3 kernel_2.6.32-20121301+0m8.tar is
+    included on the download site. (openmode_l2fix.patch)
+
+
+5.) All the procedures here are assuming that you have PR1.3 on your device.
+    If you have something else, you need to have the matching kernels for it.
+    ubiboot itself works with all and any PR releases and can in fact be used
+    to boot different releases on the same device, provided you have filesystem
+    image available for each release.
+
+
+
+Installing ubiboot to your device
+---------------------------------
+
+    The ubiboot system consists of 3 files.
+      - The main part is the kernel+RAMFS which is a linux mini-distro that
+        has integrated repair mode.
+      - The second part is the ubiboot.conf file that defines how your system
+        is set up, and what boot options you have.
+      - The third part is the cpio archive that contains the animation scripts
+        and menus that are presented to user on boot.
+
+    Generally the kernel part is considered to be fairly slow-changing, and
+    users can edit the behaviour of the system pretty much with changing the
+    configuration options and possibly replacing/editing the cpio archive.
+
+    Having matching versions of the kernel, config and cpio is important.
+    Component versions are checked against each other on boot, and if there's
+    a mismatch you will get a warning for it and are unable to continue until
+    you have crrected the problem.
+
+
+1.1.) The needed files and tools:
+
+      - Harmattan flasher (version 3.12.1)
+
+      - Harmattan PR1.3 firmware.bin localized to your device
+        (for example, I am using the North European variant, which is
+         DFL61_HARMATTAN_40.2012.21-3_PR_LEGACY_001-OEM1-958_ARM.bin)
+
+      - Boot kernel (zImage_2.6.32.54-ubiboot-02_031013)
+        (latest version md5sum=f27e443b8a1997703c3a5a446caa5719)
+
+      - Configuration file (ubiboot.conf)
+        (latest version md5sum=166bc4ad7019fef507affc7b502d5afc)
+
+      - Loadable filesystem extension with boot menus (ubiboot-02.menus.cpio)
+        (latest version md5sum=fa80955d84514867f76c1bca3068e217)
+
+
+1.2.) Additional files that you might to need, depending:
+
+      - Harmattan PR1.3 emmc.bin localized to your device
+        (for example, I am using the North European variant, which is
+         29FAD658_DFL61_HARMATTAN_40.2012.13-7.NORTHERNEUROPE_EMMC_NORTHERNEUROPE.bin)
+
+      - Preinit scripts for Harmattan and Nitdroid (preinits.tar)
+        (latest version md5sum=e1878ecd1bebfade281b6ffe87276e07)
+
+      - L2-fixed PR1.3 Harmattan kernel (zImage_2.6.32.54-openmode_l2fix)
+        (latest version md5sum=b64bc24b96faf6763f5e403eb5c7f528)
+
+      - Source code and tools for the kernel and menus creation;
+        (latest version animatronics_03102013.tar, for example)
+
+
+    The kernel, configuration file and cpio can be downloaded as a single tar
+    file from the download sites:
+    http://www.swagman.org/juice/ubiboot/ubiboot-02/ubiboot-02_0.3.4_081013.tar
+    http://juiceme.cloud-7.de/ubiboot/ubiboot-02/ubiboot-02_0.3.4_081013.tar
+    (latest version md5sum=17e83a6a09d75dd17bcc7faeaca7dce0)
+
+
+2.) Selecting the place where to install the configuration file and cpio
+
+    In the bootup phase ubiboot-02 kernel searches for the ubiboot.conf file.
+    The loadable cpio file is then assumed to be in the same directory, and
+    it's name is specified in the config file.
+
+    The lookup sequence is as follows: first if you have mtd4 or mtd5 on your
+    systems, root directory of those is searched. Next, all mmcblk0 partitions
+    are searched for a /boo/ directory, in numerical order.
+    The first loaction where a file called "ubiboot.conf" is found is selected.
+
+    Usually people want to install configuration files to the first partition,
+    which is mmcblk0p1 (/home/user/MyDocs when you are running Harmattan)
+    Create a directory called "/home/user/MyDocs/boot" and copy your config
+    and cpio files there.
+
+    "mkdir /home/user/MyDocs/boot"
+    "tar -xcf ubiboot-02_0.3.4_081013.tar -C /home/user/MyDocs/boot"
+
+    Review the configuration of your device against ubiboot.conf, as the
+    defaults might not be suitable to you.
+
+    (If you want to use mtd4 or mtd5 as your filesystem extension, see the
+     ubifs preparation instructions in the end of this document. This is not
+     encouraged really for normal use, but hey, anything's possible...)
+
+
+3.) Setting up your boot kernels
+
+    Next, you must configure your 2nd level boot kernels, or have at least one
+    OS and one kernel.
+
+    If you do not do this correctly you will be stuck on the boot selector with
+    nothing to boot up to.
+
+    Note that when updating from a previous release, most often than not the
+    new release has matching kernel, ubiboot.conf and cpio. You HAVE TO use the
+    latest ubiboot.conf as it might have new features that the kernel and/or
+    cpio depend on.
+    Hence, you need to update your kernel configuration to the new ubiboot.conf
+    from your existing configuration file.
+
+    The most important section in ubiboot.conf is the OS&kernel selection table.
+    There are 6 OS entries, each having 6 kernel entries, totalling 36 slots.
+    You do not need to fill up everything, of course. Just the bits you have
+    configured on your device.
+
+    The G_OS<x>_PARTITION and G_OS<x>_NAME identifiers define the partition
+    where the boot kernels are searched for.
+    For example, Harmattan kernels are by default located on mmcblk0p2 in the
+    /boot/ directory, which resolves to "/boot/Harmattan/boot/" in the script.
+    When you are running Harmattan, this dame directory resolves to /boot/
+
+    The "G_OS<x>_<y>_LABEL" identifier is the line of text that will be shown
+    for the user on the menu.
+    The corresponding "G_OS<x>_<y>_FILE" is the path to the bootable kernel.
+    Note the "G_OS<x>_NUM" variable, this tells the menu how many lines to
+    show, starting from the line 1. (when you have less than 6 entries, that is)
+
+    You need to copy your kernels to the correct location!
+
+    So, assuming you do not change the default location, do the following:
+
+    "devel-su"
+    (give password which is rootme by default)
+    "mkdir /boot"
+    "cp zImage_2.6.32.54-openmode_l2fix /boot/"
+
+    The modules for the kernels are located in each OS's hierarchy, normally
+    in the "/lib/modules" directory.
+    Do not forget to have the correct modules there, and remember to do
+    "depmod -a <kernename>" if you are copying new modules to the directory!
+
+
+4.) Configuring path to init
+
+    Background: init is the entry point of the OS, it is the first thing that
+    is run when a kernel boot sequence ends. The init will then be responsible
+    for all subsequent tasks in the system.
+
+    The ubiboot.conf has section for the init files of different OS'es. For
+    example, the key G_OS1_INITSCRIPT="\/sbin\/preinit_nitdroid" specifies that
+    the init of OS1 is /sbin/preinit_nitdroid.
+
+    You need to install correct init files for any OS'es before you can boot
+    into them. There are prepared init files for Harmattan and Nitrdroid in
+    http://www.swagman.org/juice/ubiboot/other/preinits.tar or
+    http://juiceme.cloud-7.de/ubiboot/other/preinits.tar
+
+    Copy the harmattan and Nitdroid preinit files to the Harmattan root file
+    system, into the "/sbin/" directory:
+
+    "tar -xvf preinits.tar -C /"
+
+    This is nondestructive operation even if you are not installing the boot
+    FS yet, as the files in the tarball, "/sbin/preinit_harmattan" and
+    "/sbin/preinit_nitdroid" are not used for anything in normal use without
+    ubiboot.
+
+    Some OS'es already have init in the FS image, for example Nemo. In these
+    cases you do not need to install anything, just make sure that the correct
+    location is specified in ubiboot.conf file.
+
+
+5.) Flashing the ubiboot kernel
+
+    Finally, you need to flash the ubiboot kernel image to the device.
+    This is the last step in the install procedure, and the only one where a
+    mistake actually can get the device into a state needing repair.
+
+    However, if you make a mistake here, or cannot get the device to boot you
+    can always flash the original kernel back and so restore the device as it
+    was before.
+
+    Shut down the device to full power off mode, give the following flashing
+    command and then connect the USB cable:
+
+    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-02_031013 --flash-only=kernel -f -R"
+
+
+6.) Ubibooting the device the first time
+
+    If you followed this procedure correctly, then the device boots now with
+    the ubiboot kernel. If you remove the USB cable, you will be presented
+    with the animated top menu.
+
+    If you leave the USB cable connected, you will enter the maintanance mode
+    where partitions of your mmcblk0 are automatically offered for mounting on
+    the PC.
+    In the maintatance mode you can also telnet to the default device address
+    (192.168.2.15) and modify/backup/tweak your device freely.
+
+
+
+What to do if you have problems
+-------------------------------
+
+    Possible problems:
+
+    1.) When you boot the device, you get no screen at all, just blank display.
+        Device might turn off or hang without apparent life.
+
+    2.) When you boot the device, you get green text with an error message.
+
+    3.) When you boot the device, you get the animated menu correctly, but
+        after you select a kernel line you get green text with an error message.
+
+    4.) When you boot the device, you get the animated menu correctly, but
+        after you select a kernel line device turns off or hangs  without
+        apparent life.
+
+    For all boot problems, first switch off the device completely.
+    (if it does not switch by single press of power button, hold the button
+     down for about 8 seconds)
+
+    Then, enter maintanance mode by powering up the device, and then connecting
+    it to a computer with USB cable.
+
+    If you are able to get to the maintatance mode, the device will offer
+    partitions to the host computer as USB disks.
+
+    When the disk partitons are exported, you find the logs from the mmcblk0p1
+    (which is usually "/media/Nokia N9/" or something on your computer)
+    in the configuration directory, "/media/Nokia N9/boot/"
+
+    There are 2 log files, ubiboot.dmesg and ubiboot.log
+    Checking those should help you determine what was the problem.
+    The file ubiboot.dmesg contains the kernel boot messages, and you can find
+    from it if you have a device HW problem.
+    The file ubiboot.log contains the messages from init and menu scripts, and
+    you can find from it if you have configuration problem.
+    (Note that you can change the log file locations from ubiboot.conf)
+
+    In the very rare case that you have some problem with ubiboot 1st stage,
+    and you cannot get even to the maintanance mode, you need to reflash a
+    normal kernel to the device and boot back to Harmattan.
+    There's no need to clear the device, just flash the kernel using command:
+
+    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-openmode_l2fix --flash-only=kernel -f -R"
+
+    When you uhave done that and are back to running harmattan, check for the
+    log files on /home/user/MyDocs/boot/ directory.
+
+
+
+Configuration and personification
+---------------------------------
+
+    The ubiboot.conf file in your device has a lot of configuration options
+    that you can modify to change the default behaviour of the device.
+    Review your configuration carefully before making modifications as the
+    content of the file affects the booting of the device.
+
+    You can change the "info" screen content to show for example your name and
+    address for the purpose of identifying a lost device.
+    To modify this screen you need to download the latest animation toolkit
+    from either http://www.swagman.org/juice/ubiboot/source/ or
+    http://juiceme.cloud-7.de/ubiboot/source/
+    (it is a tar file called "animatronics_<version>.tar")
+
+    Extract it to a directory on your linux PC, and check the README file there.
+
+    For example, you can create a 400x400 pixel PNG image that you want to
+    display and store it as "imagebase/ownerpanel.png". Then, run the creation
+    and packing scripts to make the new cpio archive and copy that to the
+    same directory where you have your ubiboot.conf on your device and check
+    that you have the key G_UBIBOOT_ARCHIVE pointing to the correct file.
+
+
+
+Uninstallation
+--------------
+
+    If you want to get rid of ubiboot entirely, it is easy. You only need to
+    flash a new kernel image that boots the original Harmattan installation on
+    /dev/mmcblk0p2.
+    You can use, for example the openmode+L2fix kernel provided on the page:
+
+    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-openmode_l2fix --flash-only=kernel -f -R"
+
+    After that command you will not boot to ubifs any longer, instead the
+    original Harmattan OS will boot normally.
+
+
+
+Further development
+-------------------
+
+    The project is open source, and all needed tools are available for linux
+    distributions.
+
+    The ubiboot kernel is patched MOSLO kernel. Get the source from here:
+    https://github.com/nemomobile/kernel-adaptation-n950-n9/tree/mer-n9-2.6.32-20121301
+
+    The kernel compiling can be done for example using the arm-linux-gnueabi-gcc tools.
+    recommended version is 4.6.3 or later:
+
+       ARCH=arm make clean
+       ARCH=arm make mrproper
+       ARCH=arm make rm696_nemo_defconfig
+       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
+       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make modules
+       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- INSTALL_MOD_PATH=. make modules_install
+
+    The needed patches  against the MOSLO kernel are in the sources directory:
+    http://www.swagman.org/juice/ubiboot/source/ or
+    http://juiceme.cloud-7.de/ubiboot/source/
+
+    * Building ubiboot-01 kernel:
+
+    The patch ubiboot-01.patch is used to create the ubiboot-01 kernel.
+    There are no additinal required files, just edit CONFIG_CMDLINE in the
+    rm696_nemo_defconfig file to select which mtd partition you want to boot
+    the kernel on.
+
+    The ubiboot-01 FS can easiest be edited in place, just mount the mtd4/mtd5
+    partition and modify on the device.
+
+    * Building ubiboot-02 kernel:
+
+    The patch ubiboot-02.patch is used to create the ubiboot-02 kernel.
+    Additionally you need the rootfs seed which needs to be unpacked under the
+    usr hierarchy on your kernel build directory. The rootfs seed is the file
+    ubifs_<date>.tar in the sources directory.
+    Because the rootfs seed includes modules from the current kernel build,
+    building will fail unless you have something under lib/modules/ hierarchy
+    of the kernel build directory.
+    To avoid this, you can comment out the module lines in ubifs.list file
+    until the modules are built.
+
+    The ubiboot-02 filesystem extension is a cpio archive that is unpacked to
+    the initramfs when the kernel finds the ubiboot.conf file.
+
+    To unpack the cpio, use command:
+    "cpio -id --no-absolute-filenames < ../ubiboot-02.menus.cpio"
+    To repack the edited directioies, use command:
+    "find . | cpio -H newc -o > ../ubiboot-02.menus.cpio"
+    It's recommended to "chown -R 0.0 *" the dirs before archive repacking,
+    but it's not mandatory.
+
+    For the really bleeding-edge stuff, you can access my SVN server where
+    the latest ubifs seed and animation toolkit can be loaded in one go.
+    Note that I do occacionally check in stuff that might make your device
+    more than a little unstable, so take care :)
+
+    The (pretty low-bandwidth) svn repository is:
+    https://toosa.swagman.org/svn/animatronics
+
+
+
+HISTORICAL STUFF
+----------------
+
+    The following info is provided as-is, just for historical context.
+    You are NOT ENCOURAGED to make use of it, since it contains information
+    and procedures that MIGHT HARM YOUR DEVICE PERMANENTLY.
+
+    So. Be warned. There be dragons here.
+
+    Before current ubiboot-02 release, there was ubiboot-01. The difference
+    is that ubiboot-01 can only be installed on an ubifs partition on your
+    device, hence the name "ubiboot"
+
+    There's nothing inheritantly wrong about that, except that when you mess
+    with ubifs partitions on your /dev/mtd you can permabrick your device if
+    if you do not know what you are doing.
+
+
+
+
+---------*---------*---------*---------*---------*---------*---------*---------*
+
+    The 01-versions contain a kernel that mounts either mtd4 or mtd5 as root partition.
+    The original ubiboot (01-mtd4) was only able to use the larger of these partitions, mtd4 (414.8M).
+    The next modification (01-mtd5) uses the smaller mtd5 partition. (24.5M)
+
+    Reason for having 2 different versions was that NAND flash if fairly brittle and not all people
+    can use on or the other at all; if there are too many bad blocks the area is not usable for
+    a mountable filesystem. Hopefully either one is available for most people.
+
+    Some people have deployed a tweak "Additional Swap File using NAND Flash", where the mtd4 partition
+    is used for extra swap space. If you have that enabled, then your only choise is to use the second
+    variant of ubiboot that lives on mtd5.
+
+    The currently supported ubiboot-02 (integrated) differs from the 01-versions so that it does not
+    any longer need to mount mtd partitions to work. Instead the kernel contains initramfs that itself
+    has all the tools needed to boot 2nd-stage kernels and manage repair operations.
+    To not make the kernel uncomfortably large, it has the ability to load extensions from filesystem,
+    for example the graphical menu package is loaded this way.
+
+    Unless you have some specific need it is adviced that you should choose ubiboot-02, the integtated
+    version.
+
+
+
+
+
+2.) Installing ubiboot-01 (traditional)
+
+      NOTE! Unless you REALLY know what you are doing, use ubiboot-02.
+            Currently ubiboot-01 is not supported any more!
+
+      NOTE! Belive me, just skip to the section 3.) and continue from there!
+
+2.1.) The needed files and tools.
+
+      - Harmattan flasher (version 3.12.1)
+      - Harmattan firmware.bin (DFL61_HARMATTAN_40.2012.21-3_PR_LEGACY_001-OEM1-958_ARM.bin)
+        (or any suitable firmaware localized to your device)
+
+      - Boot kernels to flash to your device
+        (zImage_2.6.32.54-ubiboot-01-mtd4,   md5sum=95be31df0a4255e6bb46c0b08f4c07ce)
+        (zImage_2.6.32.54-ubiboot-01-mtd5,   md5sum=3f7c3dfabe2755579456d78f7f0420e4)
+
+      - Root filesystem which contains the boot selection
+        (ubiboot_fs-01.tar, md5sum=f0510210d4e6fa02ce5e592b2d5c57f5)
+
+      - Preinit scripts for Harmattan and Nitdroid (preinits.tar)
+
+      - Optional: If you want to moidify the boot menus, you need the latest tools
+        (animatronics_27022012.tar)
+
+ 
+2.2.) Preparing the boot partition
+
+      First you need to select which partition you will use, mtd4 or mtd5.
+      The commands to prepare the partition differ a bit but same rootfs image can be used on
+      either possible install partition.
+
+
+2.2.1.) Using mtd4 partition
+
+        This is the "traditional" ubiboot partition, I have been using this myself extensively for
+        a long time without any ill effects. This is the most thoroughly tested option to use.
+
+        The root partition shall be mtd4 which is reserved for "var" in N9 but currently unused.
+        Be sure to make the following operations on the MTD4 partition, as other partitions contain
+        sensitive data that you do not want to destroy. Doing so may well brick your device!
+
+        IMPORTANT NOTE!
+        When you clear the mtd4 partition, make sure that you have not attached the ubi device!!
+        There is a potential flasher/kernel bug that might brick your device permanently by wiping CAL
+        if you have bad luck!
+        Currently this is known to only affect you if you use "/usr/sbin/flash_erase" after you have
+        done "/usr/sbin/ubiattach /dev/ubi_ctrl -m 4", so be careful of the order you give these commands!
+        It is safest to make sure you are in open mode, and boot the device. Then, immediately after the
+        boot clear the flash before any other operations.
+        Note that you need only ever clear the flash once, it is an operation that you do not need to
+        repeat. If you want to clear your ubifs partition sometime afterwards, it is enough to use the
+        "/usr/sbin/ubimkvol" command.
+
+        First thing to do is to create a 480MB ubifs filesystem on the "var" partition:
+
+          /usr/sbin/flash_erase /dev/mtd4 0 0
+          /usr/sbin/ubiattach /dev/ubi_ctrl -m 4
+          /usr/sbin/ubimkvol /dev/ubi0 -N var -m
+          mount -t ubifs ubi0:var /mnt
+
+        Some people seem to have problems when mounting the ubi device on /mnt. Before proceeding, check
+        that you have really mounted it correctly. When you give command "mount | grep ubi" you should
+        see something like this: "ubi0:var on /mnt type ubifs (rw,relatime)"
+
+
+2.2.2.) Using mtd5 partition
+
+        This option is for people who either have damaged mtd4 partition or who are using their mtd4 for
+        extended swap size. This is a newer development but it has been noted to work correctly and is
+        by all means identical to mtd4 ubiboot.
+
+        The root partition shall be mtd5 which was originally reserved for "moslo", extra open mode kernel
+        as Meego OS Loader. It is currently unused on N9.
+        Be sure to make the following operations on the MTD5 partition, as other partitions contain
+        sensitive data that you do not want to destroy. Doing so may well brick your device!
+
+        On my device it was not necessary to erase the flash on mtd5 before proceeding, as t was already
+        been formatted for ubifs. To find out if that is the case, check the content via command:
+
+          cat /dev/mtd5 | strings
+
+        If the result is long string of "UBI#"'s, then the partition does not need to be erased.
+        Use the following commands to create 33MB ubifs filesystem on the "moslo" partition:
+
+          /usr/sbin/ubiattach /dev/ubi_ctrl -m 5
+          /usr/sbin/ubimkvol /dev/ubi0 -N moslo -m
+          mount -t ubifs ubi0:moslo /mnt
+
+        Some people seem to have problems when mounting the ubi device on /mnt. Before proceeding, check
+        that you have really mounted it correctly. When you give command "mount | grep ubi" you should
+        see something like this: "ubi0:moslo on /mnt type ubifs (rw,relatime)"
+
+
+2.3.) When you have successifully created your ubifs system, either on mtd4 or mtd5, you need next to
+      copy and untar the boot system on the created partiton:
+
+        tar -xvf ubiboot_fs.tar -C /mnt/
+        sync
+
+
+
+4.) Copy the harmattan and Nitdroid preinit files to the Harmattan root file system,
+    into the "/sbin/" directory. This is nondestructive operation even if you are not
+    installing the boot FS yet, as the files in the tarball, "/sbin/preinit_harmattan" and
+    "/sbin/preinit_nitdroid" are not used for anything in normal use without ubiboot.
+
+      tar -xvf preinits.tar -C /
+
+    Make sure that the correct entries are in the "/etc/boot.conf" of your ubifs.
+
+    When you are done, unmount your ubifs partition and sync FS:es:
+
+      umount /mnt
+      sync
+
+
+5.) Finally, you need to flash the ubiboot kernel image to the device.
+    This is the last step, and the only one where your mistake actually can get the device
+    into a state needing repair.
+
+5.1.) For ubiboot-01_mtd4, flash the kernel as follows:
+
+       sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-01-mtd4 --flash-only=kernel -f -R
+
+5.2.) For ubiboot-01_mtd5, flash the kernel as follows:
+
+       sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-01-mtd5 --flash-only=kernel -f -R
+
+5.3.) For ubiboot-02, flash the kernel as follows:
+
+       sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-02_040413 --flash-only=kernel -f -R
+
+
+6.) If you followed this procedure correctly, then the device boots now with the ubiboot
+    kernel. If you remove the USB cable, you will be presented with the animated top menu.
+
+    If you leave the USB cable connected, you will enter the maintanance mode where partitions
+    of your mmcblk0 are automatically offered for mounting on the PC.
+    In the maintatance mode you can also telnet to the default device address (192.168.2.15)
+
+

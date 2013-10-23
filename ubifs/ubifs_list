@@ -389,6 +389,7 @@ dir /dev/shm 744 0 0
 ## /doc/
 
 file /doc/Changelog usr/ubifs/doc/Changelog 444 0 0
+file /doc/README    usr/ubifs/doc/README    444 0 0
 file /doc/TODO      usr/ubifs/doc/TODO      444 0 0
 
 
