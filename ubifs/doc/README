@@ -71,12 +71,12 @@ Introduction
 Prerequisites: IMPORTANT!
 -------------------------
 
-1.) You need to be running the device in open mode, and if you do not have open
+1.) You need to be running the device in Open Mode, and if you do not have open
     mode enabled before the install procedure, your device will automatically
-    be in open mode afterwards.
+    be in Open Mode afterwards.
 
     This is generally a good thing IMHO, but you do need to know a few things
-    about having your device in open mode first:
+    about having your device in Open Mode first:
       - If you have not specifically disabled it before going to Open Mode,
         the device will show an ugly "open mode warning" on boot.
       - If you have not recreated your password storages, all your accounts
@@ -85,26 +85,26 @@ Prerequisites: IMPORTANT!
         applications.
 
     To fix these things, look up the solutions on TMO (talk.maemo.org) before
-    entering open mode.
+    entering Open Mode.
 
-    Additional info about open mode:
+    Additional info about Open Mode:
 
-    If you have not yet enabled open mode, it is advisable to do so before
+    If you have not yet enabled Open Mode, it is advisable to do so before
     starting to install ubiboot. Some people have run into difficulties which
     can be avoided if your device is in Open Mode before You start these
     procedures.
 
-    Generally, if you trigger open mode accidentally or on purpose without
+    Generally, if you trigger Open Mode accidentally or on purpose without
     preparing the device for it, you will be getting an ugly boot warning that
     says "device is not using authorised NOKIA SW" and giving all kinds of
     warnings. You usually want to get rid of this warning.
 
     How to do it; the important thing here is that you have to disable it
-    BEFORE entering open mode. Afterwards it cannot be done any longer.
+    BEFORE entering Open Mode. Afterwards it cannot be done any longer.
     So, if you have this warning at boot, only way to remove it is to flash
-    your device clean to get back to closed mode.
+    your device clean to get back to Closed Mode.
 
-    When you are in closed mode, you need to give the following command:
+    When you are in Closed Mode, you need to give the following command:
     "disclaimer-cal remove View-openmode"
 
     This will remove the open-mode warning, and then you can flash the open
@@ -112,13 +112,13 @@ Prerequisites: IMPORTANT!
     "zImage_2.6.32.54-openmode_l2fix" found at the ubiboot page.
 
     For best results, and to make sure that all your password storages are
-    created correctly with open mode credentials you need to do a back-to-
-    back flashing of your device with closed-mode & open mode kernels, without
+    created correctly with Open Mode credentials you need to do a back-to-
+    back flashing of your device with Closed Mode & Open Mode kernels, without
     letting the device boot between the flashing operations.
 
     Rationale: after a clean flash the password storages are created with the
     current mode aegis keys when the device first boots. If the first boot that
-    happens after a clean flash is to Open MOde, then Open Mode keys are used
+    happens after a clean flash is to Open Mode, then Open Mode keys are used
     and everything goes nicely.
 
     If the device boots even once to Closed Mode before installing Open Mode
@@ -130,13 +130,20 @@ Prerequisites: IMPORTANT!
 
     Scenario for doing it correctly:
     (this will clear your device, so back up everything before doing this!)
-      - Flash to closed mode, unless you already are in closed mode
+      - Flash to Closed Mode, unless you already are in Closed Mode
       - Remove the Open Mode Warning
-      - Flash device clean, and flash Open mode kernel IMMEDIATELY AFTER IT
-        before the device boots to closed mode the first time.
+      - Flash device clean, and flash Open Mode kernel IMMEDIATELY AFTER IT
+        before the device boots to Closed Mode the first time.
         (best way is to "sudo su" yourself before giving flasher commands so
          you need not give any passwords between the commands, and enter the
          flasher commands on same row separated by semicolon...)
+
+    "sudo su"
+    "flasher -f -F firmware.bin -F emmc.bin -R ; flasher -a firmware.bin -k zImage_2.6.32.54-openmode_l2fix --flash-only=kernel -f -R"
+
+    After that the device will boot up to the "factory new device mode" and
+    you need to set up your personal details and install all the applications
+    that you want to use.
 
 
 2.) Ubiboot comes in several varieties:
@@ -188,6 +195,20 @@ Prerequisites: IMPORTANT!
     image available for each release.
 
 
+6.) All procedures described here assume that you have access to a computer
+    running some Linux variant. Propably anything works OK, altough I generally
+    prefer Debian-based distributions myself.
+
+    There are people who use other other operating systems, for example
+    BSD Unix variants, MS Windows or Apple Mac OS, and the procedures described
+    in this document might be possible on those but I would not know anything
+    about that.
+
+    If you prefer or have only access to a non-Linux OS, it is possible to use
+    a virtual Linux instance running under your OS, but setting that up might
+    require installing some additional drivers or support software.
+
+
 
 Installing ubiboot to your device
 ---------------------------------
@@ -213,9 +234,10 @@ Installing ubiboot to your device
 1.1.) The needed files and tools:
 
       - Harmattan flasher (version 3.12.1)
+        (http://skeiron.org/tablets-dev/maemo-dev-env-downloads)
 
       - Harmattan PR1.3 firmware.bin localized to your device
-        (for example, I am using the North European variant, which is
+        (for example, I am using the North European variant, which is called
          DFL61_HARMATTAN_40.2012.21-3_PR_LEGACY_001-OEM1-958_ARM.bin)
 
       - Boot kernel (zImage_2.6.32.54-ubiboot-02_031013)
@@ -231,7 +253,7 @@ Installing ubiboot to your device
 1.2.) Additional files that you might to need, depending:
 
       - Harmattan PR1.3 emmc.bin localized to your device
-        (for example, I am using the North European variant, which is
+        (for example, I am using the North European variant, which is called
          29FAD658_DFL61_HARMATTAN_40.2012.13-7.NORTHERNEUROPE_EMMC_NORTHERNEUROPE.bin)
 
       - Preinit scripts for Harmattan and Nitdroid (preinits.tar)
@@ -241,7 +263,7 @@ Installing ubiboot to your device
         (latest version md5sum=b64bc24b96faf6763f5e403eb5c7f528)
 
       - Source code and tools for the kernel and menus creation;
-        (latest version animatronics_03102013.tar, for example)
+        (latest version animatronics_<releasedate>.tar, for example)
 
 
     The kernel, configuration file and cpio can be downloaded as a single tar
@@ -320,9 +342,16 @@ Installing ubiboot to your device
     "cp zImage_2.6.32.54-openmode_l2fix /boot/"
 
     The modules for the kernels are located in each OS's hierarchy, normally
-    in the "/lib/modules" directory.
-    Do not forget to have the correct modules there, and remember to do
-    "depmod -a <kernename>" if you are copying new modules to the directory!
+    under the "/lib/modules/<kernename>" directory.
+    It is possible that different kernels share the same set of modules, for
+    example the L2-fixed open mode kernel and E-yes Nitdroid zImage.pr13 are
+    compatible with the original Nokia-PR1.3 kernel modules.
+
+    Do not forget to install the correct modules if you use a kernel that is
+    not compatible with existing modules, for example the new power kernels
+    like 2.6.32.59-plus require their own set of modules.
+    Remember to do "depmod -a <kernename>" if you are copying new modules to
+    the /lib/modules/ hierarchy!
 
 
 4.) Configuring path to init
@@ -485,15 +514,15 @@ Further development
     The ubiboot kernel is patched MOSLO kernel. Get the source from here:
     https://github.com/nemomobile/kernel-adaptation-n950-n9/tree/mer-n9-2.6.32-20121301
 
-    The kernel compiling can be done for example using the arm-linux-gnueabi-gcc tools.
+    The kernel can be compiled using the arm-linux-gnueabi-gcc tools.
     recommended version is 4.6.3 or later:
 
-       ARCH=arm make clean
-       ARCH=arm make mrproper
-       ARCH=arm make rm696_nemo_defconfig
-       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
-       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make modules
-       ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- INSTALL_MOD_PATH=. make modules_install
+    ARCH=arm make clean
+    ARCH=arm make mrproper
+    ARCH=arm make ubiboot-02_defconfig
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make modules
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- INSTALL_MOD_PATH=. make modules_install
 
     The needed patches  against the MOSLO kernel are in the sources directory:
     http://www.swagman.org/juice/ubiboot/source/ or
@@ -513,7 +542,7 @@ Further development
 
     The patch ubiboot-02.patch is used to create the ubiboot-02 kernel.
     Additionally you need the rootfs seed which needs to be unpacked under the
-    usr hierarchy on your kernel build directory. The rootfs seed is the file
+    usr/ hierarchy on your kernel build directory. The rootfs seed is the file
     ubifs_<date>.tar in the sources directory.
     Because the rootfs seed includes modules from the current kernel build,
     building will fail unless you have something under lib/modules/ hierarchy
