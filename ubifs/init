@@ -380,6 +380,15 @@ echo "0" > $leds
 # log versions
 logger "N9 ubiboot ver. $UBIBOOT_VERSION"
 logger "kernel $(uname -a)"
+if [ -r /etc/rootfs-info ]; then
+  G_ROOTFS_INFO=$(cat /etc/rootfs-info)
+  logger "Rootfs build info: $G_ROOTFS_INFO"
+else
+  G_ROOTFS_INFO=""
+  logger "Could not determine rootfs build info"
+fi
+
+/etc/rootfs-info
 
 # Search for the rest of the system to load up.
 # There should be configuration file ubiboot.conf, and the possible location

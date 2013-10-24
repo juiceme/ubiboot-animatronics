@@ -404,6 +404,7 @@ file /etc/required-config-version usr/ubifs/etc/required-config-version 644 0 0
 file /etc/usbdhcpd.sh             usr/ubifs/etc/usbdhcpd.sh             744 0 0
 file /etc/passwd                  usr/ubifs/etc/passwd                  644 0 0
 file /etc/group                   usr/ubifs/etc/group                   644 0 0
+file /etc/rootfs-info             usr/ubifs/etc/rootfs-info             644 0 0
 
 
 ## /etc/ssh/
