@@ -528,16 +528,6 @@ Further development
     http://www.swagman.org/juice/ubiboot/source/ or
     http://juiceme.cloud-7.de/ubiboot/source/
 
-    * Building ubiboot-01 kernel:
-
-    The patch ubiboot-01.patch is used to create the ubiboot-01 kernel.
-    There are no additinal required files, just edit CONFIG_CMDLINE in the
-    rm696_nemo_defconfig file to select which mtd partition you want to boot
-    the kernel on.
-
-    The ubiboot-01 FS can easiest be edited in place, just mount the mtd4/mtd5
-    partition and modify on the device.
-
     * Building ubiboot-02 kernel:
 
     The patch ubiboot-02.patch is used to create the ubiboot-02 kernel.
@@ -573,9 +563,11 @@ Further development
 HISTORICAL STUFF
 ----------------
 
-    The following info is provided as-is, just for historical context.
+    The following info from this point on to the end of this document is
+    provided as-is, just for historical context.
+
     You are NOT ENCOURAGED to make use of it, since it contains information
-    and procedures that MIGHT HARM YOUR DEVICE PERMANENTLY.
+    and procedures that MIGHT EASILY HARM YOUR DEVICE PERMANENTLY.
 
     So. Be warned. There be dragons here.
 
@@ -587,4 +579,241 @@ HISTORICAL STUFF
     with ubifs partitions on your /dev/mtd you can permabrick your device if
     if you do not know what you are doing.
 
+
+1.) Different releases of ubiboot-01
+
+    The 01-versions contain a kernel that mounts either mtd4 or mtd5 as root
+    partition. The original ubiboot (01-mtd4) was only able to use the larger
+    of these partitions, mtd4 (sized 414.8M).
+    The next modification (01-mtd5) uses the smaller mtd5 partition. (24.5M)
+
+    Reason for having 2 different versions was that NAND flash is fairly
+    brittle and not all people can use one or the other at all; if there are
+    too many bad blocks the area is not usable for a mountable filesystem.
+    Hopefully either one is available for most people.
+
+    Some people have deployed a tweak "Additional Swap File using NAND Flash",
+    where the mtd4 partition is used for extra swap space. If you have that
+    enabled, then your only choise is to use the second variant of ubiboot
+    that lives on mtd5.
+
+
+2.) Installing ubiboot-01 (traditional)
+
+      NOTE! Unless you REALLY know what you are doing, use ubiboot-02.
+            Currently ubiboot-01 is not supported any more!
+
+      NOTE! Belive me, just skip back to the top of this document and continue
+            from there! You REALLY do not want to do the following things to
+            your device!
+
+
+2.1) The needed files and tools.
+
+      - Harmattan flasher (version 3.12.1)
+
+      - Harmattan PR1.3 firmware.bin localized to your device
+
+      - Boot kernels to flash to your device:
+          zImage_2.6.32.54-ubiboot-01-mtd4,
+             (md5sum=95be31df0a4255e6bb46c0b08f4c07ce)
+          zImage_2.6.32.54-ubiboot-01-mtd5,
+             (md5sum=3f7c3dfabe2755579456d78f7f0420e4)
+
+      - Root filesystem which contains the boot selection
+          ubiboot_fs-01.tar,
+             (md5sum=f0510210d4e6fa02ce5e592b2d5c57f5)
+
+      - Preinit scripts for Harmattan and Nitdroid
+          preinits.tar,
+             (md5sum=e1878ecd1bebfade281b6ffe87276e07)
+
+      - Optional: If you want to modify the boot menus, you need the latest
+        tools (animatronics_27022012.tar)
+
+ 
+2.2.) Preparing the boot partition
+
+      First you need to select which partition you will use, mtd4 or mtd5.
+      The commands to prepare the partition differ a bit but same rootfs
+      image can be used on either possible install partition.
+
+
+2.2.1.) Using mtd4 partition
+
+        This is the "traditional" ubiboot partition, I have been using this
+        myself extensively for a long time without any ill effects.
+        This is the most thoroughly tested option of ubiboot-01 to use.
+
+        The root partition shall be mtd4 which is reserved for "var" in N9 but
+        currently unused. Be sure to make the following operations on the MTD4
+        partition, as other partitions contain sensitive data that you do not
+        want to destroy. Doing so may well brick your device!
+
+        IMPORTANT NOTE!
+
+        When you clear the mtd4 partition, make sure that you have not attached
+        the ubi device!! There is a potential flasher/kernel bug that might
+        brick your device permanently by wiping CAL if you have bad luck!
+
+        Currently this is known to only affect you if you use the command
+        "/usr/sbin/flash_erase" after you have first attached the FS by command
+        "/usr/sbin/ubiattach /dev/ubi_ctrl -m 4", so be careful of the order
+        you give these commands!
+
+        It is safest to make sure you are in open mode, and boot the device.
+        Then, immediately after the boot clear the flash before any other
+        operations.
+
+        Note that you need only ever clear the flash once, it is an operation
+        that you do not need to repeat. If you want to clear your ubifs
+        partition sometime afterwards, it is enough then to use the command
+        "/usr/sbin/ubimkvol" for it.
+
+        First thing to do is to create a 480MB ubifs filesystem on the "var"
+        partition:
+
+        "/usr/sbin/flash_erase /dev/mtd4 0 0"
+        "/usr/sbin/ubiattach /dev/ubi_ctrl -m 4"
+        "/usr/sbin/ubimkvol /dev/ubi0 -N var -m"
+        "mount -t ubifs ubi0:var /mnt"
+
+        Some people seem to have problems when mounting the ubi device on /mnt.
+        Before proceeding, check that you have really mounted it correctly.
+        When you give command "mount | grep ubi" you should see something like
+        this: "ubi0:var on /mnt type ubifs (rw,relatime)"
+
+
+2.2.2.) Using mtd5 partition
+
+        This option is for people who either have damaged mtd4 partition or who
+        are using their mtd4 for something else, like extended swap area.
+        This is a newer development but it has been noted to work correctly and
+        it is by all means identical to mtd4 ubiboot-01.
+
+        The root partition shall be mtd5 which was originally reserved for
+        "moslo", extra open mode kernel as Meego OS Loader. It is currently
+        unused on N9. Be sure to make the following operations on the MTD5
+        partition, as other partitions contain sensitive data that you do not
+        want to destroy. Doing so may well brick your device!
+
+        On my device it was not necessary to erase the flash on mtd5 before 
+        proceeding, as t was already been formatted for ubifs. To find out if
+        that is the case, check the content via command:
+
+        "cat /dev/mtd5 | strings"
+
+        If the result is long string of "UBI#"'s, then the partition does not
+        need to be erased. Use the following commands to create 33MB ubifs
+        filesystem on the "moslo" partition:
+
+        "/usr/sbin/ubiattach /dev/ubi_ctrl -m 5"
+        "/usr/sbin/ubimkvol /dev/ubi0 -N moslo -m"
+        "mount -t ubifs ubi0:moslo /mnt"
+
+        Some people seem to have problems when mounting the ubi device on /mnt.
+        Before proceeding, check that you have really mounted it correctly. 
+        When you give command "mount | grep ubi" you should see something like
+        this: "ubi0:moslo on /mnt type ubifs (rw,relatime)"
+
+
+2.3.) extracting root filesystem and finalizing the installation
+
+      When you have successifully created your ubifs system, either on mtd4 or
+      on mtd5, you need next to copy and untar the boot system on the created
+      partiton:
+
+      "tar -xvf ubiboot_fs.tar -C /mnt/"
+      "sync"
+
+      After this you are ready to configure your system for first ubiboot.
+      Bootable OS & kernel configuration is done in the file "/etc/boot.conf"
+      on the ubifs partition of your selection.
+
+      Set up your kernels in the /boot directory.
+      Set up your modules.
+      Set up your preinit files.
+
+
+2.4.) Flash the kernels to the device
+
+
+2.4.1.) For ubiboot-01_mtd4, flash the kernel as follows:
+
+        "sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-01-mtd4 --flash-only=kernel -f -R"
+
+
+2.4.2.) For ubiboot-01_mtd5, flash the kernel as follows:
+
+        "sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-01-mtd5 --flash-only=kernel -f -R"
+
+
+3.) Start system
+
+    If you followed this procedure correctly, then the device boots now with 
+    the ubiboot-01 kernel of your choosing. If you remove the USB cable, you
+    will be presented with the animated top menu.
+
+    If you leave the USB cable connected, you will enter the maintanance mode
+    where partitions of your mmcblk0 are automatically offered for mounting on
+    theconnected computer.
+    In the maintatance mode you can also telnet to the default device address
+    (192.168.2.15)
+
+
+4.) Configuration and personification
+
+    The root FS of your device is preserved on the ubifs partition of your
+    choosing. You can either modify it by booting into the maintanance mode
+    or by booting into Harmattan for example, and mounting the ubifs there.
+
+
+5.) Uninstallation
+
+    If you want to get rid of ubiboot entirely, it is easy. You only need to
+    flash a new kernel image that boots the original Harmattan installation on
+    /dev/mmcblk0p2.
+    You can use, for example the openmode+L2fix kernel provided on the page:
+
+    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-openmode_l2fix --flash-only=kernel -f -R"
+
+    After that command you will not boot to ubifs any longer, instead the
+    original Harmattan OS will boot normally.
+
+   There is no need to remove the files from the mtd partitions, when you have
+   flashed a generic kernel the partitions will no longer make any difference
+   to your devices operation.
+
+
+6.) Further development
+
+    The project is open source, and all needed tools are available for linux
+    distributions.
+
+    The ubiboot-01 kernel is patched MOSLO kernel. Get the source from here:
+    https://github.com/nemomobile/kernel-adaptation-n950-n9/tree/mer-n9-2.6.32-20121301
+
+    The kernel can be compiled using the arm-linux-gnueabi-gcc tools.
+    recommended version is 4.6.3 or later:
+
+    ARCH=arm make clean
+    ARCH=arm make mrproper
+    ARCH=arm make rm696_nemo_defconfig
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- make modules
+    ARCH=arm CROSS_COMPILE=arm-linux-gnueabi- INSTALL_MOD_PATH=. make modules_install
+
+    The needed patches  against the MOSLO kernel are in the sources directory:
+    http://www.swagman.org/juice/ubiboot/source/ or
+    http://juiceme.cloud-7.de/ubiboot/source/
+
+    * Building ubiboot-01 kernel:
+
+    The patch ubiboot-01.patch is used to create the ubiboot-01 kernel.
+    There are no additional required files, just edit CONFIG_CMDLINE in the
+    rm696_nemo_defconfig file to select which mtd partition you want to boot
+    the kernel on.
+
+    The ubiboot-01 FS can easiest be edited in place, just mount the mtd4/mtd5
+    partition and modify on the device.
 
