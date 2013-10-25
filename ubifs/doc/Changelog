@@ -1,3 +1,12 @@
+2013-10-25 Jussi Ohenoja <juice@swagman.org>
+	* Changed the rootfs seed build location.
+	* Added the kernel patch to repository.
+
+2013-10-24 Jussi Ohenoja <juice@swagman.org>
+	* Updated the README document. Considerable rewrite to make it a bit more coherent.
+	* Added storing the svn version tag of the rootfs build to a file.
+	* Added logging of rootfs build tag to init.
+
 2013-10-22 Jussi Ohenoja <juice@swagman.org>
 	* Added README to docs.
 	* Added GPL to docs.
