@@ -240,14 +240,14 @@ Installing ubiboot to your device
         (for example, I am using the North European variant, which is called
          DFL61_HARMATTAN_40.2012.21-3_PR_LEGACY_001-OEM1-958_ARM.bin)
 
-      - Boot kernel (zImage_2.6.32.54-ubiboot-02_031013)
-        (latest version md5sum=f27e443b8a1997703c3a5a446caa5719)
+      - Boot kernel (zImage_2.6.32.54-ubiboot-02_301013)
+        (latest version md5sum=d6d7081cffe2684944f141bc9a71fea9)
 
       - Configuration file (ubiboot.conf)
-        (latest version md5sum=d68d02fccb3a77c018ada95b2fd3c396)
+        (latest version md5sum=adfbdc7d6cca6638b2dd079105d8daeb)
 
       - Loadable filesystem extension with boot menus (ubiboot-02.menus.cpio)
-        (latest version md5sum=fa80955d84514867f76c1bca3068e217)
+        (latest version md5sum=d1e1a6eb6d877f53a01e946a5ccf5017)
 
 
 1.2.) Additional files that you might to need, depending:
@@ -268,9 +268,9 @@ Installing ubiboot to your device
 
     The kernel, configuration file and cpio can be downloaded as a single tar
     file from the download sites:
-    http://www.swagman.org/juice/ubiboot/ubiboot-02/ubiboot-02_0.3.4_291013.tar
-    http://juiceme.cloud-7.de/ubiboot/ubiboot-02/ubiboot-02_0.3.4_291013.tar
-    (latest version md5sum=ebb9ba6630e8422319913eb6b228cc82)
+    http://www.swagman.org/juice/ubiboot/ubiboot-02/ubiboot-02_0.3.5_301013.tar
+    http://juiceme.cloud-7.de/ubiboot/ubiboot-02/ubiboot-02_0.3.5_301013.tar
+    (latest version md5sum=5fb18a2253d7cffe7717bc849d799d41)
 
 
 2.) Selecting the place where to install the configuration file and cpio
@@ -290,7 +290,7 @@ Installing ubiboot to your device
     and cpio files there.
 
     "mkdir /home/user/MyDocs/boot"
-    "tar -xcf ubiboot-02_0.3.4_081013.tar -C /home/user/MyDocs/boot"
+    "tar -xcf ubiboot-02_0.3.5_301013.tar -C /home/user/MyDocs/boot"
 
     Review the configuration of your device against ubiboot.conf, as the
     defaults might not be suitable to you.
@@ -397,7 +397,7 @@ Installing ubiboot to your device
     Shut down the device to full power off mode, give the following flashing
     command and then connect the USB cable:
 
-    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-02_031013 --flash-only=kernel -f -R"
+    "sudo flasher -a firmware.bin -k zImage_2.6.32.54-ubiboot-02_301013 --flash-only=kernel -f -R"
 
 
 6.) Ubibooting the device the first time
