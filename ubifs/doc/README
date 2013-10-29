@@ -244,7 +244,7 @@ Installing ubiboot to your device
         (latest version md5sum=f27e443b8a1997703c3a5a446caa5719)
 
       - Configuration file (ubiboot.conf)
-        (latest version md5sum=166bc4ad7019fef507affc7b502d5afc)
+        (latest version md5sum=d68d02fccb3a77c018ada95b2fd3c396)
 
       - Loadable filesystem extension with boot menus (ubiboot-02.menus.cpio)
         (latest version md5sum=fa80955d84514867f76c1bca3068e217)
@@ -268,9 +268,9 @@ Installing ubiboot to your device
 
     The kernel, configuration file and cpio can be downloaded as a single tar
     file from the download sites:
-    http://www.swagman.org/juice/ubiboot/ubiboot-02/ubiboot-02_0.3.4_081013.tar
-    http://juiceme.cloud-7.de/ubiboot/ubiboot-02/ubiboot-02_0.3.4_081013.tar
-    (latest version md5sum=17e83a6a09d75dd17bcc7faeaca7dce0)
+    http://www.swagman.org/juice/ubiboot/ubiboot-02/ubiboot-02_0.3.4_291013.tar
+    http://juiceme.cloud-7.de/ubiboot/ubiboot-02/ubiboot-02_0.3.4_291013.tar
+    (latest version md5sum=ebb9ba6630e8422319913eb6b228cc82)
 
 
 2.) Selecting the place where to install the configuration file and cpio

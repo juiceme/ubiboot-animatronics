@@ -1,3 +1,6 @@
+2013-10-29 Jussi Ohenoja <juice@swagman.org>
+	* Corrected typos in the template ubiboot.conf, Thanks go to @eekkelund for spotting the typo.
+
 2013-10-25 Jussi Ohenoja <juice@swagman.org>
 	* Changed the rootfs seed build location.
 	* Added the kernel patch to repository.
