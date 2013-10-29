@@ -2,11 +2,30 @@ Wishlist for ubiboot-02
 -----------------------
 
  - WLAN access for ubiboot maintanance mode.
+
    1.) Compiled wpa_supplicant. Tested preliminary, works.
+       now what is needed is just the firmware startup...
+
    2.) Mechanism in init to write the config files based on ubiboot.conf.
        What about case when gonfig file not found? maybe it's best to not
        activate WLAN then...
+       --> same as with SSHD config, use ubiboot.conf key.
+
    3.) Should there be an icon for "access via WLAN" in menu, or just do it
        when menu is paused/waiting for input?
+       --> yes, add it under tools.
+
+   4.) Startup of the wlan driver, firmware loading etc.
+       The method used by normal Harmattan installation is way too complex.
+       --> Have to hack up somethong with TI.configure utility...
+
 
  - Check what happens when there is an alarm and the device is in charging mode?
+       --> nothing strange AFAIK?? what was the requirement again?
+
+
+ - BME or something to supervise device charging.
+
+       Currently what happens is that when in maintanance mode device does
+       not charge due to the problems people were having with 1603 devices.
+       Had to remove the DSME in startup...
