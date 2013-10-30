@@ -20,6 +20,18 @@ Wishlist for ubiboot-02
        --> Have to hack up somethong with TI.configure utility...
 
 
+ - Sillykbd-type standalone terminal in maintanance mode.
+       How to handle scrolling etc? Maybe just show few lines?
+       Maybe like fingerterm, KBD goes away when not in use and comes back
+       aftr touching the screen?
+
+
+ - Automatic mode for kernel listing.
+       just give a directory and ubiboot creates a list on the flay of all
+       kernels in the directory.
+       --> would help with typos of kernel names in the current config
+
+
  - Check what happens when there is an alarm and the device is in charging mode?
        --> nothing strange AFAIK?? what was the requirement again?
 
