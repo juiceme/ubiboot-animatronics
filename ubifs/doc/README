@@ -256,8 +256,8 @@ Installing ubiboot to your device
         (for example, I am using the North European variant, which is called
          29FAD658_DFL61_HARMATTAN_40.2012.13-7.NORTHERNEUROPE_EMMC_NORTHERNEUROPE.bin)
 
-      - Preinit scripts for Harmattan and Nitdroid (preinits.tar)
-        (latest version md5sum=e1878ecd1bebfade281b6ffe87276e07)
+      - Preinit scripts for Harmattan, Nitdroid and FirefoxOS (preinits.tar)
+        (latest version md5sum=515a8e1e5506f45afbc139c137d496b7)
 
       - L2-fixed PR1.3 Harmattan kernel (zImage_2.6.32.54-openmode_l2fix)
         (latest version md5sum=b64bc24b96faf6763f5e403eb5c7f528)
