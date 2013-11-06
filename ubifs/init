@@ -364,8 +364,6 @@ echo /bin/mdev > /proc/sys/kernel/hotplug
 
 #Start services
 syslogd &
-#dsme -d -p /lib/dsme/libstartup.so -l syslog
-#bme_RX-71 -l syslog -v 7 -c /usr/lib/hwi/hw/rx71.so -d
 
 # Start shell for console use
 shell &
@@ -481,6 +479,7 @@ fi
 # doublecheck, if we were unable to find the config file, set up some sane values
 # for maintanance mode
 if [ -z "$G_CONFIG_LOADED" ]; then
+  G_START_BME=0
   G_START_DHCP_SERVER=1
   G_START_TELNET_SERVER=1
   G_EXPORTED_PARTITONS="/dev/mmcblk0"
@@ -513,6 +512,13 @@ else
     G_CPIO_INFO=""
     logger "Could not determine cpio build info"
   fi
+fi
+
+# Start DSME & BME
+if [ $G_START_BME -ne 0 ]; then
+  logger "Starting dsme server and BME "
+  dsme -d -p /lib/dsme/libstartup.so -l syslog
+  bme_RX-71 -l syslog -v 7 -c /usr/lib/hwi/hw/rx71.so -d
 fi
 
 # Set up the softlinks for OS'es/kernels boot locations
