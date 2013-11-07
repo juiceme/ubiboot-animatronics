@@ -439,8 +439,8 @@ generate_temporary_mapfile()
 }
 
 
-## Output the kernel list to screen. If highlight is specified, the given line is highlighted and the
-## rest are dimmed, otherwice use the given colour for all lines.
+## Output the kernel list to screen.
+## If highlight is specified, the given line is highlighted and the rest are dimmed, otherwice use the given colour for all lines.
 draw_kernel_list()
 {
   mode=$1
@@ -725,6 +725,86 @@ draw_kernel_list()
 }
 
 
+## Get the kernels in the defined directory and format the output as a selection list.
+## If highlight is specified, the given line is highlighted and the rest are dimmed, otherwice use the given colour for all lines.
+draw_kernel_autolist()
+{
+  kerneldir=$1
+  textcolor=$2
+  highlighted=$3
+
+  if [ $highlighted -gt 6 ]; then
+     highlighted=6
+  fi
+
+  if [ "$highlighted" != "0" ]; then
+    textcolor="0x001200"
+  fi
+
+  let linecount=0
+  while IFS= read -d $'\0' -r longfilename ; do
+    let linecount=$linecount+1
+    filename=$(basename "$longfilename")
+    shortname=$(echo "$filename" | cut -c 8- )
+    farray[$linecount]="$longfilename"
+    narray[$linecount]="$shortname"
+  done < <(find "$kerneldir" -maxdepth 1 -name zImage_* -print0)
+
+  if [ "$linecount" -gt 6 ]; then
+    i=6
+  fi
+
+  highcolor="0x001700"
+  X1=250
+  X2=325
+  X3=400
+  X4=475
+  X5=550
+  X6=625
+
+  if [ "$linecount" -ge 1 -a "${narray[1]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "${narray[1]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "${narray[1]}" -T "$highcolor"
+    fi
+  fi
+  if [ "$linecount" -ge 2 -a "${narray[2]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "${narray[2]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "${narray[2]}" -T "$highcolor"
+    fi
+  fi
+  if [ "$linecount" -ge 3 -a "${narray[3]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "${narray[3]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "${narray[3]}" -T "$highcolor"
+    fi
+  fi
+  if [ "$linecount" -ge 4 -a "${narray[4]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "${narray[4]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "${narray[4]}" -T "$highcolor"
+    fi
+  fi
+  if [ "$linecount" -ge 5 -a "${narray[5]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "${narray[5]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "${narray[5]}" -T "$highcolor"
+    fi
+  fi
+  if [ "$linecount" -ge 6 -a "${narray[6]}" != "" ]; then
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "${narray[6]}" -T "$textcolor"
+    if [ "$highlighted" == "1" ]; then
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "${narray[6]}" -T "$highcolor"
+    fi
+  fi
+
+  echo "$linecount"
+
+  return "0"
+}
+
+
 ## Use a on-the-fly mapfile with evtap to get the selected kernel line
 get_menuitem()
 {
@@ -801,6 +881,73 @@ get_menuitem()
   echo "BACK"
   return 1
 }
+
+
+## Use a on-the-fly mapfile with evtap to get the selected kernel line based on the directory listing.
+get_autolist_menuitem()
+{
+  kerneldir=$1
+
+  logger "Get menuitem for "$kerneldir" ($menulines lines)"
+
+  let linecount=0
+  while IFS= read -d $'\0' -r longfilename ; do
+    let linecount=$linecount+1
+    filename=$(basename "$longfilename")
+    shortname=$(echo "$filename" | cut -c 8- )
+    farray[$linecount]="$longfilename"
+    narray[$linecount]="$shortname"
+  done < <(find "$kerneldir" -maxdepth 1 -name zImage_* -print0)
+
+  if [ "$linecount" -gt 6 ]; then
+    i=6
+  fi
+
+  maplines=$(generate_temporary_mapfile $linecount "${narray[1]}"  "${narray[2]}" "${narray[3]}" "${narray[4]}" "${narray[5]}" "${narray[6]}")
+  maplines=$(echo -e "$maplines" | sed s/\*/\\n/g)
+
+  CI=12
+  II=0
+  while [ 1 -gt 0 ]; do
+    INDEX=$(printindex $CI)
+    textcolor="0x00${INDEX}00"
+    dummy=$(draw_kernel_autolist "$kerneldir" $textcolor 0)
+    if [ "$II" == "0" ]; then
+      let "CI+=1"
+      if [ "$CI" -ge "15" ]; then
+        II=1
+      fi
+    else
+      let "CI-=1"
+      if [ "$CI" -le "12" ]; then
+        II=0
+      fi
+    fi
+
+    selection=$(echo -e "$maplines" | $EVTAP -t /dev/input/$touchdevice -i -d 200 -s)
+    ret=$?
+    highlightline=$ret
+    if [ $ret -eq 255 ]; then
+      continue
+    fi
+    if [ $ret -eq 254 ]; then
+      continue
+    fi
+    dummy=$(draw_kernel_autolist "$kerneldir" $textcolor $highlightline)
+    sleep 1
+    echo -e "$selection"
+    if [ "$ret" -eq "0" ]; then
+      return 1
+    else
+      return 0
+    fi
+  done
+
+  # we should not ever get here..
+  echo "BACK"
+  return 1
+}
+
 
 # used to get the correct kernel to autoboot to
 get_kernel_line()
@@ -943,7 +1090,7 @@ second_level_menu()
   if [ "$callmode" == "OS1" ]; then
     IFILE="mui1"
     LASTFRAME="$ANIM_M1_COUNT"
-    if [ "$G_OS1_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS1_AUTOBOOT" -ne 0 -a "$G_OS1_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS1 with kernel line $G_OS1_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS1_AUTOBOOT)
       echo -e "$selection"
@@ -953,7 +1100,7 @@ second_level_menu()
   if [ "$callmode" == "OS2" ]; then
     IFILE="mui2"
     LASTFRAME="$ANIM_M2_COUNT"
-    if [ "$G_OS2_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS2_AUTOBOOT" -ne 0 -a "$G_OS2_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS2 with kernel line $G_OS2_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS2_AUTOBOOT)
       echo -e "$selection"
@@ -963,7 +1110,7 @@ second_level_menu()
   if [ "$callmode" == "OS3" ]; then
     IFILE="mui3"
     LASTFRAME="$ANIM_M3_COUNT"
-    if [ "$G_OS3_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS3_AUTOBOOT" -ne 0 -a "$G_OS3_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS3 with kernel line $G_OS3_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS3_AUTOBOOT)
       echo -e "$selection"
@@ -977,7 +1124,7 @@ second_level_menu()
   if [ "$callmode" == "OS4" ]; then
     IFILE="mui5"
     LASTFRAME="$ANIM_M5_COUNT"
-    if [ "$G_OS4_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS4_AUTOBOOT" -ne 0 -a "$G_OS4_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS4 with kernel line $G_OS4_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS4_AUTOBOOT)
       echo -e "$selection"
@@ -987,7 +1134,7 @@ second_level_menu()
   if [ "$callmode" == "OS5" ]; then
     IFILE="mui6"
     LASTFRAME="$ANIM_M6_COUNT"
-    if [ "$G_OS5_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS5_AUTOBOOT" -ne 0 -a "$G_OS5_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS5 with kernel line $G_OS5_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS5_AUTOBOOT)
       echo -e "$selection"
@@ -997,7 +1144,7 @@ second_level_menu()
   if [ "$callmode" == "OS6" ]; then
     IFILE="mui7"
     LASTFRAME="$ANIM_M7_COUNT"
-    if [ "$G_OS6_AUTOBOOT" -ne 0 ]; then
+    if [ "$G_OS6_AUTOBOOT" -ne 0 -a "$G_OS6_AUTOLOCATION" == "" ]; then
       logger "Autobooting OS6 with kernel line $G_OS6_AUTOBOOT"
       selection=$(get_kernel_line $callmode $G_OS6_AUTOBOOT)
       echo -e "$selection"
@@ -1015,40 +1162,82 @@ second_level_menu()
     $SHOWPNG "$IMAGEBASE/${IFILE}_$IND.png" > /dev/null
   done
   if [ "$callmode" == "OS1" ]; then
-    logger "Drawing second level menu items for OS1"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS1_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS1"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS1"
+      items=$(draw_kernel_autolist "$G_OS1_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS1_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "OS2" ]; then
-    logger "Drawing second level menu items for OS2"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS2_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS2"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS2"
+      items=$(draw_kernel_autolist "$G_OS2_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS2_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "OS3" ]; then
-    logger "Drawing second level menu items for OS3"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS3_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS3"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS3"
+      items=$(draw_kernel_autolist "$G_OS3_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS3_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "OS4" ]; then
-    logger "Drawing second level menu items for OS4"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS4_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS4"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS4"
+      items=$(draw_kernel_autolist "$G_OS4_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS4_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "OS5" ]; then
-    logger "Drawing second level menu items for OS5"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS5_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS5"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS5"
+      items=$(draw_kernel_autolist "$G_OS5_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS5_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "OS6" ]; then
-    logger "Drawing second level menu items for OS6"
-    items=$(draw_kernel_list $callmode "0x001200" 0)
-    selection=$(get_menuitem $callmode $items)
-    ret=$?
+    if [ "$G_OS6_AUTOLOCATION" == "" ]; then
+      logger "Drawing second level menu items for OS6"
+      items=$(draw_kernel_list $callmode "0x001200" 0)
+      selection=$(get_menuitem $callmode $items)
+      ret=$?
+    else
+      logger "Autobuilding second level menu items for OS6"
+      items=$(draw_kernel_autolist "$G_OS6_AUTOLOCATION" "0x001200" 0)
+      selection=$(get_autolist_menuitem "$G_OS6_AUTOLOCATION")
+      ret=$?
+    fi
   fi
   if [ "$callmode" == "toolsmenu" ]; then
     logger "Drawing second level menu items for Tools menu"

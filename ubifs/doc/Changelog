@@ -1,3 +1,6 @@
+2013-11-08 Jussi Ohenoja <juice@swagman.org>
+	* First take on the automatic kernel listing based on a given directory.
+
 2013-11-07 Jussi Ohenoja <juice@swagman.org>
 	* Fixed a small bug in select_os_animated.sh script. The on-the-fly mapfile creation made an extra hook for the non-existing 6th line when there are 5 items in the menu. Props for peterleinchen for spotting this :)
 
