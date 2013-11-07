@@ -429,7 +429,7 @@ generate_temporary_mapfile()
   else
     mapfile_line_5=$(echo -e "# mapfile_line_5")
   fi
-  if [ $maplines -gt 4 ]; then
+  if [ $maplines -gt 5 ]; then
     mapfile_line_6=$(echo -e "$X6B 0 $X6E 480 6 65 $7")
   else
      mapfile_line_6=$(echo -e "# mapfile_line_6")
