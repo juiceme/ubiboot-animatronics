@@ -1,4 +1,5 @@
 2013-11-08 Jussi Ohenoja <juice@swagman.org>
+	* Corrected a bug in pack_cpio.sh script: the archive was not created with root-owned files, which led to problems when trying to ssh/sftp to the device as unpacking the cpio changed root ownership to 1000:1000 instead of 0:0.
 	* Updated config interface version to 4.
 	* First take on the automatic kernel listing based on a given directory.
 

@@ -53,7 +53,7 @@ decompress_and_pack_cpio()
   fi
   
   cd $TEMPDIR
-  find . | $CPIO -H newc -o > $WORKDIR/$CPIOFILE
+  find . | $CPIO --owner root:root -H newc -o > $WORKDIR/$CPIOFILE
   cd $WORKDIR
 
   echo
