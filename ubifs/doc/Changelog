@@ -1,4 +1,5 @@
 2013-11-08 Jussi Ohenoja <juice@swagman.org>
+	* Updated config interface version to 4.
 	* First take on the automatic kernel listing based on a given directory.
 
 2013-11-07 Jussi Ohenoja <juice@swagman.org>
