@@ -1,4 +1,5 @@
 2013-11-10 Jussi Ohenoja <juice@swagman.org>
+	* Realised that evtap can only handle non-space-broken lines as return strings. Bummer, did a lot of debugging to find out why on earth I cannot use a kernel line containing spaces with automatic selection.
 	* Third take on the automatic kernel listing based on a given directory. Could not export temporary values to another function, have to work around that.
 
 2013-11-09 Jussi Ohenoja <juice@swagman.org>

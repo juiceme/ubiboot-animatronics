@@ -30,6 +30,8 @@ Wishlist for ubiboot-02
        just give a directory and ubiboot creates a list on the flay of all
        kernels in the directory.
        --> would help with typos of kernel names in the current config
+       Mostly implemented now, usable but as the directory listing is repeatedly
+       generated it slows down the menu noticably.
 
 
  - Check what happens when there is an alarm and the device is in charging mode?
@@ -41,3 +43,4 @@ Wishlist for ubiboot-02
        Currently what happens is that when in maintanance mode device does
        not charge due to the problems people were having with 1603 devices.
        Had to remove the DSME in startup...
+
