@@ -51,6 +51,8 @@ decompress_and_pack_cpio()
     echo
     exit 1;
   fi
+
+  chmod 744 $TEMPDIR
   
   cd $TEMPDIR
   find . | $CPIO --owner root:root -H newc -o > $WORKDIR/$CPIOFILE
