@@ -27,11 +27,13 @@ TTSXM=830 # Max x lines
 TTSCM=$(($TTSXM/($TTS_PIX_PER_CHAR*$TTS_SCALE))) # Max char/line
 TTSI=$(((TTS_PIX_PER_CHAR+1)*TTS_SCALE))
 
+
 ttsr()
 {
   TTSY=$TTSYI
   fb_text2screen -c -B000
 }
+
 
 tts()
 {
@@ -42,11 +44,50 @@ tts()
 }
 
 
+try_to_mount()
+{
+  mount -t vfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as VFAT"
+    return 0
+  fi
+  mount -t exfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXFAT"
+    return 0
+  fi
+  mount -t ext2 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT2"
+    return 0
+  fi
+  mount -t ext3 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT3"
+    return 0
+  fi
+  mount -t ext4 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT4"
+    return 0
+  fi
+  logger "Could not mount $1 on $2"
+  return 255
+}
+
+
 ## Save persistent ubiboot log file
 save_logfile()
 {
   logger "Saving ubiboot log files"
-  try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  mount | grep "/mnt/$G_LOGFILE_PARTITION" > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "logfile partition is mounted to /mnt/$G_LOGFILE_PARTITION"
+  else
+    logger "logfile partition /mnt/$G_LOGFILE_PARTITION is not mounted"
+    try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  fi
+  mkdir -p "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}"
   cat /var/log/messages >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
   echo >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
   date >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.dmesg"

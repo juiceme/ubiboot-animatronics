@@ -725,6 +725,66 @@ draw_kernel_list()
 }
 
 
+## fetch a list of the 6 first kernel entries in the specified directory
+get_kernel_file_list()
+{
+  kerneldir=$1
+
+  TMP_FILENAME_1=""
+  TMP_SHORTNAME_1=""
+  TMP_FILENAME_2=""
+  TMP_SHORTNAME_2=""
+  TMP_FILENAME_3=""
+  TMP_SHORTNAME_3=""
+  TMP_FILENAME_4=""
+  TMP_SHORTNAME_4=""
+  TMP_FILENAME_5=""
+  TMP_SHORTNAME_5=""
+  TMP_FILENAME_6=""
+  TMP_SHORTNAME_6=""
+
+  let linecount=0                                                                  
+  IFS=$'\n'                                                                        
+  for longfilename in $(find "$kerneldir" -maxdepth 1 -name "zImage*" | sort ) ; do
+    let linecount=$linecount+1                            
+    filename=$(basename "$longfilename")                  
+    shortname=$(echo "$filename" | cut -c 8- | cut -c -29)
+    if [ "$linecount" -eq 1 ]; then 
+      TMP_FILENAME_1="$longfilename"
+      TMP_SHORTNAME_1="$shortname"  
+    fi                              
+    if [ "$linecount" -eq 2 ]; then 
+      TMP_FILENAME_2="$longfilename"
+      TMP_SHORTNAME_2="$shortname"  
+    fi                              
+    if [ "$linecount" -eq 3 ]; then 
+      TMP_FILENAME_3="$longfilename"
+      TMP_SHORTNAME_3="$shortname"  
+    fi                              
+    if [ "$linecount" -eq 4 ]; then 
+      TMP_FILENAME_4="$longfilename"
+      TMP_SHORTNAME_4="$shortname"  
+    fi                              
+    if [ "$linecount" -eq 5 ]; then 
+      TMP_FILENAME_5="$longfilename"
+      TMP_SHORTNAME_5="$shortname"  
+    fi                              
+    if [ "$linecount" -eq 6 ]; then 
+      TMP_FILENAME_6="$longfilename"
+      TMP_SHORTNAME_6="$shortname"
+    fi                           
+  done                           
+
+  if [ "$linecount" -gt 6 ]; then
+    linecount=6          
+  fi                 
+
+  echo "$linecount"
+
+  return "0"
+}
+
+
 ## Get the kernels in the defined directory and format the output as a selection list.
 ## If highlight is specified, the given line is highlighted and the rest are dimmed, otherwice use the given colour for all lines.
 draw_kernel_autolist()
@@ -737,22 +797,7 @@ draw_kernel_autolist()
      highlighted=6
   fi
 
-  if [ "$highlighted" != "0" ]; then
-    textcolor="0x001200"
-  fi
-
-  let linecount=0
-  while IFS= read -d $'\0' -r longfilename ; do
-    let linecount=$linecount+1
-    filename=$(basename "$longfilename")
-    shortname=$(echo "$filename" | cut -c 8- )
-    farray[$linecount]="$longfilename"
-    narray[$linecount]="$shortname"
-  done < <(find "$kerneldir" -maxdepth 1 -name zImage_* -print0)
-
-  if [ "$linecount" -gt 6 ]; then
-    i=6
-  fi
+  linecount=$(get_kernel_file_list "$kerneldir")
 
   highcolor="0x001700"
   X1=250
@@ -763,39 +808,39 @@ draw_kernel_autolist()
   X6=625
 
   if [ "$linecount" -ge 1 -a "${narray[1]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "${narray[1]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$TMP_SHORTNAME_1" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "${narray[1]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X1 -t "$TMP_SHORTNAME_1" -T "$highcolor"
     fi
   fi
   if [ "$linecount" -ge 2 -a "${narray[2]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "${narray[2]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$TMP_SHORTNAME_2" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "${narray[2]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X2 -t "$TMP_SHORTNAME_2" -T "$highcolor"
     fi
   fi
   if [ "$linecount" -ge 3 -a "${narray[3]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "${narray[3]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$TMP_SHORTNAME_3" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "${narray[3]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X3 -t "$TMP_SHORTNAME_3" -T "$highcolor"
     fi
   fi
   if [ "$linecount" -ge 4 -a "${narray[4]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "${narray[4]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$TMP_SHORTNAME_4" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "${narray[4]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X4 -t "$TMP_SHORTNAME_4" -T "$highcolor"
     fi
   fi
   if [ "$linecount" -ge 5 -a "${narray[5]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "${narray[5]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$TMP_SHORTNAME_5" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "${narray[5]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X5 -t "$TMP_SHORTNAME_5" -T "$highcolor"
     fi
   fi
   if [ "$linecount" -ge 6 -a "${narray[6]}" != "" ]; then
-    $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "${narray[6]}" -T "$textcolor"
+    $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$TMP_SHORTNAME_6" -T "$textcolor"
     if [ "$highlighted" == "1" ]; then
-      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "${narray[6]}" -T "$highcolor"
+      $TEXT2SCREEN -p -s 2 -x 0 -y $X6 -t "$TMP_SHORTNAME_6" -T "$highcolor"
     fi
   fi
 
@@ -890,20 +935,9 @@ get_autolist_menuitem()
 
   logger "Get menuitem for "$kerneldir" ($menulines lines)"
 
-  let linecount=0
-  while IFS= read -d $'\0' -r longfilename ; do
-    let linecount=$linecount+1
-    filename=$(basename "$longfilename")
-    shortname=$(echo "$filename" | cut -c 8- )
-    farray[$linecount]="$longfilename"
-    narray[$linecount]="$shortname"
-  done < <(find "$kerneldir" -maxdepth 1 -name zImage_* -print0)
+  linecount=$(get_kernel_file_list "$kerneldir")
 
-  if [ "$linecount" -gt 6 ]; then
-    i=6
-  fi
-
-  maplines=$(generate_temporary_mapfile $linecount "${narray[1]}"  "${narray[2]}" "${narray[3]}" "${narray[4]}" "${narray[5]}" "${narray[6]}")
+  maplines=$(generate_temporary_mapfile $linecount "$TMP_FILENAME_1"  "$TMP_FILENAME_2" "$TMP_FILENAME_3" "$TMP_FILENAME_4" "$TMP_FILENAME_5" "$TMP_FILENAME_6")
   maplines=$(echo -e "$maplines" | sed s/\*/\\n/g)
 
   CI=12

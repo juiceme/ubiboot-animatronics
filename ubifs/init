@@ -103,7 +103,13 @@ try_to_mount()
 save_logfile()
 {
   logger "Saving ubiboot log files"
-  try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  mount | grep "/mnt/$G_LOGFILE_PARTITION" > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "logfile partition is mounted to /mnt/$G_LOGFILE_PARTITION"
+  else
+    logger "logfile partition /mnt/$G_LOGFILE_PARTITION is not mounted"
+    try_to_mount "/dev/mmcblk0p$G_LOGFILE_PARTITION" "/mnt/$G_LOGFILE_PARTITION"
+  fi
   mkdir -p "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}"
   cat /var/log/messages >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
   echo >> "/mnt/$G_LOGFILE_PARTITION/${G_LOGFILE_DIRECTORY}/ubiboot.log"
