@@ -1,3 +1,6 @@
+2013-11-10 Jussi Ohenoja <juice@swagman.org>
+	* Third take on the automatic kernel listing based on a given directory. Could not export temporary values to another function, have to work around that.
+
 2013-11-09 Jussi Ohenoja <juice@swagman.org>
 	* Corrected a bug in pack_cpio.sh script: the archive root permssions were wrong.
 	* Second take on the automatic kernel listing based on a given directory. Just found out that busybox does not support arrays in shell scripts, so had to code around it.
