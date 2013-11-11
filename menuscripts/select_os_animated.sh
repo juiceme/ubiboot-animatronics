@@ -27,6 +27,7 @@
 ##
 ##
 
+TMP_KERNELNAME_FILE="/tmp/kernel_menu_list"
 
 ## Get the kernel configuration
 ## We already know this file exists because it is checked in init.
@@ -725,6 +726,60 @@ draw_kernel_list()
 }
 
 
+## Create a temporary file holding the kernel names generated from automatic selection list.
+make_temp_kernelllist_file()
+{
+  kerneldir=$1
+
+  logger "Creating temporary kernel name file from $kerneldir"
+
+  TMP_SHORTNAME_1=""
+  TMP_SHORTNAME_2=""
+  TMP_SHORTNAME_3=""
+  TMP_SHORTNAME_4=""
+  TMP_SHORTNAME_5=""
+  TMP_SHORTNAME_6=""
+
+  let linecount=0
+  IFS=$'\n'
+  for longfilename in $(find "$kerneldir" -maxdepth 1 -name "zImage*" | sort ) ; do
+    let linecount=$linecount+1
+    filename=$(basename "$longfilename")
+    shortname=$(echo "$filename" | cut -c 8- | cut -c -29)
+    if [ "$linecount" -eq 1 ]; then
+      TMP_SHORTNAME_1="$shortname"
+    fi
+    if [ "$linecount" -eq 2 ]; then
+      TMP_SHORTNAME_2="$shortname"
+    fi
+    if [ "$linecount" -eq 3 ]; then
+      TMP_SHORTNAME_3="$shortname"
+    fi
+    if [ "$linecount" -eq 4 ]; then
+      TMP_SHORTNAME_4="$shortname"
+    fi
+    if [ "$linecount" -eq 5 ]; then
+      TMP_SHORTNAME_5="$shortname"
+    fi
+    if [ "$linecount" -eq 6 ]; then
+      TMP_SHORTNAME_6="$shortname"
+    fi
+  done
+
+  if [ "$linecount" -gt 6 ]; then
+    linecount=6
+  fi
+
+  echo "$linecount" > "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_1"  >> "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_2"  >> "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_3"  >> "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_4"  >> "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_5"  >> "$TMP_KERNELNAME_FILE"
+  echo "$TMP_SHORTNAME_6"  >> "$TMP_KERNELNAME_FILE"
+}
+
+
 ## Get the kernels in the defined directory and format the output as a selection list.
 ## If highlight is specified, the given line is highlighted and the rest are dimmed, otherwice use the given colour for all lines.
 draw_kernel_autolist()
@@ -737,42 +792,31 @@ draw_kernel_autolist()
      highlighted=6
   fi
 
-  TMP_SHORTNAME_1=""
-  TMP_SHORTNAME_2=""
-  TMP_SHORTNAME_3=""
-  TMP_SHORTNAME_4=""
-  TMP_SHORTNAME_5=""
-  TMP_SHORTNAME_6=""
-
-  let linecount=0                                                                  
-  IFS=$'\n'                                                                        
-  for longfilename in $(find "$kerneldir" -maxdepth 1 -name "zImage*" | sort ) ; do
-    let linecount=$linecount+1                            
-    filename=$(basename "$longfilename")                  
-    shortname=$(echo "$filename" | cut -c 8- | cut -c -29)
-    if [ "$linecount" -eq 1 ]; then 
-      TMP_SHORTNAME_1="$shortname"  
-    fi                              
-    if [ "$linecount" -eq 2 ]; then 
-      TMP_SHORTNAME_2="$shortname"  
-    fi                              
-    if [ "$linecount" -eq 3 ]; then 
-      TMP_SHORTNAME_3="$shortname"  
-    fi                              
-    if [ "$linecount" -eq 4 ]; then 
-      TMP_SHORTNAME_4="$shortname"  
-    fi                              
-    if [ "$linecount" -eq 5 ]; then 
-      TMP_SHORTNAME_5="$shortname"  
-    fi                              
-    if [ "$linecount" -eq 6 ]; then 
-      TMP_SHORTNAME_6="$shortname"
-    fi                           
-  done                           
-
-  if [ "$linecount" -gt 6 ]; then
-    linecount=6          
-  fi                 
+  let count=0
+  while read line; do
+    let count=$count+1
+    if [ "$count" -eq 1 ]; then
+      linecount="$line"
+    fi
+    if [ "$count" -eq 2 ]; then
+      TMP_SHORTNAME_1="$line"
+    fi
+    if [ "$count" -eq 3 ]; then
+      TMP_SHORTNAME_2="$line"
+    fi
+    if [ "$count" -eq 4 ]; then
+      TMP_SHORTNAME_3="$line"
+    fi
+    if [ "$count" -eq 5 ]; then
+      TMP_SHORTNAME_4="$line"
+    fi
+    if [ "$count" -eq 6 ]; then
+      TMP_SHORTNAME_5="$line"
+    fi
+    if [ "$count" -eq 7 ]; then
+      TMP_SHORTNAME_6="$line"
+    fi
+  done < "$TMP_KERNELNAME_FILE"
 
   highcolor="0x001700"
   X1=250
@@ -908,8 +952,6 @@ get_autolist_menuitem()
 {
   kerneldir=$1
 
-  logger "Get menuitem for "$kerneldir" ($menulines lines)"
-
   TMP_FILENAME_1=""
   TMP_FILENAME_2=""
   TMP_FILENAME_3=""
@@ -945,6 +987,8 @@ get_autolist_menuitem()
   if [ "$linecount" -gt 6 ]; then
     linecount=6          
   fi                 
+
+  logger "Get menuitem for "$kerneldir" ($linecount lines)"
 
   maplines=$(generate_temporary_mapfile $linecount "$TMP_FILENAME_1"  "$TMP_FILENAME_2" "$TMP_FILENAME_3" "$TMP_FILENAME_4" "$TMP_FILENAME_5" "$TMP_FILENAME_6")
   maplines=$(echo -e "$maplines" | sed s/\*/\\n/g)
@@ -1212,6 +1256,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS1"
+      make_temp_kernelllist_file "$G_OS1_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS1_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS1_AUTOLOCATION")
       ret=$?
@@ -1225,6 +1270,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS2"
+      make_temp_kernelllist_file "$G_OS2_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS2_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS2_AUTOLOCATION")
       ret=$?
@@ -1238,6 +1284,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS3"
+      make_temp_kernelllist_file "$G_OS3_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS3_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS3_AUTOLOCATION")
       ret=$?
@@ -1251,6 +1298,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS4"
+      make_temp_kernelllist_file "$G_OS4_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS4_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS4_AUTOLOCATION")
       ret=$?
@@ -1264,6 +1312,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS5"
+      make_temp_kernelllist_file "$G_OS5_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS5_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS5_AUTOLOCATION")
       ret=$?
@@ -1277,6 +1326,7 @@ second_level_menu()
       ret=$?
     else
       logger "Autobuilding second level menu items for OS6"
+      make_temp_kernelllist_file "$G_OS6_AUTOLOCATION"
       items=$(draw_kernel_autolist "$G_OS6_AUTOLOCATION" "0x001200" 0)
       selection=$(get_autolist_menuitem "$G_OS6_AUTOLOCATION")
       ret=$?
