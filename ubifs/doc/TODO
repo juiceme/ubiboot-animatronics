@@ -44,3 +44,8 @@ Wishlist for ubiboot-02
        not charge due to the problems people were having with 1603 devices.
        Had to remove the DSME in startup...
 
+ - Menuscript should check that the init script for the kernel exists and that
+   it is executable.
+       --> happens more than often that the device just hangs after a seemingly
+           successiful loading of 2nd stage kernel. 
+

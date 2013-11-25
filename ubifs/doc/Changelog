@@ -1,3 +1,6 @@
+2013-11-25 Jussi Ohenoja <juice@swagman.org>
+	* Updated TODO
+
 2013-11-10 Jussi Ohenoja <juice@swagman.org>
 	* Modified the automatic kernel listing so that it creates a temporary file to store the kernel name list. Hopefully that is quicker to handle than parsing the kernels from directory every iteration which caused noticeable lag in the menu.
 
