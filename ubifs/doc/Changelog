@@ -1,4 +1,5 @@
 2013-11-25 Jussi Ohenoja <juice@swagman.org>
+	* Added code to selection script to check the existance of the 2nd level init before loading the kernel file.
 	* Updated TODO
 
 2013-11-10 Jussi Ohenoja <juice@swagman.org>

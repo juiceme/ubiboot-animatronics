@@ -93,6 +93,82 @@ menu_fadeout()
 }
 
 
+## if the given partition is not mounted yet, mount it
+try_to_mount()
+{
+  mount | grep "$1" > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "partition $1 is alredy mounted"
+    return 0
+  else
+    logger "partition $1 is not mounted, trying to mount it"
+  fi
+
+  mount -t vfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as VFAT"
+    return 0
+  fi
+  mount -t exfat $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXFAT"
+    return 0
+  fi
+  mount -t ext2 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT2"
+    return 0
+  fi
+  mount -t ext3 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT3"
+    return 0
+  fi
+  mount -t ext4 $1 $2 > /dev/null 2>&1
+  if [ $? -eq 0 ]; then
+    logger "Mounted $1 on $2 as EXT4"
+    return 0
+  fi
+  logger "Could not mount $1 on $2"
+  return 1
+}
+
+
+## check that the init file exists, is readable and is executable
+check_init_file()
+{
+  G_INITFILENAME=$(echo "$1" | sed -e "s/\\\//g")
+
+  logger "Checking 2nd stage kernel init file on partition /dev/mmcblk0p$2"
+  try_to_mount "/dev/mmcblk0p$2" "/mnt/$2"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    logger "It's not possible to mount /dev/mmcblk0p$2"
+    return 1
+  fi
+
+  logger "Checking 2nd stage kernel init file: /mnt/$2/$G_INITFILENAME"
+  if [ -f "/mnt/$2/$G_INITFILENAME" ]; then
+    logger "init file exists"
+    if [ -r "/mnt/$2/$G_INITFILENAME" ]; then
+      logger "init file is readable"
+      if [ -x "/mnt/$2/$G_INITFILENAME" ]; then
+        logger "init file is executable"
+        return 0
+      else
+        logger "init file is not executable"
+      fi
+    else
+      logger "init file is not readable"
+    fi
+  else
+    logger "init file does not exist"
+  fi
+
+  return 1
+}
+
+
 ## Preload the kexec() with OS1 kernel and set command line parameters
 load_OS1()
 {
@@ -112,6 +188,11 @@ load_OS1()
       TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS1_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
+  fi
+  check_init_file "$G_OS1_INITSCRIPT" "$G_OS1_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
   fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS1_NAME kernel $BOOTKERNEL"
@@ -150,6 +231,11 @@ load_OS2()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
+  check_init_file "$G_OS2_INITSCRIPT" "$G_OS2_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
+  fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS2_NAME kernel $BOOTKERNEL"
     exit 1
@@ -187,11 +273,16 @@ load_OS3()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
+  check_init_file "$G_OS3_INITSCRIPT" "$G_OS3_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
+  fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS3_NAME kernel $BOOTKERNEL"
     exit 1
   fi
-  logger "Loadin kernel $BOOTKERNEL"
+  logger "Loading kernel $BOOTKERNEL"
   eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
   ret=$?
   if [ $ret -eq 0 ]; then
@@ -223,6 +314,11 @@ load_OS4()
       TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS4_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
+  fi
+  check_init_file "$G_OS4_INITSCRIPT" "$G_OS4_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
   fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS4_NAME kernel $BOOTKERNEL"
@@ -261,6 +357,11 @@ load_OS5()
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
   fi
+  check_init_file "$G_OS5_INITSCRIPT" "$G_OS5_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
+  fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS5_NAME kernel $BOOTKERNEL"
     exit 1
@@ -297,6 +398,11 @@ load_OS6()
       TMP_COMMAND_LINE3=$(echo "$TMP_COMMAND_LINE2 $G_OS6_INIT_CMDLINE_APPENDS")
       F_COMMAND_LINE="\"$TMP_COMMAND_LINE3\""
     fi
+  fi
+  check_init_file "$G_OS6_INITSCRIPT" "$G_OS6_PARTITION"
+  ret=$?
+  if [ $ret -eq 1 ]; then
+    exit 1
   fi
   if [ ! -r "$BOOTKERNEL" ]; then
     logger "Cannot load $G_OS6_NAME kernel $BOOTKERNEL"
