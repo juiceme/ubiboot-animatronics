@@ -1,3 +1,7 @@
+2014-01-03 Jussi Ohenoja <juice@swagman.org>
+	* Made a tiny-version of ubiboot kernel by removing sshd, dhcpd, wlan drivers, wpa-supplicant and related libraries. the resulting kernel size is ~7M in size and fits also in the MTD2 partition of the devices which have the old NAND partition layout.
+	* Released the tinykernel as 0.3.6
+
 2013-11-25 Jussi Ohenoja <juice@swagman.org>
 	* Added code to selection script to check the existance of the 2nd level init before loading the kernel file.
 	* Updated TODO
