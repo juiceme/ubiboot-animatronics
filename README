@@ -27,3 +27,30 @@ seed for the RAMFS of ubiboot kernel.
   configuration directory of your device. 
 
 
+3. Simple modifications
+
+  You can change the look of your top menu easily:
+
+  For example, the icon templates are located in the "imagebase" subdirectory. There
+  are 8 image definitions in the beginning of the "create_animations.sh" script, and
+  changing those will change the icons in the menu accordingly.
+  For best effect the icons need to be 200x200 pixel PNG images that have enough of
+  black border around the edges, or else there may be artifacts left on the animation.
+
+  You can change the number and location of the menu icons easily:
+
+  If you want to have less than 8 icons in main menu, you need to define the icons
+  that you want to hide as empty image. (there is "empty_200x200.png" provided for
+  that purpose in the "imagebase" subdirectory)
+
+  In addition to that, you need to edit the mapfile that defines the touch actions
+  so that there is no action for the emptied area.
+  The mapfile is "menuscripts/animated_menu_top.map" The format of the mapfile is
+  described in the file itself. Just comment out the unnecessary line with a "#".
+
+
+4. Advanced modifications
+
+  Almost anything is possible, you can study the "create_animations.sh" script further
+  to create any kind of animations you desire. For example, it would be no brainer to
+  create different fade effects or for example make the icons "roll away" from screen.
