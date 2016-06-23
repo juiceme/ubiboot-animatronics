@@ -5,14 +5,14 @@ This repository contains the ubiboot-02 animation creation toolkit and filesyste
 ## Description
 
 There are two scripts associated with animated menu creation;
-*create_animations.sh to compile the animation sequences.
-*pack_cpio.sh to create the CPIO format archve from the compiled sequence.
+ * create_animations.sh to compile the animation sequences.
+ * pack_cpio.sh to create the CPIO format archve from the compiled sequence.
 
 The directory structure is as follows;
-**imagebase/** holds the icon templates for menus.
-**menuscripts/** holds the animation scripts and control files.
-**ubifs/** holds the RAMFS seed.
-**patches/** holds the kernel patch you will need if you want to start with the standard HArmattan kernel.
+ **imagebase/** holds the icon templates for menus.
+ **menuscripts/** holds the animation scripts and control files.
+ **ubifs/** holds the RAMFS seed.
+ **patches/** holds the kernel patch you will need if you want to start with the standard HArmattan kernel.
 
 ## Usage
 
