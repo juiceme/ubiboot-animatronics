@@ -1,3 +1,8 @@
+2016-06-27 Jussi Ohenoja <juice@swagman.org>
+	* Re-enable full version, we don't want to use the minimal FS on mainline.
+	* ubiboot now stored on github; https://github.com/juiceme/ubiboot-animatronics
+	* released this as 0.3.7 just to keep timeline orderly.
+
 2014-01-03 Jussi Ohenoja <juice@swagman.org>
 	* Made a tiny-version of ubiboot kernel by removing sshd, dhcpd, wlan drivers, wpa-supplicant and related libraries. the resulting kernel size is ~7M in size and fits also in the MTD2 partition of the devices which have the old NAND partition layout.
 	* Released the tinykernel as 0.3.6
