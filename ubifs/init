@@ -188,7 +188,14 @@ wait_mmc()
 
 start_dhcp_server()
 {
-  logger "Not starting DHCP server (tiny version)"
+  if [ $G_START_DHCP_SERVER -ne 0 ]; then
+    if [ -z "$G_DHCP_ADDRESS" ]; then
+      G_DHCP_ADDRESS="192.168.0.100"
+    fi
+    logger "Starting DHCP server, offering $G_DHCP_ADDRESS"
+    tts "  Starting DHCP server, offering $G_DHCP_ADDRESS"
+    /usr/sbin/start_dhcp $G_DHCP_ADDRESS
+  fi
 }
 
 start_telnet_server()
@@ -202,7 +209,19 @@ start_telnet_server()
 
 start_ssh_server()
 {
-  logger "Not starting SSH server (tiny version)"
+  if [ ! -z "$G_SSH_HOST_KEY" ]; then
+    echo "$G_SSH_HOST_KEY" > /etc/ssh/keys/ssh_host_rsa_key
+    chmod 600 /etc/ssh/keys/ssh_host_rsa_key
+  fi
+  if [ ! -z "$G_SSH_AUTHORIZED_KEYS" ]; then
+    echo "$G_SSH_AUTHORIZED_KEYS" > /etc/ssh/keys/authorized_keys
+    chmod 600 /etc/ssh/keys/authorized_keys
+  fi
+  if [ $G_START_SSH_SERVER -ne 0 ]; then
+    logger "Starting SSH server"
+    tts "  Starting SSH server"
+    /usr/sbin/sshd -f /etc/ssh/sshd_config
+  fi
 }
 
 mount_partitions()

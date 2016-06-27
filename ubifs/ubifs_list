@@ -421,65 +421,65 @@ dir /etc/ssh/keys 700 0 0
 
 ## /lib/
 
-#file /lib/ld-2.10.1.so         ubifs/lib/ld-2.10.1.so         744 0 0
+file /lib/ld-2.10.1.so         ubifs/lib/ld-2.10.1.so         744 0 0
 file /lib/ld-linux.so.3        ubifs/lib/ld-linux.so.3        744 0 0
 file /lib/libattr.so.1         ubifs/lib/libattr.so.1         744 0 0
-#file /lib/libc-2.10.1.so       ubifs/lib/libc-2.10.1.so       744 0 0
+file /lib/libc-2.10.1.so       ubifs/lib/libc-2.10.1.so       744 0 0
 file /lib/libc.so.6            ubifs/lib/libc.so.6            744 0 0
 file /lib/libcal.so.1          ubifs/lib/libcal.so.1          744 0 0
 file /lib/libcom_err.so.2      ubifs/lib/libcom_err.so.2      744 0 0
-#file /lib/libcrypt.so.1        ubifs/lib/libcrypt.so.1        744 0 0
-#file /lib/libcrypto.so.0.9.8   ubifs/lib/libcrypto.so.0.9.8   744 0 0
+file /lib/libcrypt.so.1        ubifs/lib/libcrypt.so.1        744 0 0
+file /lib/libcrypto.so.0.9.8   ubifs/lib/libcrypto.so.0.9.8   744 0 0
 file /lib/libdl.so.2           ubifs/lib/libdl.so.2           744 0 0
 file /lib/libe2p.so.2          ubifs/lib/libe2p.so.2          744 0 0
 file /lib/libext2fs.so.2       ubifs/lib/libext2fs.so.2       744 0 0
 file /lib/libgcc_s.so.1        ubifs/lib/libgcc_s.so.1        744 0 0
 file /lib/libglib-2.0.so.0     ubifs/lib/libglib-2.0.so.0     744 0 0
-#file /lib/libiw.so.30          ubifs/lib/libiw.so.30          744 0 0
+file /lib/libiw.so.30          ubifs/lib/libiw.so.30          744 0 0
 file /lib/libm.so.6            ubifs/lib/libm.so.6            744 0 0
-#file /lib/libnsl.so.1          ubifs/lib/libnsl.so.1          744 0 0
+file /lib/libnsl.so.1          ubifs/lib/libnsl.so.1          744 0 0
 file /lib/libpopt.so.0         ubifs/lib/libpopt.so.0         744 0 0
-#file /lib/libpthread-2.10.1.so ubifs/lib/libpthread-2.10.1.so 744 0 0
+file /lib/libpthread-2.10.1.so ubifs/lib/libpthread-2.10.1.so 744 0 0
 file /lib/libpthread.so.0      ubifs/lib/libpthread.so.0      744 0 0
 file /lib/libreadline.so.5     ubifs/lib/libreadline.so.5     744 0 0
-#file /lib/libresolv.so.2       ubifs/lib/libresolv.so.2       744 0 0
-#file /lib/librt-2.10.1.so      ubifs/lib/librt-2.10.1.so      744 0 0
+file /lib/libresolv.so.2       ubifs/lib/libresolv.so.2       744 0 0
+file /lib/librt-2.10.1.so      ubifs/lib/librt-2.10.1.so      744 0 0
 file /lib/librt.so.1           ubifs/lib/librt.so.1           744 0 0
 file /lib/libtinfo.so.5        ubifs/lib/libtinfo.so.5        744 0 0
-#file /lib/libutil.so.1         ubifs/lib/libutil.so.1         744 0 0
+file /lib/libutil.so.1         ubifs/lib/libutil.so.1         744 0 0
 
 
 ## /lib/dsme/
 
-#dir  /lib/dsme                                                                    744 0 0
-#file /lib/dsme/alarmtracker.so           ubifs/lib/dsme/alarmtracker.so           644 0 0
-#file /lib/dsme/dbusautoconnector.so      ubifs/lib/dsme/dbusautoconnector.so      644 0 0
-#file /lib/dsme/dbusproxy.so              ubifs/lib/dsme/dbusproxy.so              644 0 0
-#file /lib/dsme/diskmonitor.so            ubifs/lib/dsme/diskmonitor.so            644 0 0
-#file /lib/dsme/emergencycalltracker.so   ubifs/lib/dsme/emergencycalltracker.so   644 0 0
-#file /lib/dsme/heartbeat.so              ubifs/lib/dsme/heartbeat.so              644 0 0
-#file /lib/dsme/iphb.so                   ubifs/lib/dsme/iphb.so                   644 0 0
-#file /lib/dsme/libabnormalexitwrapper.so ubifs/lib/dsme/libabnormalexitwrapper.so 644 0 0
-#file /lib/dsme/libstartup.so             ubifs/lib/dsme/libstartup.so             644 0 0
-#file /lib/dsme/malf.so                   ubifs/lib/dsme/malf.so                   644 0 0
-#file /lib/dsme/powerontimer.so           ubifs/lib/dsme/powerontimer.so           644 0 0
-#file /lib/dsme/processwd.so              ubifs/lib/dsme/processwd.so              644 0 0
-#file /lib/dsme/startup.so                ubifs/lib/dsme/startup.so                644 0 0
-#file /lib/dsme/state.so                  ubifs/lib/dsme/state.so                  644 0 0
-#file /lib/dsme/tempreaper.so             ubifs/lib/dsme/tempreaper.so             644 0 0
-#file /lib/dsme/thermalflagger.so         ubifs/lib/dsme/thermalflagger.so         644 0 0
-#file /lib/dsme/thermalmanager.so         ubifs/lib/dsme/thermalmanager.so         644 0 0
-#file /lib/dsme/thermalobject_surface.so  ubifs/lib/dsme/thermalobject_surface.so  644 0 0
-#file /lib/dsme/upstart.so                ubifs/lib/dsme/upstart.so                644 0 0
-#file /lib/dsme/usbtracker.so             ubifs/lib/dsme/usbtracker.so             644 0 0
-#file /lib/dsme/validatorlistener.so      ubifs/lib/dsme/validatorlistener.so      644 0 0
+dir  /lib/dsme                                                                    744 0 0
+file /lib/dsme/alarmtracker.so           ubifs/lib/dsme/alarmtracker.so           644 0 0
+file /lib/dsme/dbusautoconnector.so      ubifs/lib/dsme/dbusautoconnector.so      644 0 0
+file /lib/dsme/dbusproxy.so              ubifs/lib/dsme/dbusproxy.so              644 0 0
+file /lib/dsme/diskmonitor.so            ubifs/lib/dsme/diskmonitor.so            644 0 0
+file /lib/dsme/emergencycalltracker.so   ubifs/lib/dsme/emergencycalltracker.so   644 0 0
+file /lib/dsme/heartbeat.so              ubifs/lib/dsme/heartbeat.so              644 0 0
+file /lib/dsme/iphb.so                   ubifs/lib/dsme/iphb.so                   644 0 0
+file /lib/dsme/libabnormalexitwrapper.so ubifs/lib/dsme/libabnormalexitwrapper.so 644 0 0
+file /lib/dsme/libstartup.so             ubifs/lib/dsme/libstartup.so             644 0 0
+file /lib/dsme/malf.so                   ubifs/lib/dsme/malf.so                   644 0 0
+file /lib/dsme/powerontimer.so           ubifs/lib/dsme/powerontimer.so           644 0 0
+file /lib/dsme/processwd.so              ubifs/lib/dsme/processwd.so              644 0 0
+file /lib/dsme/startup.so                ubifs/lib/dsme/startup.so                644 0 0
+file /lib/dsme/state.so                  ubifs/lib/dsme/state.so                  644 0 0
+file /lib/dsme/tempreaper.so             ubifs/lib/dsme/tempreaper.so             644 0 0
+file /lib/dsme/thermalflagger.so         ubifs/lib/dsme/thermalflagger.so         644 0 0
+file /lib/dsme/thermalmanager.so         ubifs/lib/dsme/thermalmanager.so         644 0 0
+file /lib/dsme/thermalobject_surface.so  ubifs/lib/dsme/thermalobject_surface.so  644 0 0
+file /lib/dsme/upstart.so                ubifs/lib/dsme/upstart.so                644 0 0
+file /lib/dsme/usbtracker.so             ubifs/lib/dsme/usbtracker.so             644 0 0
+file /lib/dsme/validatorlistener.so      ubifs/lib/dsme/validatorlistener.so      644 0 0
 
 
 ## /lib/firmware/
 
-#dir  /lib/firmware                                                  744 0 0
-#file /lib/firmware/wl1271-fw.bin  ubifs/lib/firmware/wl1271-fw.bin  644 0 0
-#file /lib/firmware/wl1271-nvs.bin ubifs/lib/firmware/wl1271-nvs.bin 644 0 0
+dir  /lib/firmware                                                  744 0 0
+file /lib/firmware/wl1271-fw.bin  ubifs/lib/firmware/wl1271-fw.bin  644 0 0
+file /lib/firmware/wl1271-nvs.bin ubifs/lib/firmware/wl1271-nvs.bin 644 0 0
 
 
 ## /lib/modules/
@@ -488,9 +488,9 @@ dir  /lib/modules                                                               
 dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                           744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko     drivers/usb/gadget/g_multi.ko              744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko     drivers/usb/gadget/g_nokia.ko              744 0 0
-#file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_spi.ko  drivers/net/wireless/wl12xx/wl12xx_spi.ko  744 0 0
-#file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx.ko      drivers/net/wireless/wl12xx/wl12xx.ko      744 0 0
-#file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_sdio.ko drivers/net/wireless/wl12xx/wl12xx_sdio.ko 744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_spi.ko  drivers/net/wireless/wl12xx/wl12xx_spi.ko  744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx.ko      drivers/net/wireless/wl12xx/wl12xx.ko      744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_sdio.ko drivers/net/wireless/wl12xx/wl12xx_sdio.ko 744 0 0
 
 
 ## /mnt/
@@ -509,19 +509,19 @@ dir /mnt/u5 744 0 0
 ## /sbin/
 
 file  /sbin/busybox     ubifs/sbin/busybox     744 0 0
-#file  /sbin/depmod      ubifs/sbin/depmod      744 0 0
-#file  /sbin/dosfsck     ubifs/sbin/dosfsck     744 0 0
-#file  /sbin/dsme        ubifs/sbin/dsme        744 0 0
-#file  /sbin/dsme-server ubifs/sbin/dsme-server 744 0 0
+file  /sbin/depmod      ubifs/sbin/depmod      744 0 0
+file  /sbin/dosfsck     ubifs/sbin/dosfsck     744 0 0
+file  /sbin/dsme        ubifs/sbin/dsme        744 0 0
+file  /sbin/dsme-server ubifs/sbin/dsme-server 744 0 0
 file  /sbin/evkey       ubifs/sbin/evkey       744 0 0
 file  /sbin/fsck.ext4   ubifs/sbin/fsck.ext4   744 0 0
 file  /sbin/hwclock     ubifs/sbin/hwclock     744 0 0
 file  /sbin/insmod      ubifs/sbin/insmod      744 0 0
-#file  /sbin/iwconfig    ubifs/sbin/iwconfig    744 0 0
+file  /sbin/iwconfig    ubifs/sbin/iwconfig    744 0 0
 file  /sbin/mkfs.ext4   ubifs/sbin/mkfs.ext4   744 0 0
 file  /sbin/parted      ubifs/sbin/parted      744 0 0
 file  /sbin/reboot2     ubifs/sbin/reboot2     744 0 0
-#file  /sbin/shutdown    ubifs/sbin/shutdown    744 0 0
+file  /sbin/shutdown    ubifs/sbin/shutdown    744 0 0
 slink /sbin/preinit     /init                  777 0 0
 
 
@@ -535,7 +535,7 @@ dir /usr/sbin 744 0 0
 ## /usr/bin/
 
 file /usr/bin/autopartition.sh ubifs/usr/bin/autopartition.sh 744 0 0
-#file /usr/bin/bmestat          ubifs/usr/bin/bmestat          744 0 0
+file /usr/bin/bmestat          ubifs/usr/bin/bmestat          744 0 0
 file /usr/bin/disable_pm       ubifs/usr/bin/disable_pm       744 0 0
 file /usr/bin/evtap            ubifs/usr/bin/evtap            744 0 0
 file /usr/bin/evtap_0.8.5      ubifs/usr/bin/evtap_0.8.5      744 0 0
@@ -547,17 +547,17 @@ file /usr/bin/text2screen      ubifs/usr/bin/text2screen      744 0 0
 
 ## /usr/lib/
 
-#file /usr/lib/libbb5.so.0       ubifs/usr/lib/libbb5.so.0       744 0 0
+file /usr/lib/libbb5.so.0       ubifs/usr/lib/libbb5.so.0       744 0 0
 file /usr/lib/libblkid.so.1     ubifs/usr/lib/libblkid.so.1     744 0 0
-#file /usr/lib/libcreds.so.2     ubifs/usr/lib/libcreds.so.2     744 0 0
+file /usr/lib/libcreds.so.2     ubifs/usr/lib/libcreds.so.2     744 0 0
 file /usr/lib/libcreds.so.3     ubifs/usr/lib/libcreds.so.3     744 0 0
-#file /usr/lib/libdbus-1.so.3    ubifs/usr/lib/libdbus-1.so.3    744 0 0
+file /usr/lib/libdbus-1.so.3    ubifs/usr/lib/libdbus-1.so.3    744 0 0
 file /usr/lib/libdsme.so.0.2.0  ubifs/usr/lib/libdsme.so.0.2.0  744 0 0
 file /usr/lib/libiphb.so.0      ubifs/usr/lib/libiphb.so.0      744 0 0
-#file /usr/lib/libnih-dbus.so.1  ubifs/usr/lib/libnih-dbus.so.1  744 0 0
-#file /usr/lib/libnih.so.1       ubifs/usr/lib/libnih.so.1       744 0 0
-#file /usr/lib/libnl.so.2        ubifs/usr/lib/libnl.so.2        744 0 0
-#file /usr/lib/libnl-genl.so.2   ubifs/usr/lib/libnl-genl.so.2   744 0 0
+file /usr/lib/libnih-dbus.so.1  ubifs/usr/lib/libnih-dbus.so.1  744 0 0
+file /usr/lib/libnih.so.1       ubifs/usr/lib/libnih.so.1       744 0 0
+file /usr/lib/libnl.so.2        ubifs/usr/lib/libnl.so.2        744 0 0
+file /usr/lib/libnl-genl.so.2   ubifs/usr/lib/libnl-genl.so.2   744 0 0
 file /usr/lib/libparted.so.0    ubifs/usr/lib/libparted.so.0    744 0 0
 file /usr/lib/libpcre.so.1      ubifs/usr/lib/libpcre.so.1      744 0 0
 file /usr/lib/libpng12.so.0     ubifs/usr/lib/libpng12.so.0     744 0 0
@@ -580,19 +580,19 @@ file /usr/lib/hwi/ic/twl5031.so ubifs/usr/lib/hwi/ic/twl5031.so 744 0 0
 ## /usr/sbin
 
 file /usr/sbin/bme_RX-71      ubifs/usr/sbin/bme_RX-71      744 0 0
-#file /usr/sbin/calibrator     ubifs/usr/sbin/calibrator     744 0 0
-#file /usr/sbin/dnsmasq        ubifs/usr/sbin/dnsmasq        744 0 0
+file /usr/sbin/calibrator     ubifs/usr/sbin/calibrator     744 0 0
+file /usr/sbin/dnsmasq        ubifs/usr/sbin/dnsmasq        744 0 0
 file /usr/sbin/kexec          ubifs/usr/sbin/kexec          744 0 0
-#file /usr/sbin/sftp-server    ubifs/usr/sbin/sftp-server    744 0 0
-#file /usr/sbin/sshd           ubifs/usr/sbin/sshd           744 0 0
-#file /usr/sbin/start_dhcp     ubifs/usr/sbin/start_dhcp     744 0 0
+file /usr/sbin/sftp-server    ubifs/usr/sbin/sftp-server    744 0 0
+file /usr/sbin/sshd           ubifs/usr/sbin/sshd           744 0 0
+file /usr/sbin/start_dhcp     ubifs/usr/sbin/start_dhcp     744 0 0
 file /usr/sbin/ubiattach      ubifs/usr/sbin/ubiattach      744 0 0
 file /usr/sbin/ubidetach      ubifs/usr/sbin/ubidetach      744 0 0
-#file /usr/sbin/ubiformat      ubifs/usr/sbin/ubiformat      744 0 0
-#file /usr/sbin/ubimkvol       ubifs/usr/sbin/ubimkvol       744 0 0
-#file /usr/sbin/ubinfo         ubifs/usr/sbin/ubinfo         744 0 0
-#file /usr/sbin/ubirmvol       ubifs/usr/sbin/ubirmvol       744 0 0
-#file /usr/sbin/wpa_supplicant ubifs/usr/sbin/wpa_supplicant 744 0 0
+file /usr/sbin/ubiformat      ubifs/usr/sbin/ubiformat      744 0 0
+file /usr/sbin/ubimkvol       ubifs/usr/sbin/ubimkvol       744 0 0
+file /usr/sbin/ubinfo         ubifs/usr/sbin/ubinfo         744 0 0
+file /usr/sbin/ubirmvol       ubifs/usr/sbin/ubirmvol       744 0 0
+file /usr/sbin/wpa_supplicant ubifs/usr/sbin/wpa_supplicant 744 0 0
 
 
 ## /var/
