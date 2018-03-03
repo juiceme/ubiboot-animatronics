@@ -195,7 +195,7 @@ load_OS1()
     exit 1
   fi
   if [ ! -r "$BOOTKERNEL" ]; then
-    logger "Cannot load $G_OS1_NAME kernel $BOOTKERNEL"
+    logger "Cannot read $G_OS1_NAME kernel image file $BOOTKERNEL"
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
