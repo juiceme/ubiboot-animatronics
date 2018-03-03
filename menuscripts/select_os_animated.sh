@@ -199,7 +199,7 @@ load_OS1()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS1_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
@@ -241,7 +241,7 @@ load_OS2()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS2_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
@@ -283,7 +283,7 @@ load_OS3()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS3_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
@@ -325,7 +325,7 @@ load_OS4()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS4_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
@@ -367,7 +367,7 @@ load_OS5()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS5_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
@@ -409,7 +409,7 @@ load_OS6()
     exit 1
   fi
   logger "Loading kernel $BOOTKERNEL"
-  eval "kexec -l --type=zImage --command-line=$F_COMMAND_LINE $BOOTKERNEL"
+  eval "kexec -l $BOOTKERNEL --type=zImage --command-line=$F_COMMAND_LINE $G_OS6_KEXEC_OPTS"
   ret=$?
   if [ $ret -eq 0 ]; then
     logger "kexec_load() successful"
