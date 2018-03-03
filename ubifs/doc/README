@@ -45,7 +45,7 @@ Introduction
     between as many as 6 different OS'es, and change kernels at will.
     The latest version includes boot script that generates animated graphical
     boot menu that includes the following OS'es:
-    Harmattan / Nitdroid / Nemo / Firefox / Ubuntu / Sailfish
+    Harmattan / Nitdroid / Nemo / Firefox / Maemo Leste / Sailfish
 
     Note that this setup includes only ubiboot, you need to separately install
     each OS that you want to use.

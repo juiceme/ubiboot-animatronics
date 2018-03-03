@@ -35,7 +35,7 @@ ICONIMAGE_2="$IBASE/meego_200x200.png"
 ICONIMAGE_3="$IBASE/nemo_200x200.png"
 ICONIMAGE_4="$IBASE/tools_200x200.png"
 ICONIMAGE_5="$IBASE/firefox_200x200.png"
-ICONIMAGE_6="$IBASE/ubuntu_200x200.png"
+ICONIMAGE_6="$IBASE/maemo-leste_200x200.png"
 ICONIMAGE_7="$IBASE/sailfish_200x200.png"
 ICONIMAGE_8="$IBASE/info_200x200.png"
 

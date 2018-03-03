@@ -9,8 +9,8 @@
 #
 
 # in this file, the return values are 1, 2, 3, 4, 5, 6, 7, 8 for the different selections,
-# and the respective out-printed chars are "A", "H", "N", "T", "F", "U", "S", "I".
-# the strings are "Nitdroid", "Harmattan", "Nemo", "Tools", "Firefox", "Ubuntu", "Sailfish", "Info".
+# and the respective out-printed chars are "A", "H", "N", "T", "F", "M", "S", "I".
+# the strings are "Nitdroid", "Harmattan", "Nemo", "Tools", "Firefox", "Maemo", "Sailfish", "Info".
 # it is up to the calling script to decide which to use, values, chars or srtings.
 # Note that the return values for selections are not in numerical order, as they matchg the
 # selections for OS1...OS6, tools & info menus.
@@ -21,6 +21,6 @@
 448 290 590 410  3  78  Nemo        # N for Nemo logo
 625 300 775 405  7  84  Tools       # T for the Tools menu button
 88  55  230 200  4  70  Firefox     # F for the FirefoxOS globe
-265 55  415 200  5  85  Ubuntu      # U for the Ubuntu logo
+265 55  415 200  5  77  Maemo       # M for the Maemo Leste logo
 445 70  590 190  6  83  Sailfish    # S for the Jolla SailfishOS
 655 80  745 175  8  73  Info        # I for the Info button
