@@ -514,6 +514,9 @@ Further development
     The ubiboot kernel is patched MOSLO kernel. Get the source from here:
     https://github.com/nemomobile/kernel-adaptation-n950-n9/tree/mer-n9-2.6.32-20121301
 
+    The kernel tree can also be cloned from https://github.com/juiceme/kernel-adaptation-n950-n9
+    The patch has been applied to branch ubiboot_v037_patched.
+
     The kernel can be compiled using the arm-linux-gnueabi-gcc tools.
     recommended version is 4.6.3 or later:
 

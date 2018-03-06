@@ -1,3 +1,8 @@
+2018-03-06 Jussi Ohenoja <juice@swagman.org>
+	* corrections by dderby; Prepare for Maemo-Leste booting (add kexec extra options to ubiboot.conf, new icon to menuscripts)
+	* update config interface version to 5
+	* released as 0.3.8
+
 2016-06-27 Jussi Ohenoja <juice@swagman.org>
 	* Re-enable full version, we don't want to use the minimal FS on mainline.
 	* ubiboot now stored on github; https://github.com/juiceme/ubiboot-animatronics
