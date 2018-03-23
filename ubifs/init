@@ -392,8 +392,6 @@ else
   logger "Could not determine rootfs build info"
 fi
 
-/etc/rootfs-info
-
 # Search for the rest of the system to load up.
 # There should be configuration file ubiboot.conf, and the possible location
 # is on mtd4, mtd5, or /boot/ directory of some mmcblk0 partition.

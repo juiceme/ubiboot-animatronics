@@ -484,13 +484,16 @@ file /lib/firmware/wl1271-nvs.bin ubifs/lib/firmware/wl1271-nvs.bin 644 0 0
 
 ## /lib/modules/
 
+## START_MODULES_BLOCK
 dir  /lib/modules                                                                                  744 0 0
 dir  /lib/modules/2.6.32.54-ubiboot-02-b                                                           744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/g_multi.ko     drivers/usb/gadget/g_multi.ko              744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/g_nokia.ko     drivers/usb/gadget/g_nokia.ko              744 0 0
+file /lib/modules/2.6.32.54-ubiboot-02-b/g_softupd.ko   drivers/usb/gadget/g_softupd.ko            744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_spi.ko  drivers/net/wireless/wl12xx/wl12xx_spi.ko  744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx.ko      drivers/net/wireless/wl12xx/wl12xx.ko      744 0 0
 file /lib/modules/2.6.32.54-ubiboot-02-b/wl12xx_sdio.ko drivers/net/wireless/wl12xx/wl12xx_sdio.ko 744 0 0
+## END_MODULES_BLOCK
 
 
 ## /mnt/
