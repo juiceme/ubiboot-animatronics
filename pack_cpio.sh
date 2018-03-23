@@ -32,10 +32,9 @@ CPIOFILE="ubiboot-02.menus.cpio"
 WORKDIR=$(pwd)
 HOST=$(uname -n)
 
-if [ ! -d ".svn" ]; then
-  SVNREV="N/A"
-else
-  SVNREV=$(svnversion -n .)
+GITREV=$(git rev-parse --verify HEAD) 
+if [ "$?" != 0 ]; then
+  GITREV="N/A"
 fi
 
 decompress_and_pack_cpio()
@@ -43,7 +42,7 @@ decompress_and_pack_cpio()
   rm -rf $TEMPDIR
   mkdir -p $MENUDIR
   echo "$CPIO_VERSION" > "$BOOTDIR/cpio-version"
-  echo "CPIO packed by $USER@$HOST on $(date) (svn rev. $SVNREV)" > "$BOOTDIR/cpio-info"
+  echo "CPIO packed by $USER@$HOST on $(date) (git rev. $GITREV)" > "$BOOTDIR/cpio-info"
   $TAR -xvf $1 -C $MENUDIR
   if [ $? -ne 0 ]; then
     echo
