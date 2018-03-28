@@ -46,7 +46,11 @@ load_OS1()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS1_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS1_INITSCRIPT)/")
+    if [ ! -z "$G_OS1_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS1_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS1_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS1_INIT_CMDLINE_APPENDS"
@@ -81,7 +85,11 @@ load_OS2()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS2_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS2_INITSCRIPT)/")
+    if [ ! -z "$G_OS2_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS2_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS2_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS2_INIT_CMDLINE_APPENDS"
@@ -116,7 +124,11 @@ load_OS3()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS3_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS3_INITSCRIPT)/")
+    if [ ! -z "$G_OS3_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS3_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS3_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS3_INIT_CMDLINE_APPENDS"
@@ -151,7 +163,11 @@ load_OS4()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS4_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS4_INITSCRIPT)/")
+    if [ ! -z "$G_OS4_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS4_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS4_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS4_INIT_CMDLINE_APPENDS"
@@ -186,7 +202,11 @@ load_OS5()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS5_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS5_INITSCRIPT)/")
+    if [ ! -z "$G_OS5_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS5_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS5_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS5_INIT_CMDLINE_APPENDS"
@@ -221,7 +241,11 @@ load_OS6()
     F_COMMAND_LINE="\"$O_COMMAND_LINE_OVERRRIDE\""
   else
     TMP_COMMAND_LINE1=$(echo "$O_COMMAND_LINE" | sed -e "s/root\=\/dev\/mmcblk0p2/root\=\/dev\/mmcblk0p$G_OS6_PARTITION/")
-    TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS6_INITSCRIPT)/")
+    if [ ! -z "$G_OS6_INITSCRIPT" ]; then
+		TMP_COMMAND_LINE2=$(echo "$TMP_COMMAND_LINE1" | sed -e "s/ init\=\/sbin\/preinit/init\=$(echo $G_OS6_INITSCRIPT)/")
+	else
+		TMP_COMMAND_LINE2=$TMP_COMMAND_LINE1
+    fi
     F_COMMAND_LINE="\"$TMP_COMMAND_LINE2\""
     if [ ! -z "$G_OS6_INIT_CMDLINE_APPENDS" ]; then 
       logger "Appending options to CMDLINE: $G_OS6_INIT_CMDLINE_APPENDS"
